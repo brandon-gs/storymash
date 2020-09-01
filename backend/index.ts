@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import "dotenv/config"
 import app from "./app"
 import next from "next"
@@ -6,7 +7,9 @@ const dev = process.env.NODE_ENV !== "production"
 const nextApp = next({ dir: "./frontend", dev })
 const handler = nextApp.getRequestHandler()
 
-require("./database")
+import "./database"
+import "./src/services/passport"
+import "./src/lib/global"
 
 async function main() {
   try {
