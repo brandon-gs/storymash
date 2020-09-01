@@ -2,7 +2,6 @@ import { Schema, model, Document } from "mongoose"
 import bcrypt from "bcryptjs"
 
 export type ObjectUser = {
-  id: string
   type: string
   level: number
   points: number
@@ -20,11 +19,12 @@ export type ObjectUser = {
   gender: string
   about: string
   image: string
+  createdAt: Date
+  updatedAt: Date
   getPublicData: () => ObjectUser
 }
 
 export interface IUser extends Document {
-  id: string
   firstName: string
   lastName: string
   username: string
@@ -79,13 +79,18 @@ const UserSchema = new Schema(
 
 UserSchema.pre<IUser>("save", async function (next) {
   const user = this
-
+  // Change image based in his gender
+  if (user.gender === "Hombre") {
+    user.image = "default_male_profile.png"
+  } else if (user.gender === "Mujer") {
+    user.image = "default_female_profile.png"
+  } else {
+    user.image = "default_profile.png"
+  }
   if (!user.isModified("password")) return next()
-
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(user.password, salt)
   user.password = hash
-
   next()
 })
 
@@ -97,7 +102,6 @@ UserSchema.methods.matchPassword = async function (
 
 UserSchema.methods.getPublicData = function (): ObjectUser {
   const user: ObjectUser = {
-    id: this._id,
     type: this.type,
     level: this.level,
     points: this.points,
@@ -115,6 +119,8 @@ UserSchema.methods.getPublicData = function (): ObjectUser {
     gender: this.gender,
     about: this.about,
     image: this.image,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt,
     getPublicData: this.getPublicData,
   }
   return user

@@ -1,7 +1,8 @@
-# StoryMash (NOT COMPLETED)
+# StoryMash (NOT COMPLETED LAST CHANGES IN "dev" BRANCH)
 
 This is a basic social network app using Javascript Technologies like Nodejs, Mongodb, React, and so on.
 This app can:
+- Allows a user to do log in and look his profile and other users profile
 
 ## Technologies
 
