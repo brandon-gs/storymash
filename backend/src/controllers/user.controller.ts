@@ -1,8 +1,7 @@
 import { Request, Response } from "express"
 import User from "../models/User.model"
 import { hasOnlyPublicFields } from "../helpers/user.controller.helper"
-import path from "path"
-import fs from "fs-extra"
+import imageUpload from "../helpers/image.upload.helper"
 
 export function getUserFromToken(req: Request, res: Response): Response {
   if (req.user) {
@@ -80,20 +79,15 @@ export const updateUserImage = async (
     if (!req.file) {
       return res.status(400).json({ message: "Not image provided" })
     }
-    const image = req.file
-    const ext = path.extname(image.originalname).toLowerCase()
     const { _id } = req.user
-    const imageName = `${_id}${ext}`
-    const targetPath = path.resolve(`frontend/public/img/user/${imageName}`)
-    const validExt = [".png", ".jpg", ".jpeg"]
-    if (validExt.includes(ext)) {
-      await fs.rename(image.path, targetPath)
+    const { imageName, message } = await imageUpload(req, "user", _id)
+    if (imageName) {
       const user = (
         await User.findByIdAndUpdate(_id, { image: imageName }, { new: true })
       )?.getPublicData()
-      return res.status(200).json({ user, message: "Image updated" })
+      return res.status(200).json({ user, message })
     }
-    return res.status(400).json({ message: "Invalid extension file" })
+    return res.status(400).json({ message })
   }
   return res.status(400).json({ message: "Not authorized" })
 }

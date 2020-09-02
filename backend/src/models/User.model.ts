@@ -32,18 +32,18 @@ export interface IUser extends Document {
   password: string
   gender: string
   age: number
-  points?: number
-  image?: string
-  about?: string
-  followers?: Array<string>
-  following?: Array<string>
-  stories?: Array<string>
-  favorites?: Array<string>
-  type?: string
-  likes?: number
-  comments?: number
-  level?: number
-  notifications?: Array<string>
+  points: number
+  image: string
+  about: string
+  followers: Array<string>
+  following: Array<string>
+  stories: Array<string>
+  favorites: Array<string>
+  type: string
+  likes: number
+  comments: number
+  level: number
+  notifications: Array<string>
   matchPassword: (password: string) => Promise<boolean>
   getPublicData: () => ObjectUser
 }
