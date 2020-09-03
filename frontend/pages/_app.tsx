@@ -31,7 +31,7 @@ const MyApp: FC<AppProps> = (props: AppProps) => {
     </>
   )
 }
-
+/*
 export async function getServerSideProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
   //ctx.store.dispatch(actions.removeMessage());
   return {
@@ -40,5 +40,5 @@ export async function getServerSideProps({ Component, ctx }: AppContext): Promis
     },
   }
 }
-
+*/
 export default wrapper.withRedux(MyApp)

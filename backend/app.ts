@@ -1,5 +1,6 @@
 import express from "express"
 import multer from "multer"
+import cookieParser from "cookie-parser"
 import path from "path"
 
 const app = express()
@@ -10,6 +11,7 @@ app.set("port", process.env.PORT || 3000)
 // MIDDLEWARES
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
 app.use(
   multer({
     dest: path.join(__dirname, "../frontend/public/img/user"),
