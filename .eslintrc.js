@@ -1,26 +1,43 @@
 module.exports = {
-  root: true,
-  env: {
-    browser: true,
-    amd: true,
-    node: true,
-  },
-  parser: "@typescript-eslint/parser", // Specifies the ESLint parser
-  parserOptions: {
-    ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
-    sourceType: "module", // Allows for the use of imports
-  },
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
+    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
+    // Uncomment the following lines to enable eslint-config-prettier
+    // Is not enabled right now to avoid issues with the Next.js repo
+    "prettier",
+    "prettier/@typescript-eslint",
   ],
+  env: {
+    es6: true,
+    browser: true,
+    jest: true,
+    node: true,
+  },
   rules: {
-    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-    // e.g. "@typescript-eslint/explicit-function-return-type": "off",
+    "react/react-in-jsx-scope": 0,
+    "react/display-name": 0,
+    "react/prop-types": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/explicit-member-accessibility": 0,
+    "@typescript-eslint/indent": 0,
+    "@typescript-eslint/member-delimiter-style": 0,
+    "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-var-requires": 0,
-    "@typescript-eslint/no-this-alias": 0,
-    "no-console": 1,
-    quotes: [2, "double", "avoid-escape"],
+    "@typescript-eslint/no-use-before-define": 0,
+    "@typescript-eslint/no-unused-vars": [
+      1,
+      {
+        argsIgnorePattern: "^_",
+      },
+    ],
+    "no-console": [
+      2,
+      {
+        allow: ["warn", "error"],
+      },
+    ],
   },
 }
