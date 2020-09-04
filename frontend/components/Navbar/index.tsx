@@ -9,6 +9,12 @@ import NavbarPublicMenu from "./NavbarPublicMenu"
 import { Link } from ".."
 // Icons
 import { MenuBook } from "@material-ui/icons"
+import { Fragment } from "react"
+
+type Props = {
+  children: React.ReactElement
+  window?: () => Window
+}
 
 export default function Navbar(): React.ReactElement {
   const classes = useStyles()
@@ -17,7 +23,7 @@ export default function Navbar(): React.ReactElement {
   console.log(user)
 
   return (
-    <>
+    <Fragment>
       <HideOnScroll>
         <AppBar color="primary">
           <Toolbar>
@@ -34,6 +40,6 @@ export default function Navbar(): React.ReactElement {
         </AppBar>
       </HideOnScroll>
       <Toolbar id="back-to-top-anchor" />
-    </>
+    </Fragment>
   )
 }

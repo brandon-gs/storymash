@@ -10,11 +10,10 @@ type Props = {
 export default function WithAuthRedirect({ children, location }: Props): JSX.Element {
   const { auth } = useSelector(state => state.authentication)
   const router = useRouter()
-  if (typeof window !== "undefined" && auth) {
+  if (auth) {
     router.push(location)
     return <Head title="Storymash" />
-  } else if (typeof window !== "undefined" && !auth) {
-    return children
+  } else {
+    return <>{children}</>
   }
-  return <Head title="Storymash" />
 }

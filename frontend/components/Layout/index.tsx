@@ -8,7 +8,7 @@ type Props = {
 export default function Layout({ children }: Props): JSX.Element {
   return (
     <Fragment>
-      <Navbar></Navbar>
+      <Navbar />
       <Loader></Loader>
       <Alert></Alert>
       {children}

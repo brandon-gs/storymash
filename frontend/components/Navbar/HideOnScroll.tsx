@@ -6,7 +6,7 @@ type Props = {
 }
 
 export default function HideOnScroll({ children, window }: Props): React.ReactElement {
-  const trigger = useScrollTrigger({ target: window ? window() : undefined })
+  const trigger = useScrollTrigger()
   return (
     <Slide appear={false} direction="down" in={!trigger}>
       {children}
