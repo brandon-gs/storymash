@@ -31,14 +31,14 @@ const MyApp: FC<AppProps> = (props: AppProps) => {
     </>
   )
 }
-/*
+
 export async function getServerSideProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
-  //ctx.store.dispatch(actions.removeMessage());
+  ctx.store.dispatch(actions.removeAlert())
   return {
     pageProps: {
       ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
     },
   }
 }
-*/
+
 export default wrapper.withRedux(MyApp)

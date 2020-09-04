@@ -14,6 +14,7 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
+          <link rel="stylesheet" href="/css/global.css" />
           <link rel="stylesheet" href="/css/nprogress.css" />
         </Head>
         <body>

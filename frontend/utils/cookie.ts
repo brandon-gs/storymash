@@ -22,7 +22,7 @@ export const getCookie = (key: string, req: any): string => {
   return process.browser ? getCookieFromBrowser(key) : getCookieFromServer(key, req)
 }
 
-const getCookieFromBrowser = (key: string) => {
+export const getCookieFromBrowser = (key: string) => {
   return cookie.get(key)
 }
 

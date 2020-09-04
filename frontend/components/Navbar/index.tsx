@@ -1,5 +1,5 @@
 // Hooks
-import { useSelector } from "../../Hooks/useSelector"
+import { useSelector } from "../../Hooks/"
 import useStyles from "./styles"
 // Components
 import HideOnScroll from "./HideOnScroll"
@@ -16,19 +16,22 @@ export default function Navbar(): React.ReactElement {
   console.log(user)
 
   return (
-    <HideOnScroll>
-      <AppBar color="primary">
-        <Toolbar>
-          <Link href="/" className={classes.logo} naked>
-            <Typography variant="h6" color="inherit" className={classes.containerLogo}>
-              <MenuBook></MenuBook>
-              STORYBOX
-            </Typography>
-          </Link>
-          <div className={classes.grow}></div>
-          <NavbarPublicMenu />
-        </Toolbar>
-      </AppBar>
-    </HideOnScroll>
+    <>
+      <HideOnScroll>
+        <AppBar color="primary">
+          <Toolbar>
+            <Link href="/" className={classes.logo} naked>
+              <Typography variant="h6" color="inherit" className={classes.containerLogo}>
+                <MenuBook></MenuBook>
+                STORYBOX
+              </Typography>
+            </Link>
+            <div className={classes.grow}></div>
+            <NavbarPublicMenu />
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
+      <Toolbar id="back-to-top-anchor" />
+    </>
   )
 }

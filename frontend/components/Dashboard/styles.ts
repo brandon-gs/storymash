@@ -7,7 +7,7 @@ export default makeStyles(theme => ({
     alignItems: "center",
     flexGrow: 1,
     flexDirection: "column",
-    padding: theme.spacing(6, 0, 3, 0),
+    paddingBottom: theme.spacing(2),
   },
   background: {
     position: "fixed",

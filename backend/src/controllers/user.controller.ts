@@ -10,10 +10,7 @@ export function getUserFromToken(req: Request, res: Response): Response {
   return res.status(404).json({ message: "Not authorized" })
 }
 
-export async function getUserFromUsername(
-  req: Request,
-  res: Response
-): Promise<Response> {
+export async function getUserFromUsername(req: Request, res: Response): Promise<Response> {
   try {
     const { username } = req.params
     const user = (await User.findOne({ username }))?.getPublicData()
@@ -23,31 +20,21 @@ export async function getUserFromUsername(
   }
 }
 
-export const updateUserFromToken = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const updateUserFromToken = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
       const { _id } = req.user
-      const user = (
-        await User.findByIdAndUpdate(_id, req.body, { new: true })
-      )?.getPublicData()
+      const user = (await User.findByIdAndUpdate(_id, req.body, { new: true }))?.getPublicData()
       return res.status(200).json({ user })
     } catch (error) {
-      return res
-        .status(404)
-        .json({ message: "Error to get user from username" })
+      return res.status(404).json({ message: "Error to get user from username" })
     }
   } else {
     return res.status(404).json({ message: "Unauthorized" })
   }
 }
 
-export const updateUserFromUsername = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const updateUserFromUsername = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
       const onlyPublicFields = hasOnlyPublicFields(req)
@@ -62,19 +49,14 @@ export const updateUserFromUsername = async (
       )?.getPublicData()
       return res.status(200).json({ user })
     } catch (error) {
-      return res
-        .status(404)
-        .json({ message: "Error to get user from username or body is null" })
+      return res.status(404).json({ message: "Error to get user from username or body is null" })
     }
   } else {
     return res.status(404).json({ message: "Unauthorized" })
   }
 }
 
-export const updateUserImage = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const updateUserImage = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     if (!req.file) {
       return res.status(400).json({ message: "Not image provided" })
@@ -90,4 +72,13 @@ export const updateUserImage = async (
     return res.status(400).json({ message })
   }
   return res.status(400).json({ message: "Not authorized" })
+}
+
+export const getAllUsernames = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const usernames = await User.find().select("username")
+    return res.status(200).json({ usernames })
+  } catch (error) {
+    return res.status(400).json({ message: "Error to get user from username" })
+  }
 }

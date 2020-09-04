@@ -10,6 +10,7 @@ import {
   updateUserFromToken,
   updateUserFromUsername,
   updateUserImage,
+  getAllUsernames,
 } from "../controllers/user.controller"
 
 const router = Router()
@@ -24,5 +25,7 @@ router
   .route("/profile/:username")
   .get(getUserFromUsername)
   .put(requireAuth, requireApiSecret, updateUserFromUsername)
+
+router.route("/usernames").get(getAllUsernames)
 
 module.exports = router

@@ -4,9 +4,11 @@ import { createStore, applyMiddleware, Middleware } from "redux"
 import rootReducer from "./reducers"
 import { createWrapper, MakeStore } from "next-redux-wrapper"
 import { AuthState } from "./types/auth.types"
+import { AppState } from "./types/app.types"
 
 export interface RootState {
   authentication: AuthState
+  app: AppState
 }
 
 const bindMiddleware = (middleware: Array<Middleware>) => {

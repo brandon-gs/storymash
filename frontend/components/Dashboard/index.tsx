@@ -25,6 +25,7 @@ export default function Dashboard(): JSX.Element {
           component={Link}
           href="/register"
           className={classes.button}
+          naked
         >
           Unirse a storymash
         </Button>
