@@ -68,9 +68,7 @@ const UserSchema = new Schema(
     comments: { type: Number, default: 0 },
     level: { type: Number, default: 1 },
     points: { type: Number, default: 0 },
-    notifications: [
-      { type: Schema.Types.ObjectId, ref: "Notification", default: [] },
-    ],
+    notifications: [{ type: Schema.Types.ObjectId, ref: "Notification", default: [] }],
   },
   {
     timestamps: true,
@@ -78,25 +76,21 @@ const UserSchema = new Schema(
 )
 
 UserSchema.pre<IUser>("save", async function (next) {
-  const user = this
   // Change image based in his gender
-  if (user.gender === "Hombre") {
-    user.image = "default_male_profile.png"
-  } else if (user.gender === "Mujer") {
-    user.image = "default_female_profile.png"
-  } else {
-    user.image = "default_profile.png"
+  const defaultImageRoute = "/img/default"
+  if (this.gender === "Hombre") {
+    this.image = `${defaultImageRoute}/default_male_profile.png`
+  } else if (this.gender === "Mujer") {
+    this.image = `${defaultImageRoute}/default_female_profile.png`
   }
-  if (!user.isModified("password")) return next()
+  if (!this.isModified("password")) return next()
   const salt = await bcrypt.genSalt(10)
-  const hash = await bcrypt.hash(user.password, salt)
-  user.password = hash
+  const hash = await bcrypt.hash(this.password, salt)
+  this.password = hash
   next()
 })
 
-UserSchema.methods.matchPassword = async function (
-  password: string
-): Promise<boolean> {
+UserSchema.methods.matchPassword = async function (password: string): Promise<boolean> {
   return await bcrypt.compare(password, this.password)
 }
 

@@ -4,6 +4,7 @@ import useStyles from "./styles"
 // Components
 import HideOnScroll from "./HideOnScroll"
 import { AppBar, Toolbar, Typography } from "@material-ui/core"
+import NavbarPrivateMenu from "./NavbarPrivateMenu"
 import NavbarPublicMenu from "./NavbarPublicMenu"
 import { Link } from ".."
 // Icons
@@ -28,6 +29,7 @@ export default function Navbar(): React.ReactElement {
             </Link>
             <div className={classes.grow}></div>
             <NavbarPublicMenu />
+            <NavbarPrivateMenu />
           </Toolbar>
         </AppBar>
       </HideOnScroll>

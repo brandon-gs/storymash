@@ -7,7 +7,7 @@ export const REMOVE_USER = "REMOVE_USER"
 
 export interface AuthState {
   token: string | null
-  user: Express.User | null
+  user: User | null
   auth?: boolean
 }
 

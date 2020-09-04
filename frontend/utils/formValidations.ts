@@ -12,7 +12,7 @@ export const nameValidation = (
     if (fieldValue.trim() === "") {
       return `Su ${fieldName} es requerido`
     }
-    if (/[^a-zA-Z -]/.test(fieldValue)) {
+    if (/[^a-zA-Z -áéíóú]/.test(fieldValue)) {
       return "Caracteres invalidos"
     }
     if (fieldValue.trim().length < 3) {

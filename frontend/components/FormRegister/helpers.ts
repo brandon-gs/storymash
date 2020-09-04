@@ -17,7 +17,7 @@ export function normalizeValues(values: RegisterForm, prop: string, value: strin
     }
     return values
   } else if (prop === "username") {
-    if (!/\W/g.test(value) || value === "") {
+    if (!/[\Wáéíóú]/g.test(value) || value === "") {
       return { ...values, [prop]: value }
     }
     return values
