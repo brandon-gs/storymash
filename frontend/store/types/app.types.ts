@@ -8,8 +8,8 @@ export const REMOVE_PROFILE = "REMOVE_PROFILE"
 
 export type AlertState = {
   message: string
-  severity: string
-  open?: boolean
+  severity: "success" | "info" | "warning" | "error"
+  open: boolean
 }
 
 export type LoaderState = {

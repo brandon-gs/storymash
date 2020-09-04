@@ -7,8 +7,7 @@ import {
   UPDATE_PROFILE,
   REMOVE_PROFILE,
 } from "../types/app.types"
-import { AppThunk } from "../../next-env"
-import { ThunkAction } from "redux-thunk"
+import { AppThunk, User } from "../../next-env"
 
 export const updateLoader = (loader: boolean): AppThunk => {
   return (dispatch: any) => {
@@ -22,7 +21,7 @@ export const updateAlert = (alert: AlertState) => {
   }
 }
 
-export const updateProfile = (user: Express.User): any => {
+export const updateProfile = (user: User | null): any => {
   return (dispatch: any) => {
     dispatch({ type: UPDATE_PROFILE, payload: user })
   }

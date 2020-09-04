@@ -5,6 +5,8 @@ import { RegisterForm } from "../../components/FormRegister/types.register"
 import { AUTHENTICATE, DEAUTHENTICATE, UPDATE_USER, REMOVE_USER } from "../types/auth.types"
 import { setCookie, removeCookie } from "../../utils/cookie"
 import actions from "."
+import { User } from "../../next-env"
+import { AnyAction } from "redux"
 
 const updateUser = (user: Express.User) => {
   return (dispatch: any) => {
@@ -48,17 +50,18 @@ const authenticate = (formData: RegisterForm | LoginForm, type: string): any => 
       Router.push("/")
       dispatch(actions.updateLoader(false))
     } catch (e) {
-      const {
-        data: { message },
-      } = e.response
-      dispatch(actions.updateAlert({ message, severity: "error", open: true }))
+      const { response } = e
+      if (response.status === 401) {
+        const message = "Datos incorrectos, intente nuevamente."
+        dispatch(actions.updateAlert({ message, severity: "error", open: true }))
+      }
       dispatch(actions.updateLoader(false))
     }
   }
 }
 
 // gets the token from the cookie and saves it in the store
-const reauthenticate = (token: string, user: Express.User) => {
+const reauthenticate = (token: string, user: User): any => {
   return (dispatch: any) => {
     dispatch({ type: AUTHENTICATE, payload: { token, user } })
   }

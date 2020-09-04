@@ -17,7 +17,7 @@ const initialLoader: LoaderState = {
 
 const initialAlert: AlertState = {
   message: "",
-  severity: "",
+  severity: "success",
   open: false,
 }
 
@@ -36,7 +36,7 @@ export default function appReducer(state = initialState, action: AnyAction): App
     case UPDATE_ALERT:
       return {
         ...state,
-        alert: action.payload.alert,
+        alert: action.payload,
       }
     case UPDATE_PROFILE:
       return { ...state, profile: action.payload }

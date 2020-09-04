@@ -1,29 +1,23 @@
 // Components
-import { Head, Navbar, Dashboard, Loader, WithAuthRedirect } from "../components"
+import { Head, Layout, Dashboard } from "../components"
 import { NextPage } from "next"
 import { useSelector } from "../Hooks"
+import { wrapper } from "../store"
+import { configUser } from "../getServerProps"
 
 const IndexPage: NextPage = () => {
   const { auth } = useSelector(state => state.authentication)
   return (
-    <WithAuthRedirect>
-      <Loader></Loader>
+    <Layout>
       <Head title="Storymash"></Head>
-      <Navbar></Navbar>
       {!auth && <Dashboard></Dashboard>}
-      {auth && <h1>Ver historias XD</h1>}
-    </WithAuthRedirect>
+      {auth && <h1>Mostrar historias</h1>}
+    </Layout>
   )
 }
 
-/*export const getStaticProps = wrapper.getStaticProps(async ({ store, preview }) => {
-  try {
-    const getUser = await axios.get("http://localhost:3000/api/user/profile/gosu")
-    console.log(getUser)
-  } catch (e) {
-    console.log(e)
-    console.log("Error :c")
-  }
-})*/
+export const getServerSideProps = wrapper.getServerSideProps(async ctx => {
+  await configUser(ctx)
+})
 
 export default IndexPage
