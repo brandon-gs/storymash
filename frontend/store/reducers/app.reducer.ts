@@ -36,7 +36,7 @@ export default function appReducer(state = initialState, action: AnyAction): App
     case UPDATE_ALERT:
       return {
         ...state,
-        alert: action.payload,
+        alert: { ...action.payload, open: true },
       }
     case UPDATE_PROFILE:
       return { ...state, profile: action.payload }

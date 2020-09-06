@@ -1,16 +1,30 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios from "axios"
 import Router from "next/router"
-import { RegisterForm } from "../../components/FormRegister/types.register"
 import { AUTHENTICATE, DEAUTHENTICATE, UPDATE_USER, REMOVE_USER } from "../types/auth.types"
 import { setCookie, removeCookie } from "../../utils/cookie"
 import actions from "."
-import { User } from "../../next-env"
-import { AnyAction } from "redux"
 
-const updateUser = (user: Express.User) => {
+// Update the user without request
+const updateUser = (user: User) => {
   return (dispatch: any) => {
     dispatch({ type: UPDATE_USER, payload: user })
+  }
+}
+
+// Update the user with request to backend
+const asyncUpdateUser = (token: string | null, body: any) => {
+  return async (dispatch: any) => {
+    if (token) {
+      const { data } = await axios.put("/api/user", body, {
+        headers: {
+          authorization: token,
+        },
+      })
+      if (data.user) {
+        dispatch({ type: UPDATE_USER, payload: data.user })
+      }
+    }
   }
 }
 
@@ -18,12 +32,6 @@ const removeUser = () => {
   return (dispatch: any) => {
     dispatch({ type: REMOVE_USER })
   }
-}
-
-type LoginForm = {
-  username: string
-  password: string
-  showPassword?: boolean
 }
 
 // gets token from the api and stores it in the redux store and in a cookie
@@ -84,5 +92,6 @@ export default {
   reauthenticate,
   deauthenticate,
   updateUser,
+  asyncUpdateUser,
   removeUser,
 }

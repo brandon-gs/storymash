@@ -2,8 +2,6 @@ import axios from "axios"
 const emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 export const usernameRegex = /^[A-Za-z0-9_]{2,15}$/
 
-export type ValidationReturn = string | null
-
 export const nameValidation = (
   fieldName: string,
   fieldValue: ValidationReturn

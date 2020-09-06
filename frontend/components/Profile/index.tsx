@@ -1,12 +1,14 @@
 import { useSelector } from "../../Hooks"
+import ProfileInfo from "./ProfileInfo"
+import ProfileAbout from "./ProfileAbout"
 
 export default function Profile(): React.ReactElement {
   const { profile } = useSelector(state => state.app)
   if (profile) {
     return (
       <>
-        <h1>Perfil</h1>
-        <h2>Bienvenido a {profile.username}</h2>
+        <ProfileInfo></ProfileInfo>
+        <ProfileAbout></ProfileAbout>
       </>
     )
   }

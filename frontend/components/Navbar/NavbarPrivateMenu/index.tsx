@@ -57,17 +57,17 @@ export default function NavbarPrivateMenu(): JSX.Element {
           >
             Crear historia
           </Button>
-          <Avatar
-            alt="mostrar mas"
-            aria-label="settings of user"
-            aria-haspopup="true"
-            color="inherit"
-            aria-controls={avatarMenuId}
-            className={classes.avatar}
-            onClick={handleAvatarMenuOpen}
-            src={user.image}
-          />
         </div>
+        <Avatar
+          alt="mostrar mas"
+          aria-label="settings of user"
+          aria-haspopup="true"
+          color="inherit"
+          aria-controls={avatarMenuId}
+          className={classes.avatar}
+          onClick={handleAvatarMenuOpen}
+          src={user.image}
+        />
         <AvatarMenu
           anchorEl={anchorEl}
           avatarMenuId={avatarMenuId}

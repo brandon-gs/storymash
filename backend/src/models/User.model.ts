@@ -2,6 +2,7 @@ import { Schema, model, Document } from "mongoose"
 import bcrypt from "bcryptjs"
 
 export type ObjectUser = {
+  _id: string
   type: string
   level: number
   points: number
@@ -98,6 +99,7 @@ UserSchema.methods.matchPassword = async function (password: string): Promise<bo
 
 UserSchema.methods.getPublicData = function (): ObjectUser {
   const user: ObjectUser = {
+    _id: this._id,
     type: this.type,
     level: this.level,
     points: this.points,

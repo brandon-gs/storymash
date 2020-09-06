@@ -1,4 +1,5 @@
 export { default as Alert } from "./Alert"
+export { default as ButtonFollow } from "./ButtonFollow"
 export { default as Copyright } from "./Copyright"
 export { default as Dashboard } from "./Dashboard"
 export { default as FormLogin } from "./FormLogin"
@@ -10,4 +11,3 @@ export { default as Link } from "./Link"
 export { default as Navbar } from "./Navbar"
 export { default as Profile } from "./Profile"
 export { default as WithAuthRedirect } from "./Wrapper/WithAuthRedirect"
-

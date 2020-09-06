@@ -7,7 +7,7 @@ export default makeStyles(theme => ({
   root: {
     position: "fixed",
     width: "100%",
-    top: 0,
+    top: "calc(100% - 64px)",
     left: 0,
     zIndex: 1110,
   },

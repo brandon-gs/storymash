@@ -14,10 +14,15 @@ export default async function configProfile(
   try {
     if (ctx.params) {
       const { username } = ctx.params
-      const server = getNameServer(ctx)
-      const { data } = await axios.get(`${server}/api/user/profile/${username}`)
-      if (data.user) {
-        ctx.store.dispatch(actions.updateProfile(data.user))
+      const { authentication } = ctx.store.getState()
+      if (authentication.user?.username === username) {
+        ctx.store.dispatch(actions.updateProfile(authentication.user))
+      } else {
+        const server = getNameServer(ctx)
+        const { data } = await axios.get(`${server}/api/user/profile/${username}`)
+        if (data.user) {
+          ctx.store.dispatch(actions.updateProfile(data.user))
+        }
       }
     }
   } catch (error) {
