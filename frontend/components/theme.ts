@@ -1,13 +1,15 @@
 import { createMuiTheme } from "@material-ui/core/styles"
 import { red } from "@material-ui/core/colors"
-import { PaletteColor } from "@material-ui/core/styles/createPalette"
+import { PaletteColor, PaletteColorOptions } from "@material-ui/core/styles/createPalette"
 
 declare module "@material-ui/core/styles/createPalette" {
   interface Palette {
+    black: PaletteColor
     pink: PaletteColor
     red: PaletteColor
   }
   interface PaletteOptions {
+    black: PaletteColorOptions
     pink: PaletteColorOptions
     red: PaletteColorOptions
   }
@@ -15,6 +17,11 @@ declare module "@material-ui/core/styles/createPalette" {
 // Create a theme instance.
 const theme = createMuiTheme({
   palette: {
+    black: {
+      dark: "#20252e",
+      main: "#2f3542",
+      light: "#57606f",
+    },
     pink: {
       light: "#f586e6",
       main: "#f368e0",

@@ -2,6 +2,21 @@ declare module "react-butterfiles"
 
 declare type ValidationReturn = string | null
 
+declare type Message = {
+  message: string
+}
+
+declare type Story = {
+  _id?: string
+  title: string
+  category: Array<string>
+}
+
+declare type StoryPart = {
+  _id?: string
+  content: string
+}
+
 declare type User = {
   _id: string
   type: string
@@ -41,6 +56,12 @@ declare type RegisterForm = {
   password: ValidationReturn
   terms: boolean | undefined
   showPassword?: boolean | null
+}
+
+declare type StoryForm = {
+  title?: string
+  category?: Array<string>
+  content?: string
 }
 
 declare type RegisterFormErrors = {

@@ -41,7 +41,7 @@ export default function appReducer(state = initialState, action: AnyAction): App
     case UPDATE_PROFILE:
       return { ...state, profile: action.payload }
     case REMOVE_ALERT:
-      return { ...state, alert: initialAlert }
+      return { ...state, alert: { ...state.alert, open: false } }
     case REMOVE_PROFILE:
       return { ...state, profile: null }
     default:
