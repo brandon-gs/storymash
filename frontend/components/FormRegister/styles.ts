@@ -11,7 +11,7 @@ export default makeStyles(theme => ({
     backgroundPosition: "center",
   },
   avatar: {
-    backgroundColor: "#0984e3 !important",
+    backgroundColor: `${theme.palette.primary.main} !important`,
   },
   paper: {
     margin: theme.spacing(5, 4),

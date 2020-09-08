@@ -2,7 +2,11 @@
 
 This is a basic social network app using Javascript Technologies like Nodejs, Mongodb, React, and so on.
 This app can:
+
 - Allows a user to do log in and look his profile and other users profile
+- Allows a user to follow/unfollow to other user
+- Allows a user to edit his "about" section
+- Allows a user create a story
 
 ## Technologies
 

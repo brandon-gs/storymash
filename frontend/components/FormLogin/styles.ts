@@ -5,7 +5,7 @@ export default makeStyles(theme => ({
     height: "100%",
   },
   avatar: {
-    backgroundColor: "#0984e3 !important",
+    backgroundColor: `${theme.palette.primary.main} !important`,
   },
   alert: {
     marginBottom: theme.spacing(2),
