@@ -25,7 +25,7 @@ const StorySchema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "StoryPart",
-        required: true,
+        default: [],
       },
     ],
   },

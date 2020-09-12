@@ -1,5 +1,3 @@
-import { User } from "../../next-env"
-
 export const AUTHENTICATE = "AUTHENTICATE"
 export const DEAUTHENTICATE = "DEAUTHENTICATE"
 export const UPDATE_USER = "UPDATE_USER"

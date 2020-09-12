@@ -21,7 +21,7 @@ export default function ProfileAbout(): JSX.Element {
   const [edit, setEdit] = useState<boolean>(false)
   const [about, setAbout] = useState<string>(profile && profile.about ? profile.about : "")
 
-  const isMyProfile = profile?.username === user.username
+  const isMyProfile = profile?.username === user?.username
 
   const activateEdit = () => setEdit(true)
   const desactivateEdit = () => setEdit(false)
@@ -33,19 +33,21 @@ export default function ProfileAbout(): JSX.Element {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
-      const newUser = user
-      newUser.about = about
-      desactivateEdit()
-      dispatch(actions.updateLoader(true))
-      dispatch(actions.asyncUpdateUser(token, { about }))
-      dispatch(actions.updateProfile(newUser))
-      dispatch(
-        actions.updateAlert({
-          message: "Información actualizada correctamente.",
-          severity: "success",
-        })
-      )
-      dispatch(actions.updateLoader(false))
+      if (user) {
+        const newUser = user
+        newUser.about = about
+        desactivateEdit()
+        dispatch(actions.updateLoader(true))
+        dispatch(actions.asyncUpdateUser(token, { about }))
+        dispatch(actions.updateProfile(newUser))
+        dispatch(
+          actions.updateAlert({
+            message: "Información actualizada correctamente.",
+            severity: "success",
+          })
+        )
+        dispatch(actions.updateLoader(false))
+      }
     } catch (error) {
       dispatch(
         actions.updateAlert({

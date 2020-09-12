@@ -1,8 +1,7 @@
-import { Head, Profile, Layout } from "../../components"
+import { Head, Profile, Layout, Stories } from "../../components"
 import { NextPage } from "next"
 import { wrapper } from "../../store"
-import { configUser } from "../../getServerProps"
-import configProfile from "../../getServerProps/configProfile"
+import { configUser, configProfile, configStories } from "../../getServerProps"
 
 type Props = {
   title: string
@@ -13,6 +12,7 @@ const ProfilePage: NextPage<Props> = ({ title }) => {
     <Layout>
       <Head title={title}></Head>
       <Profile />
+      <Stories />
     </Layout>
   )
 }
@@ -20,6 +20,7 @@ const ProfilePage: NextPage<Props> = ({ title }) => {
 export const getServerSideProps = wrapper.getServerSideProps(async ctx => {
   await configUser(ctx)
   await configProfile(ctx)
+  await configStories(ctx)
   const { profile } = ctx.store.getState().app
   const title = profile ? `Storymash | ${profile.username}` : "Storymash"
   return {
