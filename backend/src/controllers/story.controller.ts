@@ -41,7 +41,6 @@ export const createStoryController = async (req: Request, res: Response): Promis
       )?.getPublicData()
       return res.status(200).json({ story, user, message })
     } catch (error) {
-      console.log(error)
       return res.status(400).json({ message: "Error to create story" })
     }
   }
