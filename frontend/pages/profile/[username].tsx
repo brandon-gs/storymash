@@ -1,4 +1,4 @@
-import { Head, Profile, Layout, Stories } from "../../components"
+import { Head, Profile, Layout, ProfileStories } from "../../components"
 import { NextPage } from "next"
 import { wrapper } from "../../store"
 import { configUser, configProfile, configStories } from "../../getServerProps"
@@ -12,7 +12,7 @@ const ProfilePage: NextPage<Props> = ({ title }) => {
     <Layout>
       <Head title={title}></Head>
       <Profile />
-      <Stories />
+      <ProfileStories />
     </Layout>
   )
 }

@@ -1,6 +1,5 @@
 import { useSelector } from "../../Hooks"
 import ProfileInfo from "./ProfileInfo"
-import ProfileAbout from "./ProfileAbout"
 
 export default function Profile(): React.ReactElement {
   const { profile } = useSelector(state => state.app)
@@ -8,7 +7,6 @@ export default function Profile(): React.ReactElement {
     return (
       <>
         <ProfileInfo></ProfileInfo>
-        <ProfileAbout></ProfileAbout>
       </>
     )
   }

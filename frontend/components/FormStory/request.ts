@@ -1,7 +1,12 @@
 import axios from "axios"
 
+type StoryRequest = {
+  title: string
+  category: Array<string>
+}
+
 export async function createStory(
-  body: { story: Story; part: StoryPart },
+  body: { story: StoryRequest; part: { content: string } },
   token: string
 ): Promise<User | Message> {
   try {
@@ -16,7 +21,7 @@ export async function createStory(
 
 export async function editStory(
   idStory: string,
-  body: Story,
+  body: StoryRequest,
   token: string
 ): Promise<User | Message> {
   try {
@@ -46,7 +51,7 @@ export async function createStoryPart(
 
 export async function editStoryPart(
   idStoryPart: string,
-  body: StoryPart,
+  body: { content: string },
   token: string
 ): Promise<User | Message> {
   try {

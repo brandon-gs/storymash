@@ -49,6 +49,7 @@ export default makeStyles(theme => ({
     },
   },
   buttonCreate: {
+    minWidth: 148,
     margin: theme.spacing(0, 2),
   },
 }))

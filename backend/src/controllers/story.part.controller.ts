@@ -81,12 +81,19 @@ export const deleteStoryPart = async (req: Request, res: Response): Promise<Resp
   if (req.user) {
     try {
       const { id } = req.params
-      const { _id } = req.user
-      await StoryPart.findOneAndDelete({ _id: id })
-      const user = await User.findById(_id)
-      return res.status(200).json({ user, message: "Parte de la historia eliminada" })
+      const storyPart = await StoryPart.findOneAndDelete({ _id: id })
+      if (storyPart) {
+        const story = await Story.findById(storyPart._id)
+        if (story) {
+          await story.populateAuthor()
+          await story.populateParts()
+          return res.status(200).json({ story, message: "Parte de la historia eliminada" })
+        }
+        return res.status(404).json({ message: "Story not found" })
+      }
+      return res.status(404).json({ message: "Story part not found" })
     } catch (e) {
-      return res.status(404).json({ message: "Story part do not found" })
+      return res.status(404).json({ message: "Story part not found" })
     }
   }
   return res.status(401).json({ message: "Not authorized" })

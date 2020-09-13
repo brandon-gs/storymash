@@ -5,6 +5,11 @@ export default makeStyles(theme => ({
     display: "flex",
     flexGrow: 1,
     marginTop: theme.spacing(3),
+    borderBottom: `1px solid ${theme.palette.grey[500]}`,
+  },
+  itemAbout: {
+    position: "relative",
+    top: -20,
   },
   imageContainer: {
     display: "flex",

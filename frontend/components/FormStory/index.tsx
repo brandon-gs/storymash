@@ -18,17 +18,26 @@ type Props = {
   propStoryPart?: StoryPart
 }
 
+type StoryState = {
+  title: string
+  category: Array<string>
+}
+
+type StoryPartState = {
+  content: string
+}
+
 type OnChangeInputType = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 
 export default function FormStory({ mode, propStory, propStoryPart }: Props): JSX.Element {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { token } = useSelector(state => state.authentication)
-  const [story, setStory] = useState<Story>({
-    title: propStory ? propStory.title : "",
+  const [story, setStory] = useState<StoryState>({
+    title: propStory && propStory.title ? propStory.title : "",
     category: propStory ? propStory.category : [],
   })
-  const [storyPart, setStoryPart] = useState<StoryPart>({
+  const [storyPart, setStoryPart] = useState<StoryPartState>({
     content: propStoryPart ? propStoryPart.content : "",
   })
   const router = useRouter()
@@ -70,22 +79,22 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
           const body = { story: { title, category: transformCategory }, part: { content } }
           createStory(body, token)
         } else {
-          const storyPartBody: StoryPart = {
+          const storyPartBody = {
             content: storyPart.content,
           }
           if (propStoryPart?._id && propStory?._id) {
-            const body: Story = { title, category: transformCategory }
+            const body = { title, category: transformCategory }
             await editStoryPart(propStoryPart._id, storyPartBody, token)
             await editStory(propStory._id, body, token)
           }
         }
+        await router.push("/")
         dispatch(
           actions.updateAlert({
             message: "¡Su historia ha sido creada!",
             severity: "success",
           })
         )
-        await router.push("/")
       } catch (e) {
         dispatch(
           actions.updateAlert({

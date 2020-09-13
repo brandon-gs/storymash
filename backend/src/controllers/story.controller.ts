@@ -103,8 +103,11 @@ export const updateStory = async (req: Request, res: Response): Promise<Response
 export const deleteStory = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
+      const { _id } = req.user
       const { id } = req.params
       await Story.findOneAndDelete({ _id: id })
+      const newStories = req.user.stories.filter(idStory => idStory !== id)
+      await User.findByIdAndUpdate(_id, { stories: newStories })
       return res.status(200).json({ message: "Story deleted" })
     } catch (e) {
       return res.status(404).json({ message: "Stories do not found" })

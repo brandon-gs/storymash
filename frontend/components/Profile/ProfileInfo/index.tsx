@@ -12,6 +12,7 @@ import { PhotoCamera, Favorite, Book, People, Grade, Comment } from "@material-u
 import actions from "../../../store/actions"
 import { getErrorMessage, getColorFromLevel } from "./helpers"
 import { ButtonFollow } from "../.."
+import ProfileAbout from "../ProfileAbout"
 
 type FilesProps = {
   browseFiles: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | undefined
@@ -95,7 +96,9 @@ export default function ProfileInfo(): JSX.Element {
                 </Typography>
               </Grid>
               <Grid item>
-                {profile.username === user?.username && <div className={classes.spaceButtonFollow}></div>}
+                {profile.username === user?.username && (
+                  <div className={classes.spaceButtonFollow}></div>
+                )}
                 {!(profile.username === user?.username) && (
                   <>
                     <Hidden smUp>
@@ -130,6 +133,9 @@ export default function ProfileInfo(): JSX.Element {
                 <ButtonFollow />
               </Hidden>
             </Grid>
+          </Grid>
+          <Grid item className={classes.itemAbout}>
+            <ProfileAbout />
           </Grid>
         </Grid>
       </Container>

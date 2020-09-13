@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core"
 export default makeStyles(theme => ({
   textAbout: {
     fontSize: "1.2em",
-    textAlign: "justify",
+    wordBreak: "break-word",
   },
   textNoAbout: {
     color: theme.palette.grey[600],
