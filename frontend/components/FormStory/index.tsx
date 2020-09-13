@@ -89,9 +89,10 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
           }
         }
         await router.push("/")
+        const modeMessage = mode === "create" ? "creada" : "editada"
         dispatch(
           actions.updateAlert({
-            message: "¡Su historia ha sido creada!",
+            message: `¡Su historia ha sido ${modeMessage}!`,
             severity: "success",
           })
         )

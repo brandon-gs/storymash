@@ -7,7 +7,7 @@ import imageUpload from "../helpers/image.upload.helper"
 export const createStoryController = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
-      const { _id, stories } = req.user
+      const { _id, username, stories } = req.user
       const { title, category } = req.body.story
       const { content } = req.body.part
 
@@ -17,10 +17,11 @@ export const createStoryController = async (req: Request, res: Response): Promis
         category,
       }).save()
 
-      const { imageName, message } = await imageUpload(req, "story", story._id)
+      const { imageName, message } = await imageUpload(req, `user/${username}/story`, story.image)
       if (imageName) {
         story.image = imageName
       }
+
       const storyPart = await new StoryPart({
         author: _id,
         story: story._id,

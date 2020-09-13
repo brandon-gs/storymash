@@ -10,7 +10,7 @@ import useStyles from "./styles"
 import { useState } from "react"
 import DeleteModal from "./DeleteModal"
 
-export default function ViewStory(): JSX.Element {
+export default function ReadStory(): JSX.Element {
   const classes = useStyles()
   const { user } = useSelector(state => state.authentication)
   const { stories } = useSelector(state => state)
@@ -129,8 +129,8 @@ export default function ViewStory(): JSX.Element {
                         Eliminar
                       </a>
                       <Link
-                        href="/story/add/part/[id]"
-                        as={`/story/add/part/${story._id}`}
+                        href="/story/part/add/[id]"
+                        as={`/story/part/add/${story._id}`}
                         className={classes.continueLink}
                         underline="none"
                       >
@@ -152,8 +152,8 @@ export default function ViewStory(): JSX.Element {
                   <>
                     <Grid item className={classes.bottomLink}>
                       <Link
-                        href="/story/edit/[id]/[part]"
-                        as={`/story/edit/${story._id}/${index}`}
+                        href="/story/part/[id]/[part]"
+                        as={`/story/part/${story._id}/${index}`}
                         underline="none"
                       >
                         Editar

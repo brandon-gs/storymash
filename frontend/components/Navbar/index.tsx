@@ -11,11 +11,6 @@ import { Link } from ".."
 import { MenuBook } from "@material-ui/icons"
 import { Fragment } from "react"
 
-type Props = {
-  children: React.ReactElement
-  window?: () => Window
-}
-
 export default function Navbar(): React.ReactElement {
   const classes = useStyles()
   const { user } = useSelector(state => state.authentication)

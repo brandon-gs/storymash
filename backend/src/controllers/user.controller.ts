@@ -61,8 +61,8 @@ export const updateUserImage = async (req: Request, res: Response): Promise<Resp
     if (!req.file) {
       return res.status(400).json({ message: "Not image provided" })
     }
-    const { _id } = req.user
-    const { imageName, message } = await imageUpload(req, "user", _id)
+    const { _id, username, image } = req.user
+    const { imageName, message } = await imageUpload(req, `user/${username}/avatar`, image)
     if (imageName) {
       const user = (
         await User.findByIdAndUpdate(_id, { image: imageName }, { new: true })
