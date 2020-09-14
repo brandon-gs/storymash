@@ -1,7 +1,6 @@
 // Components
 import { Container, Typography, Grid, TextField, Button } from "@material-ui/core"
-import ModalUploadImage from "./ModalUploadImage"
-import { Link } from ".."
+import { Link, ModalUploadImage } from ".."
 // Hooks
 import useStyles from "./styles"
 import { useState, ChangeEvent, FormEvent } from "react"
