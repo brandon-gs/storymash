@@ -91,3 +91,7 @@ declare type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >
+
+declare type FilesProps = {
+  browseFiles: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | undefined
+}

@@ -1,16 +1,18 @@
 // Components
 import { Container, Typography, Grid, TextField, Button } from "@material-ui/core"
+import ModalUploadImage from "./ModalUploadImage"
+import { Link } from ".."
 // Hooks
 import useStyles from "./styles"
-import { Link } from ".."
 import { useState, ChangeEvent, FormEvent } from "react"
 import { useDispatch } from "react-redux"
-import actions from "../../store/actions"
-import validateStoryForm from "./validate"
-import { createStory, editStoryPart, editStory } from "./request"
 import { useSelector } from "../../Hooks"
 import { useRouter } from "next/router"
+// helpers
 import { maxLength, categories } from "./helpers"
+import validateStoryForm from "./validate"
+import actions from "../../store/actions"
+import { createStory, editStoryPart, editStory } from "./request"
 
 type Props = {
   mode: "edit" | "create"
@@ -32,7 +34,10 @@ type OnChangeInputType = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 export default function FormStory({ mode, propStory, propStoryPart }: Props): JSX.Element {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const router = useRouter()
   const { token } = useSelector(state => state.authentication)
+
+  const [openModal, setOpenModal] = useState<boolean>(false)
   const [story, setStory] = useState<StoryState>({
     title: propStory && propStory.title ? propStory.title : "",
     category: propStory ? propStory.category : [],
@@ -40,7 +45,6 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
   const [storyPart, setStoryPart] = useState<StoryPartState>({
     content: propStoryPart ? propStoryPart.content : "",
   })
-  const router = useRouter()
 
   const handleChangeStory = (prop: string) => (event: OnChangeInputType) => {
     const { value } = event.target
@@ -77,25 +81,16 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
       try {
         if (mode === "create") {
           const body = { story: { title, category: transformCategory }, part: { content } }
-          createStory(body, token)
-        } else {
-          const storyPartBody = {
-            content: storyPart.content,
+          const story = await createStory(body, token)
+          if (story) {
+            dispatch(actions.updateStories([story]))
           }
-          if (propStoryPart?._id && propStory?._id) {
-            const body = { title, category: transformCategory }
-            await editStoryPart(propStoryPart._id, storyPartBody, token)
-            await editStory(propStory._id, body, token)
-          }
+        } else if (propStoryPart?._id && propStory?._id) {
+          const body = { title, category: transformCategory }
+          await editStoryPart(propStoryPart._id, { content: storyPart.content }, token)
+          await editStory(propStory._id, body, token)
         }
-        await router.push("/")
-        const modeMessage = mode === "create" ? "creada" : "editada"
-        dispatch(
-          actions.updateAlert({
-            message: `¡Su historia ha sido ${modeMessage}!`,
-            severity: "success",
-          })
-        )
+        setOpenModal(true)
       } catch (e) {
         dispatch(
           actions.updateAlert({
@@ -108,8 +103,19 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
     dispatch(actions.updateLoader(false))
   }
 
+  const handleCloseModal = async () => {
+    await router.push("/")
+    dispatch(
+      actions.updateAlert({
+        message: "¡Su historia ha sido creada!",
+        severity: "success",
+      })
+    )
+  }
+
   return (
     <Container maxWidth="md" className={classes.root}>
+      <ModalUploadImage open={openModal} handleClose={handleCloseModal} />
       <Typography variant="h1" className={classes.title}>
         {mode === "edit" ? "Editar Historia" : "Crear historia"}
       </Typography>
@@ -174,7 +180,7 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
             </Link>
           </Grid>
           <Grid item>
-            <Button variant="contained" color="secondary" type="submit">
+            <Button variant="contained" color="primary" type="submit">
               {mode === "edit" ? "Publicar cambios" : "Publicar historia"}
             </Button>
           </Grid>

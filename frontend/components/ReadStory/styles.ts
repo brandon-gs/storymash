@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles"
 
 export default makeStyles(theme => ({
   root: {
-    margin: theme.spacing(3, "auto"),
+    margin: theme.spacing(0, "auto", 3, "auto"),
   },
   container: {
     position: "relative",
@@ -21,12 +21,15 @@ export default makeStyles(theme => ({
   },
   image: {
     width: "100%",
-    height: 150,
+    height: 200,
+    [theme.breakpoints.down("xs")]: {
+      height: 150,
+    },
   },
   titleContainer: {
     display: "flex",
     textAlign: "center",
-    paddingTop: theme.spacing(4),
+    alignItems: "end",
   },
   title: {
     position: "relative",

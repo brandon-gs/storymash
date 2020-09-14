@@ -1,5 +1,6 @@
 // Components
 import { Container, Grid, Avatar, Button, Typography, Hidden } from "@material-ui/core"
+import { ButtonFollow } from "../.."
 import Files from "react-butterfiles"
 // Hooks
 import useStyles from "./styles"
@@ -10,13 +11,9 @@ import { useDispatch } from "react-redux"
 import { PhotoCamera, Favorite, Book, People, Grade, Comment } from "@material-ui/icons"
 // Helpers
 import actions from "../../../store/actions"
-import { getErrorMessage, getColorFromLevel } from "./helpers"
-import { ButtonFollow } from "../.."
+import { getColorFromLevel } from "./helpers"
 import ProfileAbout from "../ProfileAbout"
-
-type FilesProps = {
-  browseFiles: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | undefined
-}
+import { getUploadErrorMessage } from "../../../utils"
 
 export default function ProfileInfo(): JSX.Element {
   const classes = useStyles()
@@ -40,7 +37,7 @@ export default function ProfileInfo(): JSX.Element {
 
   const handleErrorUploadImage = (errors: Array<any>) => {
     const error = errors[0]
-    const message = getErrorMessage(error.type)
+    const message = getUploadErrorMessage(error.type)
     dispatch(actions.updateAlert({ message, severity: "error", open: true }))
     setTimeout(() => {
       dispatch(actions.removeAlert())

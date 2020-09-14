@@ -7,7 +7,7 @@ import imageUpload from "../helpers/image.upload.helper"
 export const createStoryController = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
-      const { _id, username, stories } = req.user
+      const { _id, stories } = req.user
       const { title, category } = req.body.story
       const { content } = req.body.part
 
@@ -16,11 +16,6 @@ export const createStoryController = async (req: Request, res: Response): Promis
         title,
         category,
       }).save()
-
-      const { imageName, message } = await imageUpload(req, `user/${username}/story`, story.image)
-      if (imageName) {
-        story.image = imageName
-      }
 
       const storyPart = await new StoryPart({
         author: _id,
@@ -40,10 +35,31 @@ export const createStoryController = async (req: Request, res: Response): Promis
           { new: true }
         )
       )?.getPublicData()
-      return res.status(200).json({ story, user, message })
+      return res.status(200).json({ story, user, message: "Content story saved" })
     } catch (error) {
       return res.status(400).json({ message: "Error to create story" })
     }
+  }
+  return res.status(401).json({ message: "Unauthorized" })
+}
+
+export const uploadStoryImage = async (req: Request, res: Response): Promise<Response> => {
+  if (req.user) {
+    if (!req.file) {
+      return res.status(400).json({ message: "Not image provided" })
+    }
+    const { username } = req.user
+    const { id } = req.params
+    const story = await Story.findById(id)
+    if (story) {
+      const { imageName, message } = await imageUpload(req, `user/${username}/story`, story.image)
+      if (imageName) {
+        story.image = imageName
+        await story.save()
+        return res.status(200).json({ story, message })
+      }
+    }
+    return res.status(404).json({ message: "Story dont found" })
   }
   return res.status(401).json({ message: "Unauthorized" })
 }

@@ -21,7 +21,7 @@ export default makeStyles(theme => ({
   },
   image: {
     width: "100%",
-    height: 100,
+    height: 125,
   },
   media: {
     height: 100,

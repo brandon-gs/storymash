@@ -25,4 +25,5 @@ export default makeStyles(theme => ({
     },
   },
   link: { display: "block", margin: theme.spacing(2, 0) },
+  nameImage: { fontWeight: "bold" },
 }))

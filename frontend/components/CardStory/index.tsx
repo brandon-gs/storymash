@@ -31,8 +31,7 @@ type Props = {
 }
 
 export default function CardStory({ story }: Props): JSX.Element {
-  const background =
-    'linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),url("/img/dashboard.jpg") no-repeat center center/cover'
+  const background = `linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.9)),url("${story.image}") no-repeat center center/cover`
   const classes = useStyles()
   const [content, setContent] = useState(story.parts[0].content)
   useEffect(() => {

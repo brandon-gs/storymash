@@ -53,39 +53,37 @@ export default function DeleteModal({ idStory, idPart, open, handleClose }: Prop
   const handleDelete = idStory ? handleDeleteStory : handleDeleteStoryPart
 
   return (
-    <div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
-            <h2 id="transition-modal-title" className={classes.title}>
-              {title}
-            </h2>
-            <Grid container justify="center" spacing={2}>
-              <Grid item>
-                <Button variant="contained" className={classes.buttonCancel} onClick={handleClose}>
-                  Cancelar
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" className={classes.buttonDelete} onClick={handleDelete}>
-                  Eliminar
-                </Button>
-              </Grid>
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      className={classes.modal}
+      open={open}
+      onClose={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
+      <Fade in={open}>
+        <div className={classes.paper}>
+          <h2 id="transition-modal-title" className={classes.title}>
+            {title}
+          </h2>
+          <Grid container justify="center" spacing={2}>
+            <Grid item>
+              <Button variant="contained" className={classes.buttonCancel} onClick={handleClose}>
+                Cancelar
+              </Button>
             </Grid>
-          </div>
-        </Fade>
-      </Modal>
-    </div>
+            <Grid item>
+              <Button variant="contained" className={classes.buttonDelete} onClick={handleDelete}>
+                Eliminar
+              </Button>
+            </Grid>
+          </Grid>
+        </div>
+      </Fade>
+    </Modal>
   )
 }

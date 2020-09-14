@@ -8,14 +8,14 @@ type StoryRequest = {
 export async function createStory(
   body: { story: StoryRequest; part: { content: string } },
   token: string
-): Promise<User | Message> {
+): Promise<Story | null> {
   try {
     const { data } = await axios.post("/api/story/", body, {
       headers: { authorization: token },
     })
-    return data
+    return data.story
   } catch (error) {
-    return { message: "Error al crear historia" }
+    return null
   }
 }
 
