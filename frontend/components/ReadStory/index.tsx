@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import customScroll from "../../utils/scroll"
 // Components
 import { Container, Grid, Avatar, Typography } from "@material-ui/core"
@@ -96,15 +97,13 @@ export default function ReadStory(): JSX.Element {
             </Grid>
           )}
           {parts.map((part, index) => {
-            const canDeleteFirstPart = parts.length > 1 && index === 0
             return (
               <Container key={`part-${index}`}>
                 <DeleteModal open={openStory} handleClose={handleCloseStory} idStory={story._id} />
                 <DeleteModal
-                  open={!canDeleteFirstPart ? openStoryPart : openStory}
-                  handleClose={!canDeleteFirstPart ? handleCloseStoryPart : handleCloseStory}
-                  idPart={!canDeleteFirstPart ? part._id : ""}
-                  idStory={!canDeleteFirstPart ? story._id : ""}
+                  open={openStoryPart}
+                  handleClose={handleCloseStoryPart}
+                  idPart={part._id}
                 />
                 <Grid
                   container
@@ -160,7 +159,10 @@ export default function ReadStory(): JSX.Element {
                       </Grid>
                       {index > 0 && (
                         <Grid item className={classes.bottomLink}>
-                          <a onClick={handleOpenStoryPart} className={classes.link}>
+                          <a
+                            onClick={handleOpenStoryPart}
+                            className={clsx(classes.link, classes.deletePartLink)}
+                          >
                             Eliminar
                           </a>
                         </Grid>

@@ -106,4 +106,7 @@ export default makeStyles(theme => ({
   disabledIcon: {
     color: theme.palette.black.main,
   },
+  deletePartLink: {
+    color: theme.palette.red.main,
+  },
 }))

@@ -2,6 +2,8 @@ declare module "react-butterfiles"
 
 declare type ValidationReturn = string | null
 
+declare type OnChangeInputType = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+
 declare type Message = {
   message: string
 }

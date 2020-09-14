@@ -8,9 +8,13 @@ export const createStoryPart = async (req: Request, res: Response): Promise<Resp
     try {
       const { id } = req.params // Story id
       const { _id } = req.user
-      const newStoryPart = new StoryPart(req.body)
-      await newStoryPart.save()
+      const { content } = req.body
       const story = await Story.findById(id)
+      const newStoryPart = await new StoryPart({
+        content,
+        author: story?.author,
+        story: story?.id,
+      }).save()
       if (story) {
         const parts = [...story.parts, newStoryPart._id]
         await Story.findOneAndUpdate({ _id: id }, { parts }, { new: true })
@@ -83,7 +87,7 @@ export const deleteStoryPart = async (req: Request, res: Response): Promise<Resp
       const { id } = req.params
       const storyPart = await StoryPart.findOneAndDelete({ _id: id })
       if (storyPart) {
-        const story = await Story.findById(storyPart._id)
+        const story = await Story.findById(storyPart.story)
         if (story) {
           await story.populateAuthor()
           await story.populateParts()
