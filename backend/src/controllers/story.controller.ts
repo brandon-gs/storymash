@@ -3,6 +3,7 @@ import Story from "../models/Story.model"
 import User from "../models/User.model"
 import StoryPart from "../models/StoryPart.model"
 import imageUpload from "../helpers/image.upload.helper"
+import { getLikesFromStory } from "../helpers/story.controller.helper"
 
 export const createStoryController = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
@@ -120,14 +121,27 @@ export const updateStory = async (req: Request, res: Response): Promise<Response
 export const deleteStory = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
-      const { _id } = req.user
+      const { _id, stories, likes } = req.user
       const { id } = req.params
-      await Story.findOneAndDelete({ _id: id })
-      const newStories = req.user.stories.filter(idStory => idStory !== id)
-      await User.findByIdAndUpdate(_id, { stories: newStories })
-      return res.status(200).json({ message: "Story deleted" })
+      const story = await Story.findByIdAndDelete(id)
+      if (story) {
+        await story.populateParts()
+        const parts = story.parts
+        const storyLikes = getLikesFromStory(parts)
+        const indexOfStory = stories.indexOf(id)
+        const newStories = stories.slice(0)
+        newStories.splice(indexOfStory, 1)
+        const newLikes = likes - storyLikes
+        const user = await User.findByIdAndUpdate(
+          _id,
+          { stories: newStories, likes: newLikes },
+          { new: true }
+        )
+        return res.status(200).json({ user, stories: newStories, message: "Story deleted" })
+      }
+      return res.status(404).json({ message: "Story do not found" })
     } catch (e) {
-      return res.status(404).json({ message: "Stories do not found" })
+      return res.status(404).json({ message: "Story do not found" })
     }
   }
   return res.status(400).json({ message: "Error not user" })

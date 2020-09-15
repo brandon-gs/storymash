@@ -84,11 +84,16 @@ export const updateLikes = async (req: Request, res: Response): Promise<Response
 export const deleteStoryPart = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
+      const { likes } = req.user
       const { id } = req.params
       const storyPart = await StoryPart.findOneAndDelete({ _id: id })
       if (storyPart) {
         const story = await Story.findById(storyPart.story)
         if (story) {
+          // Sub likes from story part to author
+          const newLikes = likes - storyPart.likes.length
+          await User.findByIdAndUpdate(storyPart.author, { likes: newLikes })
+
           await story.populateAuthor()
           await story.populateParts()
           return res.status(200).json({ story, message: "Parte de la historia eliminada" })
