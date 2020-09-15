@@ -78,13 +78,15 @@ const UserSchema = new Schema(
 
 UserSchema.pre<IUser>("save", async function (next) {
   // Change image based in his gender
-  const defaultImageRoute = "/img/default"
-  if (this.gender === "Hombre") {
-    this.image = `${defaultImageRoute}/default_male_profile.png`
-  } else if (this.gender === "Mujer") {
-    this.image = `${defaultImageRoute}/default_female_profile.png`
-  } else {
-    this.image = `${defaultImageRoute}/default_profile.png`
+  if (!this.image) {
+    const defaultImageRoute = "/img/default"
+    if (this.gender === "Hombre") {
+      this.image = `${defaultImageRoute}/default_male_profile.png`
+    } else if (this.gender === "Mujer") {
+      this.image = `${defaultImageRoute}/default_female_profile.png`
+    } else {
+      this.image = `${defaultImageRoute}/default_profile.png`
+    }
   }
   if (!this.isModified("password")) return next()
   const salt = await bcrypt.genSalt(10)
