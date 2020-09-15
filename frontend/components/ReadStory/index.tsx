@@ -47,8 +47,8 @@ export default function ReadStory(): JSX.Element {
           <Grid container justify="space-between" className={classes.container}>
             <Grid item>
               <Link
-                href="/user/[username]"
-                as={`/user/${author.username}`}
+                href="/profile/[username]"
+                as={`/profile/${author.username}`}
                 className={classes.username}
               >
                 <Avatar
@@ -62,8 +62,8 @@ export default function ReadStory(): JSX.Element {
             </Grid>
             <Grid item className={classes.usernameContainer}>
               <Link
-                href="/user/[username]"
-                as={`/user/${author.username}`}
+                href="/profile/[username]"
+                as={`/profile/${author.username}`}
                 className={classes.username}
               >
                 {author.username}
