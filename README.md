@@ -1,21 +1,30 @@
-# StoryMash (NOT COMPLETED LAST CHANGES IN "dev" BRANCH)
+# StoryMash (NOT COMPLETED)
 
 This is a basic social network app using Javascript Technologies like Nodejs, Mongodb, React, and so on.
 This app can:
 
 - Allows a user to do log in and look his profile and other users profile
 - Allows a user to follow/unfollow to other user
-- Allows a user to edit his "about" section
-- Allows a user create a story
+- Allows a user to edit his profile (image / about)
+- Allows a user create/read/update/delete a story
+- Allows a user create/read/update/delete a continuation of his story
+- Allows a user to add/remove favorites stories from their favorites
+
+## Screenshot
+
+![](docs/register.png)
+![](docs/login.png)
+![](docs/profile.png)
 
 ## Technologies
 
-- Node
 - Typescript
+- Node
+- MongoDB
 - Express
 - React
-- Next
-- MongoDB
+- Nextjs
+- Redux
 
 ## Installation:
 

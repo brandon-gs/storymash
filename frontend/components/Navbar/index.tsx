@@ -1,5 +1,4 @@
 // Hooks
-import { useSelector } from "../../Hooks/"
 import useStyles from "./styles"
 // Components
 import HideOnScroll from "./HideOnScroll"
@@ -13,10 +12,6 @@ import { Fragment } from "react"
 
 export default function Navbar(): React.ReactElement {
   const classes = useStyles()
-  const { user } = useSelector(state => state.authentication)
-  // eslint-disable-next-line no-console
-  console.log(user)
-
   return (
     <Fragment>
       <HideOnScroll>
@@ -25,7 +20,7 @@ export default function Navbar(): React.ReactElement {
             <Link href="/" className={classes.logo} naked>
               <Typography variant="h6" color="inherit" className={classes.containerLogo}>
                 <MenuBook></MenuBook>
-                STORYBOX
+                STORYMASH
               </Typography>
             </Link>
             <div className={classes.grow}></div>

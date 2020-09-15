@@ -20,7 +20,6 @@ import { Link, Copyright } from ".."
 import { LockOutlined, Visibility, VisibilityOff } from "@material-ui/icons"
 import { useState, FormEvent, ChangeEvent } from "react"
 import useStyles from "./styles"
-import { RegisterForm, RegisterFormErrors } from "./types.register"
 import validate from "./validate"
 import {
   ages,
@@ -232,7 +231,7 @@ export default function FormRegister(): React.ReactElement {
                         color="primary"
                       />
                     }
-                    label="Acepto recibir correos electrónicos de STORYBOX"
+                    label="Acepto recibir correos electrónicos de STORYMASH"
                   />
                   <FormHelperText id="terms-error">{errors.terms}</FormHelperText>
                 </FormControl>
