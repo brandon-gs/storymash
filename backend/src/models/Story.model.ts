@@ -1,5 +1,6 @@
 import { Schema, model, Document } from "mongoose"
 import { getRandomNumber } from "../lib/random"
+import { IStoryPart } from "./StoryPart.model"
 
 export interface IStory extends Document {
   author: string
@@ -7,7 +8,7 @@ export interface IStory extends Document {
   image: string
   category: Array<string>
   views: Array<string>
-  parts: Array<string>
+  parts: Array<IStoryPart | string>
   createdAt: Date
   updatedAt: Date
   populateAuthor: () => Promise<VoidFunction>
