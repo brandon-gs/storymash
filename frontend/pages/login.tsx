@@ -1,4 +1,4 @@
-import { WithAuthRedirect, Head, Layout, FormLogin } from "../components"
+import { WithAuthRedirect, Head, Layout, Login } from "../components"
 import { NextPage } from "next"
 import { wrapper } from "../store"
 import { configUser } from "../getServerProps"
@@ -8,7 +8,7 @@ const LoginPage: NextPage = () => {
     <WithAuthRedirect location="/">
       <Layout>
         <Head title="Storymash | Iniciar sesión"></Head>
-        <FormLogin />
+        <Login />
       </Layout>
     </WithAuthRedirect>
   )
