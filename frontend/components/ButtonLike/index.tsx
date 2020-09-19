@@ -7,6 +7,8 @@ import { useSelector } from "../../Hooks"
 import useStyles from "./styles"
 import actions from "../../store/actions"
 import Axios from "axios"
+import { useState } from "react"
+import { ModalLogin } from ".."
 
 type Props = {
   part: StoryPart
@@ -19,6 +21,15 @@ export default function LikeIcon({ part, story }: Props): JSX.Element {
   const { stories } = useSelector(state => state)
   const dispatch = useDispatch()
   const classes = useStyles()
+  const [openModalLogin, setOpenModalLogin] = useState<boolean>(false)
+
+  const handleCloseModalLogin = () => {
+    setOpenModalLogin(false)
+  }
+
+  const handleOpenModalLogin = () => {
+    setOpenModalLogin(true)
+  }
 
   const addOrRemoveLike = async () => {
     dispatch(actions.updateLoader(true))
@@ -46,17 +57,25 @@ export default function LikeIcon({ part, story }: Props): JSX.Element {
     dispatch(actions.updateLoader(false))
   }
 
-  if (user && user._id === part.author) {
-    return <Favorite className={classes.disabledIcon} />
-  } else if (user && !part.likes.includes(user._id)) {
+  if (user) {
+    if (user._id === part.author) {
+      return <Favorite className={classes.disabledIcon} />
+    } else if (!part.likes.includes(user._id)) {
+      return (
+        <FavoriteBorderOutlined
+          className={clsx(classes.disabledIcon, classes.cursorPointer)}
+          onClick={addOrRemoveLike}
+        />
+      )
+    }
     return (
-      <FavoriteBorderOutlined
-        className={clsx(classes.disabledIcon, classes.cursorPointer)}
-        onClick={addOrRemoveLike}
-      />
+      <Favorite onClick={addOrRemoveLike} className={clsx(classes.liked, classes.cursorPointer)} />
     )
   }
   return (
-    <Favorite onClick={addOrRemoveLike} className={clsx(classes.liked, classes.cursorPointer)} />
+    <>
+      <ModalLogin open={openModalLogin} handleClose={handleCloseModalLogin} />
+      <FavoriteBorderOutlined onClick={handleOpenModalLogin} className={classes.cursorPointer} />
+    </>
   )
 }

@@ -5,6 +5,7 @@ import getNameServer from "../utils/getNameServer"
 import { GetServerSidePropsContext } from "next"
 import { Store, AnyAction } from "redux"
 import { RootState } from "../store"
+import { publicRoutes } from "../utils"
 
 // if the page is being loaded in the server, get auth token from the cookie, and update user state on redux:
 export default async function configUser(
@@ -23,7 +24,7 @@ export default async function configUser(
     if (data.user) {
       ctx.store.dispatch(actions.reauthenticate(token, data.user))
       const { url } = ctx.req
-      if (url === "/login") {
+      if (url && publicRoutes.includes(url)) {
         ctx.res.writeHead(302, { Location: "/" }).end()
       }
     }
