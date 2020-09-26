@@ -1,7 +1,5 @@
-import useStyles from "./styles"
-import { useDispatch } from "react-redux"
-import { useState, FormEvent, ChangeEvent } from "react"
 import actions from "../../store/actions"
+// Components
 import {
   Grid,
   TextField,
@@ -15,10 +13,16 @@ import {
 } from "@material-ui/core"
 import { Visibility, VisibilityOff } from "@material-ui/icons"
 import { Link, Copyright } from ".."
+// Hooks
+import useStyles from "./styles"
+import { useDispatch } from "react-redux"
+import { useState, FormEvent, ChangeEvent } from "react"
+import { useRouter } from "next/router"
 
 export default function LoginForm(): JSX.Element {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const router = useRouter()
 
   const [values, setValues] = useState({
     username: "",
@@ -28,7 +32,7 @@ export default function LoginForm(): JSX.Element {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    await dispatch(actions.authenticate(values, "login"))
+    await dispatch(actions.authenticate(values, "login", router.asPath))
   }
 
   const handleChange = (prop: string) => (

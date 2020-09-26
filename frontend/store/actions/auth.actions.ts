@@ -35,7 +35,7 @@ const removeUser = () => {
 }
 
 // gets token from the api and stores it in the redux store and in a cookie
-const authenticate = (formData: RegisterForm | LoginForm, type: string): any => {
+const authenticate = (formData: RegisterForm | LoginForm, type: string, ref: string): any => {
   if (type !== "login" && type !== "register") {
     throw new Error("Wront API call!")
   }
@@ -55,7 +55,9 @@ const authenticate = (formData: RegisterForm | LoginForm, type: string): any => 
       setCookie("token", token)
       dispatch({ type: AUTHENTICATE, payload: { token, user } })
       dispatch(actions.removeAlert())
-      Router.push("/")
+      if (ref === "/login" || ref === "/register") {
+        Router.push("/")
+      }
       dispatch(actions.updateLoader(false))
     } catch (e) {
       const { response } = e
@@ -79,10 +81,10 @@ const reauthenticate = (token: string, user: User): any => {
 const deauthenticate = () => {
   return (dispatch: any) => {
     dispatch(actions.updateLoader(true))
-    Router.push("/")
     dispatch({ type: DEAUTHENTICATE })
     dispatch(actions.removeUser())
     removeCookie("token")
+    Router.push("/")
     dispatch(actions.updateLoader(false))
   }
 }

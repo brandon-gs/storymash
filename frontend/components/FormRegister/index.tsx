@@ -30,10 +30,12 @@ import {
 } from "./helpers"
 import { useDispatch } from "react-redux"
 import actions from "../../store/actions"
+import { useRouter } from "next/router"
 
 export default function FormRegister(): React.ReactElement {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const router = useRouter()
   const [values, setValues] = useState<RegisterForm>(registerFormInitialValues)
   const [errors, setErrors] = useState<RegisterFormErrors>(registerFormInitialErrors)
 
@@ -44,7 +46,7 @@ export default function FormRegister(): React.ReactElement {
     if (!errors.hasError) {
       values.firstName = normalizeName(values.firstName)
       values.lastName = normalizeName(values.lastName)
-      await dispatch(actions.authenticate(values, "register"))
+      await dispatch(actions.authenticate(values, "register", router.asPath))
     }
   }
 

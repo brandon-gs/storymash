@@ -19,7 +19,6 @@ import {
   hasError,
   usernameValidation,
 } from "../../utils/formValidations"
-import { RegisterFormErrors, RegisterForm } from "./types.register"
 
 export default async function validateForm(values: RegisterForm): Promise<RegisterFormErrors> {
   const { firstName, lastName, age, gender, email, password, terms, username } = values
