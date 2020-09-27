@@ -1,8 +1,10 @@
 // Components
 import { Button, ButtonProps } from "@material-ui/core"
+import { ModalLogin } from "../"
 // Icons
 import { Remove, PersonAdd } from "@material-ui/icons"
 // Hooks
+import { useState } from "react"
 import useStyles from "./styles"
 import { useSelector } from "../../Hooks"
 import { useDispatch } from "react-redux"
@@ -17,7 +19,17 @@ export default function ButtonFollow(props: ButtonProps): JSX.Element {
     app: { profile },
     authentication: { user, token },
   } = useSelector(state => state)
+  const [openModalLogin, setOpenModalLogin] = useState<boolean>(false)
   const isFollower = user ? profile?.followers.includes(user._id) : false
+
+  const handleCloseModalLogin = () => {
+    setOpenModalLogin(false)
+  }
+
+  const handleOpenModalLogin = () => {
+    setOpenModalLogin(true)
+  }
+
   const unfollowUser = async () => {
     dispatch(actions.updateLoader(true))
     if (profile && user) {
@@ -47,33 +59,49 @@ export default function ButtonFollow(props: ButtonProps): JSX.Element {
     dispatch(actions.updateLoader(false))
   }
 
-  if (profile?.username !== user?.username) {
-    return (
-      <>
-        {!isFollower ? (
-          <Button
-            variant="contained"
-            className={classes.button}
-            onClick={followUser}
-            startIcon={<PersonAdd />}
-            color="primary"
-            {...props}
-          >
-            Seguir
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            className={clsx(classes.button, classes.buttonUnfollow)}
-            onClick={unfollowUser}
-            startIcon={<Remove />}
-            {...props}
-          >
-            Dejar de seguir
-          </Button>
-        )}
-      </>
-    )
+  if (user) {
+    if (profile?.username !== user.username) {
+      return (
+        <>
+          {!isFollower ? (
+            <Button
+              variant="contained"
+              className={classes.button}
+              onClick={followUser}
+              startIcon={<PersonAdd />}
+              color="primary"
+              {...props}
+            >
+              Seguir
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              className={clsx(classes.button, classes.buttonUnfollow)}
+              onClick={unfollowUser}
+              startIcon={<Remove />}
+              {...props}
+            >
+              Dejar de seguir
+            </Button>
+          )}
+        </>
+      )
+    }
   }
-  return <></>
+  return (
+    <>
+      <ModalLogin open={openModalLogin} handleClose={handleCloseModalLogin} />
+      <Button
+        variant="contained"
+        className={classes.button}
+        onClick={handleOpenModalLogin}
+        startIcon={<PersonAdd />}
+        color="primary"
+        {...props}
+      >
+        Seguir
+      </Button>
+    </>
+  )
 }
