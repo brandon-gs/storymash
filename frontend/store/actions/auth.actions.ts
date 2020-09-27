@@ -4,6 +4,7 @@ import Router from "next/router"
 import { AUTHENTICATE, DEAUTHENTICATE, UPDATE_USER, REMOVE_USER } from "../types/auth.types"
 import { setCookie, removeCookie } from "../../utils/cookie"
 import actions from "."
+import { publicRoutes } from "../../utils"
 
 // Update the user without request
 const updateUser = (user: User) => {
@@ -84,7 +85,9 @@ const deauthenticate = () => {
     dispatch({ type: DEAUTHENTICATE })
     dispatch(actions.removeUser())
     removeCookie("token")
-    Router.push("/")
+    if (!publicRoutes.includes(Router.pathname)) {
+      Router.push("/")
+    }
     dispatch(actions.updateLoader(false))
   }
 }
