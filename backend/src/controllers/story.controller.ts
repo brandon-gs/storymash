@@ -85,7 +85,7 @@ export const getStoriesByUsername = async (req: Request, res: Response): Promise
     const { username } = req.params
     const user = await User.findOne({ username }).select("_id")
     if (user) {
-      const stories = await Story.find({ author: user._id })
+      const stories = await Story.find({ author: user._id }).sort({ createdAt: -1 })
       if (stories) {
         for (let i = 0; i < stories.length; i++) {
           await stories[i].populateAuthor()
