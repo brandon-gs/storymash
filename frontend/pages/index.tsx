@@ -1,5 +1,5 @@
 // Components
-import { Head, Layout, Dashboard } from "../components"
+import { Head, Layout, Dashboard, MainMenu } from "../components"
 import { NextPage } from "next"
 import { useSelector } from "../Hooks"
 import { wrapper } from "../store"
@@ -11,7 +11,7 @@ const IndexPage: NextPage = () => {
     <Layout>
       <Head title="Storymash"></Head>
       {!auth && <Dashboard></Dashboard>}
-      {auth && <h1>Mostrar historias</h1>}
+      {auth && <MainMenu />}
     </Layout>
   )
 }
