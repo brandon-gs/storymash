@@ -36,10 +36,9 @@ const StorySchema = new Schema(
 )
 
 StorySchema.pre<IStory>("save", async function (next) {
-  const story = this
   const random = getRandomNumber(1, 20)
-  if (!story.image) {
-    story.image = `/img/default/default_story_${random}.jpg`
+  if (!this.image) {
+    this.image = `/img/default/default_story_${random}.jpg`
   }
   next()
 })
