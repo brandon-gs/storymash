@@ -24,7 +24,7 @@ export default async function configUser(
     if (data.user) {
       ctx.store.dispatch(actions.reauthenticate(token, data.user))
       const { url } = ctx.req
-      if (url && publicRoutes.includes(url)) {
+      if (url && publicRoutes.includes(url) && url !== "/") {
         ctx.res.writeHead(302, { Location: "/" }).end()
       }
     }
