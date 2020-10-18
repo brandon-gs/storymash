@@ -6,11 +6,13 @@ import { createWrapper, MakeStore } from "next-redux-wrapper"
 import { AuthState } from "./types/auth.types"
 import { AppState } from "./types/app.types"
 import { StoriesState } from "./types/stories.types"
+import { FavoriteStoriesState } from "./types/favorites.types"
 
 export interface RootState {
   authentication: AuthState
   app: AppState
   stories: StoriesState
+  favorites: FavoriteStoriesState
 }
 
 const bindMiddleware = (middleware: Array<Middleware>) => {
