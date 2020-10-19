@@ -48,6 +48,7 @@ export const updateLikes = async (req: Request, res: Response): Promise<Response
   if (req.user) {
     try {
       const { id } = req.params // id of story part
+      const { option } = req.body // This option can have value "add" or "remove"
       const { _id } = req.user
       const storyPart = await StoryPart.findById(id)
       const author = await User.findById(storyPart?.author)
@@ -69,9 +70,9 @@ export const updateLikes = async (req: Request, res: Response): Promise<Response
       // Update or remove story from user favorites
       let favorites = req.user.favorites.slice(0)
       if (story) {
-        if (favorites.includes(story._id)) {
-          favorites = favorites.filter(id => id === story._id)
-        } else {
+        if (option === "remove") {
+          favorites.splice(favorites.indexOf(story._id), 1)
+        } else if (option === "add") {
           favorites = [...favorites, story._id]
         }
       }
