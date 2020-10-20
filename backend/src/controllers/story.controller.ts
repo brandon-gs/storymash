@@ -146,3 +146,31 @@ export const deleteStory = async (req: Request, res: Response): Promise<Response
   }
   return res.status(400).json({ message: "Error not user" })
 }
+
+export const getFavoritesStories = async (req: Request, res: Response): Promise<Response> => {
+  if (req.user) {
+    try {
+      const user = await User.findById(req.user._id).populate({
+        path: "favorites",
+        populate: [
+          {
+            path: "parts",
+            populate: {
+              path: "comments",
+              populate: { path: "author", select: { username: 1, image: 1 } },
+            },
+          },
+          {
+            path: "author",
+            select: { username: 1, image: 1 },
+          },
+        ],
+      })
+      const favorites = user?.favorites ? user.favorites : []
+      return res.status(200).json({ favorites })
+    } catch (e) {
+      return res.status(404).json({ message: "Error to get favorites" })
+    }
+  }
+  return res.status(400).json({ message: "Error not user" })
+}

@@ -8,6 +8,7 @@ import {
   createStoryController,
   getStoryController,
   getStoriesByUsername,
+  getFavoritesStories,
   updateStory,
   deleteStory,
   uploadStoryImage,
@@ -16,6 +17,7 @@ import {
 const router = Router()
 
 router.route("/").post(requireAuth, createStoryController)
+router.route("/favorites").get(requireAuth, getFavoritesStories)
 
 router
   .route("/:id")
