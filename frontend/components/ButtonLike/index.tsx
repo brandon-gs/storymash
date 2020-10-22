@@ -31,13 +31,15 @@ export default function LikeIcon({ part, story }: Props): JSX.Element {
     setOpenModalLogin(true)
   }
 
-  const addOrRemoveLike = async () => {
+  const addOrRemoveLike = (option: string) => async () => {
     dispatch(actions.updateLoader(true))
     if (user) {
       try {
         const { data } = await Axios.put(
           `/api/story/part/like/${part._id}`,
-          {},
+          {
+            option,
+          },
           {
             headers: {
               authorization: token,
@@ -47,6 +49,7 @@ export default function LikeIcon({ part, story }: Props): JSX.Element {
         const storyIndex = stories.indexOf(story)
         const newStories = stories.slice(0)
         newStories[storyIndex] = data.story
+        dispatch(actions.requestToUpdateFavorites(token))
         dispatch(actions.updateStories(newStories))
         dispatch(actions.updateProfile(data.author))
       } catch (error) {
@@ -64,12 +67,15 @@ export default function LikeIcon({ part, story }: Props): JSX.Element {
       return (
         <FavoriteBorderOutlined
           className={clsx(classes.disabledIcon, classes.cursorPointer)}
-          onClick={addOrRemoveLike}
+          onClick={addOrRemoveLike("add")}
         />
       )
     }
     return (
-      <Favorite onClick={addOrRemoveLike} className={clsx(classes.liked, classes.cursorPointer)} />
+      <Favorite
+        onClick={addOrRemoveLike("remove")}
+        className={clsx(classes.liked, classes.cursorPointer)}
+      />
     )
   }
   return (

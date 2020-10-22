@@ -22,7 +22,7 @@ function getContent(content: string) {
   const length = Math.floor(Math.random() * (maxLength - minLength) + minLength)
   if (content.length > length) {
     const currentContent = content.substr(0, length)
-    return currentContent
+    return currentContent + "..."
   }
   return content
 }

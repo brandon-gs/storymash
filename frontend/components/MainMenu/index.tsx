@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 // Components
 import SwipeableViews from "react-swipeable-views"
+import { FavoritesStories } from "../"
 import { AppBar, Tabs, Tab, Typography, Box, Container } from "@material-ui/core"
 // Icons
 import { Home, Book, Favorite, WhatshotSharp, TrendingUp } from "@material-ui/icons"
@@ -26,11 +27,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   )
 }
@@ -70,8 +67,8 @@ export default function FullWidthTabs(): JSX.Element {
           >
             <Tab label="Inicio" icon={<Home />} {...a11yProps(0)} />
             <Tab label="Mi tablón" icon={<Book />} {...a11yProps(1)} />
-            <Tab label="Mis Favoritas" icon={<Favorite />} {...a11yProps(3)} />
-            <Tab label="Ranking" icon={<TrendingUp />} {...a11yProps(2)} />
+            <Tab label="Mis Favoritas" icon={<Favorite />} {...a11yProps(2)} />
+            <Tab label="Ranking" icon={<TrendingUp />} {...a11yProps(3)} />
             <Tab label="Tendencias" icon={<WhatshotSharp />} {...a11yProps(4)} />
           </Tabs>
         </AppBar>
@@ -88,7 +85,7 @@ export default function FullWidthTabs(): JSX.Element {
           Mi tablón
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Mis favoritas
+          <FavoritesStories />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
           Ranking
