@@ -12,8 +12,13 @@
 /frontend/.next
 /frontend/public/img/user/*
 !frontend/public/img/user/.gitkeep
+/build
 
+#tasks
 todo.txt
+
+# developtment
+.idea
 
 # misc
 .DS_Store

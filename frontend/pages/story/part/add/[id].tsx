@@ -1,12 +1,19 @@
-import { Layout, Head, FormStoryPart } from "../../../../components"
-import { wrapper } from "../../../../store"
+// Types
 import { NextPage } from "next"
+// Components
+import { Layout, FormStoryPart } from "../../../../components"
+import Head from "next/head"
+// ServerSideProps
 import { configUser } from "../../../../getServerProps"
+// Helpers
+import { wrapper } from "../../../../store"
 
 const AddStoryPartPage: NextPage = () => {
   return (
     <Layout>
-      <Head title="Storymash | continuar historia" />
+      <Head>
+        <title>Storymash | Continuar historia</title>
+      </Head>
       <FormStoryPart />
     </Layout>
   )

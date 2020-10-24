@@ -1,16 +1,23 @@
-// Components
-import { Head, Layout, Dashboard, MainMenu } from "../components"
+// Types
 import { NextPage } from "next"
-import { useSelector } from "../Hooks"
-import { wrapper } from "../store"
+// Components
+import { Layout, Dashboard, MainMenu } from "../components"
+import Head from "next/head"
+// Hooks
+import { useSelector } from "react-redux"
+// ServerProps
 import { configUser, configFavoritesStories } from "../getServerProps"
+// Helpers
+import { wrapper } from "../store"
 
 const IndexPage: NextPage = () => {
   const { auth } = useSelector(state => state.authentication)
   return (
     <Layout>
-      <Head title="Storymash"></Head>
-      {!auth && <Dashboard></Dashboard>}
+      <Head>
+        <title>Storymash</title>
+      </Head>
+      {!auth && <Dashboard />}
       {auth && <MainMenu />}
     </Layout>
   )

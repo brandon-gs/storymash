@@ -15,6 +15,10 @@ export interface RootState {
   favorites: FavoriteStoriesState
 }
 
+declare module "react-redux" {
+  interface DefaultRootState extends RootState {}
+}
+
 const bindMiddleware = (middleware: Array<Middleware>) => {
   if (process.env.NODE_ENV !== "production") {
     return composeWithDevTools(applyMiddleware(...middleware))

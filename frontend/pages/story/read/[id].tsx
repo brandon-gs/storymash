@@ -1,12 +1,19 @@
-import { Layout, Head, ReadStory } from "../../../components"
+// Types
 import { NextPage } from "next"
-import { wrapper } from "../../../store"
+// Components
+import { Layout, ReadStory } from "../../../components"
+import Head from "next/head"
+// ServerSideProps
 import { configUser, configStory } from "../../../getServerProps"
+// Helpers
+import { wrapper } from "../../../store"
 
 const ReadStoryPage: NextPage = () => {
   return (
     <Layout>
-      <Head title="Storymash | Crear historia"></Head>
+      <Head>
+        <title>Storymash | Crear historia</title>
+      </Head>
       <ReadStory />
     </Layout>
   )

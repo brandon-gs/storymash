@@ -1,12 +1,19 @@
-import { Layout, Head, FormStory } from "../../components"
+// Types
 import { NextPage } from "next"
-import { wrapper } from "../../store"
+// Components
+import { Layout, FormStory } from "../../components"
+import Head from "next/head"
+// ServerSideProps
 import { configUser } from "../../getServerProps"
+// Helpers
+import { wrapper } from "../../store"
 
 const AddStoryPage: NextPage = () => {
   return (
     <Layout>
-      <Head title="Storymash | Crear historia"></Head>
+      <Head>
+        <title>Storymash | Crear historia</title>
+      </Head>
       <FormStory mode="create" />
     </Layout>
   )

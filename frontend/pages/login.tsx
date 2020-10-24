@@ -1,16 +1,23 @@
-import { WithAuthRedirect, Head, Layout, Login } from "../components"
+// Types
 import { NextPage } from "next"
-import { wrapper } from "../store"
+// Components
+import { ProtectPage, Layout, Login } from "../components"
+import Head from "next/head"
+// ServerSideProps
 import { configUser } from "../getServerProps"
+// Helpers
+import { wrapper } from "../store"
 
 const LoginPage: NextPage = () => {
   return (
-    <WithAuthRedirect location="/">
-      <Layout>
-        <Head title="Storymash | Iniciar sesión"></Head>
+    <Layout>
+      <Head>
+        <title>Storymash | Iniciar sesión</title>
+      </Head>
+      <ProtectPage type={"public"}>
         <Login />
-      </Layout>
-    </WithAuthRedirect>
+      </ProtectPage>
+    </Layout>
   )
 }
 

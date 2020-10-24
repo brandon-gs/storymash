@@ -1,16 +1,19 @@
-import { Head, FormRegister, WithAuthRedirect, Layout } from "../components"
+import { FormRegister, ProtectPage, Layout } from "../components"
+import Head from "next/head"
 import { NextPage } from "next"
 import { wrapper } from "../store"
 import { configUser } from "../getServerProps"
 
 const RegisterPage: NextPage = () => {
   return (
-    <WithAuthRedirect location="/">
-      <Layout>
-        <Head title="Storymash | Registro"></Head>
+    <Layout>
+      <Head>
+        <title>Storymash | Crear cuenta</title>
+      </Head>
+      <ProtectPage type={"public"}>
         <FormRegister />
-      </Layout>
-    </WithAuthRedirect>
+      </ProtectPage>
+    </Layout>
   )
 }
 

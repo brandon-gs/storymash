@@ -57,7 +57,7 @@ const authenticate = (formData: RegisterForm | LoginForm, type: string, ref: str
       dispatch({ type: AUTHENTICATE, payload: { token, user } })
       dispatch(actions.removeAlert())
       if (ref === "/login" || ref === "/register") {
-        Router.push("/")
+        await Router.push("/")
       }
       dispatch(actions.updateLoader(false))
     } catch (e) {

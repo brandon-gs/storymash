@@ -1,9 +1,5 @@
 import passport from "passport"
-import {
-  Strategy as JwtStrategy,
-  ExtractJwt,
-  StrategyOptions,
-} from "passport-jwt"
+import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from "passport-jwt"
 import passportLocal from "passport-local"
 import User from "../models/User.model"
 
@@ -12,7 +8,7 @@ const LocalStrategy = passportLocal.Strategy
 // setting local strategy:
 const localOptions = {
   usernameField: "username",
-  passwrod: "password",
+  password: "password",
 }
 const localLogin = new LocalStrategy(
   localOptions,

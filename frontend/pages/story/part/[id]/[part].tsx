@@ -1,7 +1,9 @@
-// Components
-import { Head, FormStory, Layout } from "../../../../components"
-// Utils
+// Types
 import { NextPage } from "next"
+// Components
+import { FormStory, Layout, ProtectPage } from "../../../../components"
+import Head from "next/head"
+// Utils
 import { configUser, configStory } from "../../../../getServerProps"
 import { wrapper } from "../../../../store"
 
@@ -13,8 +15,12 @@ type Props = {
 const EditStoryPartPage: NextPage<Props> = ({ story, part }) => {
   return (
     <Layout>
-      <Head title="Storybox | Crear historia" />
-      <FormStory mode="edit" propStory={story} propStoryPart={part} />
+      <Head>
+        <title>Storybox | Crear historia</title>
+      </Head>
+      <ProtectPage type={"both"}>
+        <FormStory mode="edit" propStory={story} propStoryPart={part} />
+      </ProtectPage>
     </Layout>
   )
 }

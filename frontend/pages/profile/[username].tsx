@@ -1,7 +1,12 @@
-import { Head, Profile, Layout, ProfileStories } from "../../components"
+// Types
 import { NextPage } from "next"
-import { wrapper } from "../../store"
+// Components
+import { Profile, Layout, ProfileStories, ProtectPage } from "../../components"
+import Head from "next/head"
+// ServerSideProps
 import { configUser, configProfile, configStories } from "../../getServerProps"
+// Helpers
+import { wrapper } from "../../store"
 
 type Props = {
   title: string
@@ -10,9 +15,13 @@ type Props = {
 const ProfilePage: NextPage<Props> = ({ title }) => {
   return (
     <Layout>
-      <Head title={title}></Head>
-      <Profile />
-      <ProfileStories />
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <ProtectPage type={"both"}>
+        <Profile />
+        <ProfileStories />
+      </ProtectPage>
     </Layout>
   )
 }

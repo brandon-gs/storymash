@@ -9,8 +9,8 @@ export default function Layout({ children }: Props): JSX.Element {
   return (
     <Fragment>
       <Navbar />
-      <Loader></Loader>
-      <Alert></Alert>
+      <Loader />
+      <Alert />
       {children}
     </Fragment>
   )
