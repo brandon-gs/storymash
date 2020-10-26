@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon backend/",
-    "build": "next build frontend/",
+    "build": "next build frontend/ && tsc --project tsconfig.json",
     "start": "NODE_ENV=production node backend/"
   },
   "repository": {
@@ -38,9 +38,12 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fs-extra": "^9.0.1",
+    "intersection-observer": "^0.11.0",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
+    "just-debounce-it": "^1.1.0",
     "mongoose": "^5.10.2",
+    "mongoose-paginate-v2": "^1.3.9",
     "multer": "^1.4.2",
     "next": "^9.5.2",
     "next-redux-wrapper": "^6.0.2",
@@ -66,7 +69,10 @@
     "@types/fs-extra": "^9.0.1",
     "@types/js-cookie": "^2.2.6",
     "@types/jsonwebtoken": "^8.5.0",
+    "@types/just-debounce-it": "^1.1.0",
     "@types/mongoose": "^5.7.36",
+    "@types/mongoose-paginate": "^5.0.8",
+    "@types/mongoose-paginate-v2": "^1.3.8",
     "@types/multer": "^1.4.4",
     "@types/node": "^14.6.2",
     "@types/nprogress": "^0.2.0",
