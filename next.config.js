@@ -2,6 +2,7 @@ module.exports = {
   useFileSystemPublicRoutes: true,
   env: {
     API_SECRET: process.env.API_SECRET,
+    PORT: process.env.PORT,
   },
   webpack: (config, { dev }) => {
     if (dev) {

@@ -6,10 +6,9 @@
   },
   "compilerOptions": {
     "noUnusedLocals": true,
-    "noImplicitAny": true,
     "target": "es6",
     "module": "commonjs",
-    "strict": true,
+    "outDir": "build",
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
