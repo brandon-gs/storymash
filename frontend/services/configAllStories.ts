@@ -11,15 +11,10 @@ export default async function configUserStories(
   }
 ): Promise<any> {
   try {
-    if (ctx.params) {
-      const { username } = ctx.params
-      const server = getNameServer(ctx)
-      const limitStories = ctx.store.getState().stories.limit
-      const { data } = await Axios.get(
-        `${server}/api/story/user/${username}/?limit=${limitStories}`
-      )
-      ctx.store.dispatch(actions.updateDataStories(data))
-    }
+    const server = getNameServer(ctx)
+    const limitStories = ctx.store.getState().stories.limit
+    const { data } = await Axios.get(`${server}/api/story/?limit=${limitStories}`)
+    ctx.store.dispatch(actions.updateDataStories(data))
   } catch (error) {
     ctx.store.dispatch(actions.removeStories())
   }

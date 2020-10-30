@@ -32,7 +32,6 @@ type Props = {
 }
 
 export default function CardStory({ story }: Props): JSX.Element {
-  const { profile } = useSelector(state => state.app)
   const background = `linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.9)),url("${story.image}") no-repeat center center/cover`
   const classes = useStyles()
   const [content, setContent] = useState(story.parts[0].content)
@@ -49,14 +48,14 @@ export default function CardStory({ story }: Props): JSX.Element {
         as={`/story/read/${story._id}`}
         underline="none"
       >
-        <img className={classes.image} style={{ background }} />
+        <div className={classes.image} style={{ background }} />
         <Grid container className={classes.userContainer}>
           <Grid item>
             <Avatar
               alt="Creador de la historia"
               aria-label="Usuario creador de la historia"
               color="inherit"
-              src={profile ? profile.image : story.author.image}
+              src={story.author.image}
               className={classes.avatar}
             />
           </Grid>

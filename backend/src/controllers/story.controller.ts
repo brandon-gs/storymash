@@ -5,7 +5,20 @@ import StoryPart from "../models/StoryPart.model"
 import imageUpload from "../helpers/image.upload.helper"
 import { getLikesFromStory } from "../helpers/story.controller.helper"
 
-export const createStoryController = async (req: Request, res: Response): Promise<Response> => {
+const populateAuthor = {
+  path: "author",
+  select: { username: 1, image: 1 },
+}
+
+const populateParts = {
+  path: "parts",
+  populate: {
+    path: "comments",
+    populate: { path: "author", select: { username: 1, image: 1 } },
+  },
+}
+
+export const createStory = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
       const { _id, stories } = req.user
@@ -65,7 +78,7 @@ export const uploadStoryImage = async (req: Request, res: Response): Promise<Res
   return res.status(401).json({ message: "Unauthorized" })
 }
 
-export const getStoryController = async (req: Request, res: Response): Promise<Response> => {
+export const getStory = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { id } = req.params
     const story = await Story.findById(id)
@@ -82,18 +95,22 @@ export const getStoryController = async (req: Request, res: Response): Promise<R
 
 export const getStoriesByUsername = async (req: Request, res: Response): Promise<Response> => {
   try {
+    const { query } = req
     const { username } = req.params
-    const user = await User.findOne({ username }).select("_id")
-    if (user) {
-      const stories = await Story.find({ author: user._id }).sort({ createdAt: -1 })
-      if (stories) {
-        for (let i = 0; i < stories.length; i++) {
-          await stories[i].populateAuthor()
-          await stories[i].populateParts()
+    const author = await User.findOne({ username }).select("_id")
+    if (author) {
+      const storiesPageData = await Story.paginate(
+        { author: author._id },
+        {
+          ...query,
+          sort: { createdAt: -1 },
+          populate: [populateParts, populateAuthor],
         }
-        return res.status(200).json({ stories })
+      )
+      if (storiesPageData) {
+        return res.status(200).json(storiesPageData)
       }
-      return res.status(404).json({ message: "User hasn't stories" })
+      return res.status(404).json({ message: "Error to get Stories by username" })
     }
     return res.status(404).json({ message: "User dont found" })
   } catch (error) {
@@ -150,27 +167,35 @@ export const deleteStory = async (req: Request, res: Response): Promise<Response
 export const getFavoritesStories = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
-      const user = await User.findById(req.user._id).populate({
-        path: "favorites",
-        populate: [
-          {
-            path: "parts",
-            populate: {
-              path: "comments",
-              populate: { path: "author", select: { username: 1, image: 1 } },
-            },
-          },
-          {
-            path: "author",
-            select: { username: 1, image: 1 },
-          },
-        ],
-      })
-      const favorites = user?.favorites ? user.favorites : []
-      return res.status(200).json({ favorites })
+      const { favorites } = await User.findById(req.user._id)
+        .populate({
+          path: "favorites",
+          populate: [populateAuthor, populateParts],
+        })
+        .select("favorites")
+      if (favorites) {
+        return res.status(200).json({ favorites })
+      }
+      return res.status(200).json({ message: "user hasn't favorites" })
     } catch (e) {
       return res.status(404).json({ message: "Error to get favorites" })
     }
   }
   return res.status(400).json({ message: "Error not user" })
+}
+
+export const getAllStories = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const options = req.query
+    const storiesPageData = await Story.paginate(
+      {},
+      { ...options, sort: { createdAt: -1 }, populate: [populateAuthor, populateParts] }
+    )
+    if (storiesPageData) {
+      return res.status(200).json(storiesPageData)
+    }
+    return res.status(400).json({ message: "Error to get All Stories" })
+  } catch (e) {
+    return res.status(400).json({ message: "Catch Error to get All Story" })
+  }
 }

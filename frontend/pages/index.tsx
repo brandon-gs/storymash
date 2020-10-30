@@ -1,12 +1,12 @@
 // Types
 import { NextPage } from "next"
 // Components
-import { Layout, Dashboard, MainMenu } from "../components"
+import { Layout, Dashboard, MainMenu, BottomMenu } from "../components"
 import Head from "next/head"
 // Hooks
 import { useSelector } from "react-redux"
 // ServerProps
-import { configUser, configFavoritesStories } from "../getServerProps"
+import { configUser, configFavoritesStories, configAllStories } from "../services"
 // Helpers
 import { wrapper } from "../store"
 
@@ -18,14 +18,22 @@ const IndexPage: NextPage = () => {
         <title>Storymash</title>
       </Head>
       {!auth && <Dashboard />}
-      {auth && <MainMenu />}
+      {auth && (
+        <>
+          <MainMenu />
+        </>
+      )}
     </Layout>
   )
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(async ctx => {
   await configUser(ctx)
-  await configFavoritesStories(ctx)
+  const isAuthenticated = ctx.store.getState().authentication.auth
+  if (isAuthenticated) {
+    await configFavoritesStories(ctx)
+    await configAllStories(ctx)
+  }
 })
 
 export default IndexPage

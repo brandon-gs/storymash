@@ -1,17 +1,21 @@
 // Components
 import { Container, Grid, Typography } from "@material-ui/core"
-import CardStory from "../../Common/CardStory"
+import { Link, ListStories } from "../../index"
 // Icons
 import { SentimentDissatisfied } from "@material-ui/icons"
 // Hooks
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import useStyles from "./styles"
 import { useRouter } from "next/router"
+import { useNearScreen } from "../../../hooks"
+import React, { RefObject, useEffect } from "react"
+import debounce from "just-debounce-it"
+import actions from "../../../store/actions"
 
 export default function ProfileStories(): JSX.Element {
-  const { stories } = useSelector(state => state)
+  const { docs } = useSelector(state => state.stories)
 
-  if (stories.length > 0) {
+  if (docs.length > 0) {
     return <ShowStories />
   }
   return <NoStories />
@@ -41,23 +45,53 @@ function NoStories(): JSX.Element {
 
 function ShowStories(): JSX.Element {
   const classes = useStyles()
+  const dispatch = useDispatch()
+  const { isNearScreen, fromRef } = useNearScreen({ once: false, distance: 600 })
   const {
     stories,
     app: { profile },
   } = useSelector(state => state)
-  if (stories.length > 0 && profile) {
+  useEffect(() => {
+    if (isNearScreen && stories.hasNextPage) {
+      const getDataStories = debounce(() => {
+        dispatch(actions.asyncUpdateDataStories(stories))
+      }, 200)
+      getDataStories()
+    }
+  }, [isNearScreen])
+
+  if (stories.docs.length > 0 && profile) {
     return (
       <Container maxWidth="lg" className={classes.storiesContainer}>
         <Typography variant="h5" component="h1" gutterBottom align="center">
           Historias de {profile.username}
         </Typography>
-        <Grid container justify="center" spacing={2}>
-          {stories.map(story => (
-            <Grid item key={`story-${story._id}`} className={classes.cardContainer}>
-              <CardStory story={story} />
-            </Grid>
-          ))}
-        </Grid>
+        <ListStories stories={stories.docs} />
+        {stories.hasNextPage ? (
+          <div style={{ width: "100%", height: "500px" }} />
+        ) : (
+          <>
+            <Typography
+              component={"h3"}
+              variant={"h4"}
+              align={"center"}
+              className={classes.textMarginTop}
+            >
+              {profile.username} ya no tiene más historias.
+            </Typography>
+            <Typography
+              component={"h3"}
+              variant={"h5"}
+              align={"center"}
+              className={classes.textMarginBot}
+            >
+              <Link href={"/"} underline={"none"}>
+                ¡Mira historias de otros escritores!
+              </Link>
+            </Typography>
+          </>
+        )}
+        <div ref={fromRef as RefObject<HTMLDivElement>} />
       </Container>
     )
   }

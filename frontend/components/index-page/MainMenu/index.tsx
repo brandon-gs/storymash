@@ -1,16 +1,18 @@
-import React, { useState } from "react"
+import { ChangeEvent, ReactNode } from "react"
 // Components
 import SwipeableViews from "react-swipeable-views"
-import { FavoritesStories } from "../../index"
-import { AppBar, Tabs, Tab, Typography, Box, Container } from "@material-ui/core"
+import { AllStories, FavoritesStories } from "../../index"
+import { AppBar, Tabs, Tab, Box, Container } from "@material-ui/core"
 // Icons
 import { Home, Book, Favorite, WhatshotSharp, TrendingUp } from "@material-ui/icons"
 // Hooks
 import useStyles from "./styles"
 import { useTheme } from "@material-ui/core/styles"
+import { useDispatch, useSelector } from "react-redux"
+import actions from "../../../store/actions"
 
 interface TabPanelProps {
-  children?: React.ReactNode
+  children?: ReactNode
   dir?: string
   index: any
   value: any
@@ -42,55 +44,57 @@ function a11yProps(index: any) {
 export default function FullWidthTabs(): JSX.Element {
   const classes = useStyles()
   const theme = useTheme()
-  const [value, setValue] = useState(0)
+  const dispatch = useDispatch()
+  const { indexTab } = useSelector(state => state.tabs)
 
-  const handleChange = (event: React.ChangeEvent<unknown>, newValue: number) => {
-    setValue(newValue)
+  const handleChange = (event: ChangeEvent<unknown>, newValue: number) => {
+    dispatch(actions.updateIndexTab(newValue))
   }
 
   const handleChangeIndex = (index: number) => {
-    setValue(index)
+    dispatch(actions.updateIndexTab(index))
   }
 
   return (
     <>
-      <Container maxWidth="md" className={classes.root}>
-        <AppBar position="static" color="default">
+      <>
+        <AppBar color="default" className={classes.stickToBottom}>
           <Tabs
-            value={value}
+            value={indexTab}
             onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
+            indicatorColor="secondary"
+            color={"primary"}
+            textColor="secondary"
             aria-label="Tabs menu"
             variant="scrollable"
             scrollButtons="on"
           >
-            <Tab label="Inicio" icon={<Home />} {...a11yProps(0)} />
-            <Tab label="Mi tablón" icon={<Book />} {...a11yProps(1)} />
-            <Tab label="Mis Favoritas" icon={<Favorite />} {...a11yProps(2)} />
-            <Tab label="Ranking" icon={<TrendingUp />} {...a11yProps(3)} />
-            <Tab label="Tendencias" icon={<WhatshotSharp />} {...a11yProps(4)} />
+            <Tab icon={<Home />} {...a11yProps(0)} className={classes.tab} />
+            <Tab icon={<Book />} {...a11yProps(1)} className={classes.tab} />
+            <Tab icon={<Favorite />} {...a11yProps(2)} className={classes.tab} />
+            <Tab icon={<TrendingUp />} {...a11yProps(3)} className={classes.tab} />
+            <Tab icon={<WhatshotSharp />} {...a11yProps(4)} className={classes.tab} />
           </Tabs>
         </AppBar>
-      </Container>
+      </>
       <SwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={value}
+        index={indexTab}
         onChangeIndex={handleChangeIndex}
       >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          Todas las historias
+        <TabPanel value={indexTab} index={0} dir={theme.direction}>
+          <AllStories />
         </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
+        <TabPanel value={indexTab} index={1} dir={theme.direction}>
           Mi tablón
         </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
+        <TabPanel value={indexTab} index={2} dir={theme.direction}>
           <FavoritesStories />
         </TabPanel>
-        <TabPanel value={value} index={3} dir={theme.direction}>
+        <TabPanel value={indexTab} index={3} dir={theme.direction}>
           Ranking
         </TabPanel>
-        <TabPanel value={value} index={4} dir={theme.direction}>
+        <TabPanel value={indexTab} index={4} dir={theme.direction}>
           Tendencias
         </TabPanel>
       </SwipeableViews>

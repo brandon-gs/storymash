@@ -4,7 +4,7 @@ import { NextPage } from "next"
 import { FormStory, Layout, ProtectPage } from "../../../../components"
 import Head from "next/head"
 // Utils
-import { configUser, configStory } from "../../../../getServerProps"
+import { configUser, configStory } from "../../../../services"
 import { wrapper } from "../../../../store"
 
 type Props = {

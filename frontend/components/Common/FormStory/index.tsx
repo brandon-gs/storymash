@@ -34,7 +34,7 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
   const dispatch = useDispatch()
   const router = useRouter()
   const { token } = useSelector(state => state.authentication)
-
+  const [savedStory, setSavedStory] = useState<null | Story>(null)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [story, setStory] = useState<StoryState>({
     title: propStory && propStory.title ? propStory.title : "",
@@ -81,7 +81,7 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
           const body = { story: { title, category: transformCategory }, part: { content } }
           const story = await createStory(body, token)
           if (story) {
-            dispatch(actions.updateStories([story]))
+            setSavedStory(story)
           }
         } else if (propStoryPart?._id && propStory?._id) {
           const body = { title, category: transformCategory }
@@ -113,7 +113,7 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
 
   return (
     <Container maxWidth="md" className={classes.root}>
-      <ModalUploadImage open={openModal} handleClose={handleCloseModal} />
+      <ModalUploadImage open={openModal} handleClose={handleCloseModal} story={savedStory} />
       <Typography variant="h1" className={classes.title}>
         {mode === "edit" ? "Editar Historia" : "Crear historia"}
       </Typography>

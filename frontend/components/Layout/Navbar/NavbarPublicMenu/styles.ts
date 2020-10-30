@@ -22,7 +22,10 @@ export default makeStyles(theme => ({
   linkActive: {
     color: "#FFF",
   },
-  menuItemRegiser: {
+  menuItemRegister: {
     color: theme.palette.primary.main,
+  },
+  grow: {
+    flexGrow: 1,
   },
 }))

@@ -13,14 +13,13 @@ import actions from "../../../store/actions"
 type Props = {
   open: boolean
   handleClose: () => void
+  story: Story
 }
 
-export default function ModalUploadImage({ open, handleClose }: Props): JSX.Element {
+export default function ModalUploadImage({ open, handleClose, story }: Props): JSX.Element {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { token } = useSelector(state => state.authentication)
-  const stories = useSelector(state => state.stories)
-  const story = stories[0]
 
   const routeImage = story ? story.image : "/img/dashboard.jpg"
   const background = `linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url("${routeImage}") no-repeat center center/cover`
@@ -33,12 +32,11 @@ export default function ModalUploadImage({ open, handleClose }: Props): JSX.Elem
       file.id = image.id
       const formData = new FormData()
       formData.append("image", file)
-      const { data } = await axios.post(`/api/story/image/${story._id}`, formData, {
+      await axios.post(`/api/story/image/${story._id}`, formData, {
         headers: {
           authorization: token,
         },
       })
-      dispatch(actions.updateStories([data.story]))
     } catch (error) {
       dispatch(
         actions.updateAlert({

@@ -11,7 +11,7 @@ import "./database"
 import "./src/services/passport"
 import "./src/lib/global"
 
-async function main() {
+(async () => {
   try {
     await nextApp.prepare()
     app.get("*", (req, res) => {
@@ -23,8 +23,6 @@ async function main() {
     console.log(">> Error to start the server")
     console.log(error)
   }
-}
-
-main()
+})()
 
 export default nextApp

@@ -2,6 +2,8 @@ import { makeStyles, fade } from "@material-ui/core"
 
 export default makeStyles(theme => ({
   avatar: {
+    height: theme.spacing(5),
+    width: theme.spacing(5),
     cursor: "pointer",
   },
   search: {
@@ -51,5 +53,8 @@ export default makeStyles(theme => ({
   buttonCreate: {
     minWidth: 148,
     margin: theme.spacing(0, 2),
+  },
+  grow: {
+    flexGrow: 1,
   },
 }))

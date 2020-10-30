@@ -2,7 +2,7 @@ import { FormRegister, ProtectPage, Layout } from "../components"
 import Head from "next/head"
 import { NextPage } from "next"
 import { wrapper } from "../store"
-import { configUser } from "../getServerProps"
+import { configUser } from "../services"
 
 const RegisterPage: NextPage = () => {
   return (

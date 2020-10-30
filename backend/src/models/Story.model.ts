@@ -1,6 +1,7 @@
 import { Schema, model, Document } from "mongoose"
 import { getRandomNumber } from "../lib/random"
 import { IStoryPart } from "./StoryPart.model"
+import mongoosePagination from "mongoose-paginate-v2"
 
 export interface IStory extends Document {
   author: string
@@ -56,5 +57,7 @@ StorySchema.methods.populateParts = async function () {
     },
   }).execPopulate()
 }
+
+StorySchema.plugin(mongoosePagination)
 
 export default model<IStory>("Story", StorySchema)

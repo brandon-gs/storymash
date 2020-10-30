@@ -1,5 +1,6 @@
 export { default as configFavoritesStories } from "./configFavoritesStories"
 export { default as configUser } from "./configUser"
 export { default as configProfile } from "./configProfile"
-export { default as configStories } from "./configStories"
+export { default as configUserStories } from "./configUserStories"
 export { default as configStory } from "./configStory"
+export { default as configAllStories } from "./configAllStories"

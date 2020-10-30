@@ -4,7 +4,7 @@ import { NextPage } from "next"
 import { Layout, ReadStory } from "../../../components"
 import Head from "next/head"
 // ServerSideProps
-import { configUser, configStory } from "../../../getServerProps"
+import { configUser, configStory } from "../../../services"
 // Helpers
 import { wrapper } from "../../../store"
 

@@ -1,12 +1,11 @@
 import { makeStyles } from "@material-ui/core"
 
 export default makeStyles(theme => ({
-  grow: {
-    flexGrow: 1,
-  },
   logo: {
-    color: "#FFF",
-    textDecoration: "none",
+    height: theme.spacing(6),
+    width: theme.spacing(6),
+    backgroundColor: "unset",
+    marginRight: theme.spacing(2),
   },
   containerLogo: {
     display: "none",

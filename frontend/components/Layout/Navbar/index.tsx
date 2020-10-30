@@ -2,7 +2,7 @@
 import useStyles from "./styles"
 // Components
 import HideOnScroll from "./HideOnScroll"
-import { AppBar, Toolbar, Typography } from "@material-ui/core"
+import { AppBar, Avatar, Toolbar, Typography } from "@material-ui/core"
 import NavbarPrivateMenu from "./NavbarPrivateMenu"
 import NavbarPublicMenu from "./NavbarPublicMenu"
 import { Link } from "../../index"
@@ -17,13 +17,9 @@ export default function Navbar() {
       <HideOnScroll>
         <AppBar color="primary">
           <Toolbar>
-            <Link href="/" className={classes.logo} naked>
-              <Typography variant="h6" color="inherit" className={classes.containerLogo}>
-                <MenuBook />
-                STORYMASH
-              </Typography>
-            </Link>
-            <div className={classes.grow} />
+            <Avatar component={Link} href="/" className={classes.logo} naked alt={"Storymash logo"}>
+              <img src={"/img/logo.png"} alt={"Storymash logo"} />
+            </Avatar>
             <NavbarPublicMenu />
             <NavbarPrivateMenu />
           </Toolbar>

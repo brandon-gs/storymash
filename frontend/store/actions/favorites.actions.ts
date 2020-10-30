@@ -7,7 +7,7 @@ const updateFavoriteStories = (favorites: FavoriteStoriesState): any => {
   }
 }
 
-const requestToUpdateFavorites = (token: string | null): any => {
+const asyncUpdateFavorites = (token: string | null): any => {
   return async (dispatch: any) => {
     if (token) {
       const { data } = await axios.get("/api/story/favorites", {
@@ -30,5 +30,5 @@ const removeFavoriteStories = (): any => {
 export default {
   removeFavoriteStories,
   updateFavoriteStories,
-  requestToUpdateFavorites,
+  asyncUpdateFavorites,
 }

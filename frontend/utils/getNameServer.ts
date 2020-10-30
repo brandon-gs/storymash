@@ -7,5 +7,6 @@ export default function getNameServer(
     store: Store<RootState, AnyAction>
   }
 ): string {
-  return ctx.req ? "http://localhost:3000" : ""
+  const port = process.env.PORT || 3000
+  return ctx.req ? `http://localhost:${port}` : ""
 }

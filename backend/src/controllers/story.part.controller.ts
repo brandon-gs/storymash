@@ -51,40 +51,50 @@ export const updateLikes = async (req: Request, res: Response): Promise<Response
       const { option } = req.body // This option can have value "add" or "remove"
       const { _id } = req.user
       const storyPart = await StoryPart.findById(id)
-      const author = await User.findById(storyPart?.author)
-      const story = await Story.findById(storyPart?.story)
-      // Add or remove id user to array likes in story part
-      if (storyPart && author) {
-        if (storyPart?.likes.includes(_id)) {
-          storyPart.likes = storyPart.likes.filter(userid => userid === _id)
-          author.likes -= 1
-        } else {
-          storyPart.likes = [...storyPart.likes, _id]
-          author.likes += 1
+      if (storyPart) {
+        const story = await Story.findById(storyPart.story)
+        let author = await User.findById(storyPart.author)
+        // Add or remove id user to array likes in story part
+        let newLikes = author.likes
+        if (storyPart) {
+          if (storyPart?.likes.includes(_id)) {
+            const copyLikes = storyPart.likes.slice(0)
+            const indexOfUser = copyLikes.indexOf(_id)
+            copyLikes.splice(indexOfUser, 1)
+            storyPart.likes = copyLikes
+            newLikes -= 1
+          } else {
+            storyPart.likes = [...storyPart.likes, _id]
+            newLikes += 1
+          }
         }
-      }
-      // Update views in story
-      if (story && !story.views.includes(_id) && storyPart?.author !== _id) {
-        story.views = [...story.views, _id]
-      }
-      // Update or remove story from user favorites
-      let favorites = req.user.favorites.slice(0)
-      if (story && author) {
-        if (option === "remove") {
-          favorites.splice(favorites.indexOf(story._id), 1)
-        } else if (option === "add") {
-          favorites = [...favorites, story._id]
+        // Update views in story
+        if (story && !story.views.includes(_id) && storyPart?.author !== _id) {
+          story.views = [...story.views, _id]
         }
-        author.favorites = favorites
+        // Update or remove story from user favorites
+        let favorites = req.user.favorites.slice(0)
+        if (story) {
+          if (option === "remove") {
+            favorites.splice(favorites.indexOf(story._id), 1)
+          } else if (option === "add") {
+            favorites = [...favorites, story._id]
+          }
+        }
+        author = await User.findByIdAndUpdate(storyPart.author, { likes: newLikes }, { new: true })
+        await User.findByIdAndUpdate(_id, { favorites }, { new: true })
+        await storyPart.save()
+        await story?.save()
+        await story?.populateAuthor()
+        await story?.populateParts()
+        return res.status(200).json({
+          author,
+          story,
+          message: "Add like to creathor and part story",
+        })
+      } else {
+        return res.status(404).json({ message: "Story part don't found" })
       }
-      await storyPart?.save()
-      await story?.save()
-      await author?.save()
-      await story?.populateAuthor()
-      await story?.populateParts()
-      return res
-        .status(200)
-        .json({ story, author, storyPart, message: "Add like to creathor and part story" })
     } catch (e) {
       return res.status(404).json({ message: "Story part do not found or something wrong" })
     }

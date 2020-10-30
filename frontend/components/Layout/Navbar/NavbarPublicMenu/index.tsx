@@ -10,24 +10,27 @@ export default function PrivateSection(): React.ReactElement | null {
   const { auth } = useSelector(state => state.authentication)
   if (!auth) {
     return (
-      <div className={classes.sectionDesktop}>
-        <Link naked href="/" activeClassName={classes.linkActive} className={classes.link}>
-          Inicio
-        </Link>
-        <Link naked href="/login" activeClassName={classes.linkActive} className={classes.link}>
-          Iniciar sesión
-        </Link>
-        <Button
-          component={Link}
-          href="/register"
-          aria-label="create account for user"
-          variant="contained"
-          color="secondary"
-          underline="none"
-        >
-          Crear cuenta
-        </Button>
-      </div>
+      <>
+        <div className={classes.grow} />
+        <div className={classes.sectionDesktop}>
+          <Link naked href="/" activeClassName={classes.linkActive} className={classes.link}>
+            Inicio
+          </Link>
+          <Link naked href="/login" activeClassName={classes.linkActive} className={classes.link}>
+            Iniciar sesión
+          </Link>
+          <Button
+            component={Link}
+            href="/register"
+            aria-label="create account for user"
+            variant="contained"
+            color="secondary"
+            underline="none"
+          >
+            Crear cuenta
+          </Button>
+        </div>
+      </>
     )
   }
   return null

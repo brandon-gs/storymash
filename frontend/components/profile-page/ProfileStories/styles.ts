@@ -27,4 +27,10 @@ export default makeStyles(theme => ({
       background: theme.palette.success.dark,
     },
   },
+  textMarginTop: {
+    marginTop: theme.spacing(10),
+  },
+  textMarginBot: {
+    marginBottom: theme.spacing(10),
+  },
 }))

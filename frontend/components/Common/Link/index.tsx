@@ -35,7 +35,6 @@ type LinkProps = {
   naked?: boolean
   onClick?: VoidFunction
   prefetch?: boolean
-  testhref: string
 }
 
 function Link(props: LinkProps | any) {

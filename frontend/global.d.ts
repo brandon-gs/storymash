@@ -1,4 +1,5 @@
 declare module "react-butterfiles"
+declare module "intersection-observer"
 
 declare type ValidationReturn = string | null
 

@@ -1,14 +1,13 @@
 // Components
-import { Avatar, InputBase, Button } from "@material-ui/core"
-import { Link } from "../../../index"
+import { Avatar, InputBase, Button, Chip } from "@material-ui/core"
+import AvatarMenu from "./Menu"
+import { Link, MenuTabs } from "../../../index"
 // Icons
 import SearchIcon from "@material-ui/icons/Search"
 // Hooks
-import { useState } from "react"
+import React, { useState } from "react"
 import { useSelector } from "react-redux"
 import useStyles from "./styles"
-// Redux
-import AvatarMenu from "./Menu"
 
 export default function NavbarPrivateMenu(): JSX.Element {
   const classes = useStyles()
@@ -45,6 +44,8 @@ export default function NavbarPrivateMenu(): JSX.Element {
             inputProps={{ "aria-label": "search" }}
           />
         </div>
+        <MenuTabs />
+        <div className={classes.grow} />
         <div className={classes.sectionDesktop}>
           <Button
             aria-label="create account for user"
@@ -58,15 +59,21 @@ export default function NavbarPrivateMenu(): JSX.Element {
             Crear historia
           </Button>
         </div>
-        <Avatar
-          alt="mostrar mas"
-          aria-label="settings of user"
-          aria-haspopup="true"
-          color="inherit"
-          aria-controls={avatarMenuId}
-          className={classes.avatar}
+        <Chip
+          avatar={
+            <Avatar
+              alt="mostrar mas"
+              aria-label="settings of user"
+              aria-haspopup="true"
+              color="inherit"
+              className={classes.avatar}
+              src={user.image}
+            />
+          }
           onClick={handleAvatarMenuOpen}
-          src={user.image}
+          aria-controls={avatarMenuId}
+          label={user.username}
+          color="primary"
         />
         <AvatarMenu
           anchorEl={anchorEl}

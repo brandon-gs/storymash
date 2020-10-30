@@ -5,25 +5,23 @@
 import { Router } from "express"
 import { requireAuth } from "../middlewares/authentication"
 import {
-  createStoryController,
-  getStoryController,
+  createStory,
+  getStory,
   getStoriesByUsername,
   getFavoritesStories,
   updateStory,
   deleteStory,
   uploadStoryImage,
+  getAllStories,
 } from "../controllers/story.controller"
 
 const router = Router()
 
-router.route("/").post(requireAuth, createStoryController)
+router.route("/").post(requireAuth, createStory).get(getAllStories)
+
 router.route("/favorites").get(requireAuth, getFavoritesStories)
 
-router
-  .route("/:id")
-  .get(getStoryController)
-  .put(requireAuth, updateStory)
-  .delete(requireAuth, deleteStory)
+router.route("/:id").get(getStory).put(requireAuth, updateStory).delete(requireAuth, deleteStory)
 
 router.route("/image/:id").post(requireAuth, uploadStoryImage)
 

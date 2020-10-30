@@ -8,6 +8,7 @@ import actions from "../../../store/actions"
 import Axios from "axios"
 import { useState } from "react"
 import { ModalLogin } from "../../index"
+import { useRouter } from "next/router"
 
 type Props = {
   part: StoryPart
@@ -21,6 +22,7 @@ export default function LikeIcon({ part, story }: Props): JSX.Element {
   const dispatch = useDispatch()
   const classes = useStyles()
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false)
+  const router = useRouter()
 
   const handleCloseModalLogin = () => {
     setOpenModalLogin(false)
@@ -45,11 +47,11 @@ export default function LikeIcon({ part, story }: Props): JSX.Element {
             },
           }
         )
-        const storyIndex = stories.indexOf(story)
-        const newStories = stories.slice(0)
-        newStories[storyIndex] = data.story
-        dispatch(actions.requestToUpdateFavorites(token))
+        const storyIndex = stories.docs.map(story => story._id).indexOf(data.story._id)
+        const newStories = stories.docs.slice(0)
+        newStories.splice(storyIndex, 1, data.story)
         dispatch(actions.updateStories(newStories))
+        dispatch(actions.asyncUpdateFavorites(token))
         dispatch(actions.updateProfile(data.author))
       } catch (error) {
         // eslint-disable-next-line no-console

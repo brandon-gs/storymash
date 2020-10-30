@@ -7,8 +7,8 @@ import {
   LoaderState,
   UPDATE_PROFILE,
   REMOVE_PROFILE,
+  AppActionTypes,
 } from "../types/app.types"
-import { AnyAction } from "redux"
 import { HYDRATE } from "next-redux-wrapper"
 
 const initialLoader: LoaderState = {
@@ -27,7 +27,7 @@ const initialState: AppState = {
   profile: null,
 }
 
-export default function appReducer(state = initialState, action: AnyAction): AppState {
+export default function appReducer(state = initialState, action: AppActionTypes): AppState {
   switch (action.type) {
     case HYDRATE:
       return { ...state, ...action.payload.app }

@@ -4,7 +4,7 @@ import { NextPage } from "next"
 import { Layout, FormStory } from "../../components"
 import Head from "next/head"
 // ServerSideProps
-import { configUser } from "../../getServerProps"
+import { configUser } from "../../services"
 // Helpers
 import { wrapper } from "../../store"
 

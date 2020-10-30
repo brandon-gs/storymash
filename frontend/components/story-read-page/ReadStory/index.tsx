@@ -13,7 +13,7 @@ import { useState } from "react"
 export default function ReadStory(): JSX.Element | null {
   const classes = useStyles()
   const { user } = useSelector(state => state.authentication)
-  const { stories } = useSelector(state => state)
+  const { docs } = useSelector(state => state.stories)
   const [openStoryPart, setOpenStoryPart] = useState(false)
   const [openStory, setOpenStory] = useState(false)
 
@@ -33,10 +33,10 @@ export default function ReadStory(): JSX.Element | null {
     setOpenStory(false)
   }
 
-  if (!stories[0]) {
+  if (docs.length === 0) {
     return null
   } else {
-    const story = stories[0]
+    const story = docs[0]
     const { author, parts, image } = story
     const background = `linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.9)),url("${image}") no-repeat center center/cover`
     return (

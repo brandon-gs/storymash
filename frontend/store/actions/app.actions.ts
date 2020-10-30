@@ -33,11 +33,11 @@ export const updateProfile = (user: User | null): any => {
 }
 
 // Update on redux and database
-export const asyncUpdateProfile = (username: string, body: any, token: string | null) => {
+export const asyncUpdateProfile = (username: string, dataToUpdate: any, token: string | null) => {
   return async (dispatch: any) => {
     if (token) {
       const secret = process.env.API_SECRET
-      const { data } = await axios.put(`/api/user/profile/${username}`, body, {
+      const { data } = await axios.put(`/api/user/profile/${username}`, dataToUpdate, {
         headers: {
           "api-authorization": secret,
           authorization: token,

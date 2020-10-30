@@ -4,7 +4,7 @@ import { NextPage } from "next"
 import { Profile, Layout, ProfileStories, ProtectPage } from "../../components"
 import Head from "next/head"
 // ServerSideProps
-import { configUser, configProfile, configStories } from "../../getServerProps"
+import { configUser, configProfile, configUserStories } from "../../services"
 // Helpers
 import { wrapper } from "../../store"
 
@@ -29,7 +29,7 @@ const ProfilePage: NextPage<Props> = ({ title }) => {
 export const getServerSideProps = wrapper.getServerSideProps(async ctx => {
   await configUser(ctx)
   await configProfile(ctx)
-  await configStories(ctx)
+  await configUserStories(ctx)
   const { profile } = ctx.store.getState().app
   const title = profile ? `Storymash | ${profile.username}` : "Storymash"
   return {
