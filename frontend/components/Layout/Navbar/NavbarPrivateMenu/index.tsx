@@ -72,8 +72,9 @@ export default function NavbarPrivateMenu(): JSX.Element {
           }
           onClick={handleAvatarMenuOpen}
           aria-controls={avatarMenuId}
-          label={user.username}
+          label={user.username + "▼"}
           color="primary"
+          className={classes.chip}
         />
         <AvatarMenu
           anchorEl={anchorEl}
