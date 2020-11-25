@@ -7,9 +7,12 @@ export interface IStory extends Document {
   author: string
   title: string
   image: string
-  category: Array<string>
+  totalLikes: number
+  totalComments: number
   views: Array<string>
+  category: Array<string>
   parts: Array<IStoryPart | string>
+  lastPartCreatedAt: Date
   createdAt: Date
   updatedAt: Date
   populateAuthor: () => Promise<VoidFunction>
@@ -22,6 +25,9 @@ const StorySchema = new Schema(
     title: { type: String, required: true },
     category: { type: Array, required: true },
     image: { type: String, default: "" },
+    totalLikes: { type: Number, default: 0 },
+    totalComments: { type: Number, default: 0 },
+    lastPartCreatedAt: { type: Date, default: new Date() },
     views: [{ type: Schema.Types.ObjectId, default: [] }],
     parts: [
       {

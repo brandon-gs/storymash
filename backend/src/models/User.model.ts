@@ -9,7 +9,7 @@ export type ObjectUser = {
   likes: number
   comments: number
   stories: Array<string>
-  favorites: Array<string>
+  favorites: Array<{ story: string; storyPart: string }>
   followers: Array<string>
   following: Array<string>
   firstName: string
@@ -39,7 +39,7 @@ export interface IUser extends Document {
   followers: Array<string>
   following: Array<string>
   stories: Array<string>
-  favorites: Array<string>
+  favorites: Array<{ story: string; storyPart: string }>
   type: string
   likes: number
   comments: number
@@ -63,7 +63,12 @@ const UserSchema = new Schema(
     followers: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
     following: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
     stories: [{ type: Schema.Types.ObjectId, ref: "Story", default: [] }],
-    favorites: [{ type: Schema.Types.ObjectId, ref: "Story", default: [] }],
+    favorites: [
+      {
+        story: { type: Schema.Types.ObjectId, ref: "Story" },
+        storyPart: { type: Schema.Types.ObjectId, ref: "StoryPart" },
+      },
+    ],
     type: { type: String, default: "Redactor Becario" },
     likes: { type: Number, default: 0 },
     comments: { type: Number, default: 0 },

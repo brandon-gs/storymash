@@ -29,6 +29,7 @@ export const createStory = async (req: Request, res: Response): Promise<Response
         author: _id,
         title,
         category,
+        lastPartCreatedAt: new Date(),
       }).save()
 
       const storyPart = await new StoryPart({
@@ -103,7 +104,7 @@ export const getStoriesByUsername = async (req: Request, res: Response): Promise
         { author: author._id },
         {
           ...query,
-          sort: { createdAt: -1 },
+          sort: { lastPartCreatedAt: -1 },
           populate: [populateParts, populateAuthor],
         }
       )
@@ -170,15 +171,18 @@ export const getFavoritesStories = async (req: Request, res: Response): Promise<
       const { favorites } = await User.findById(req.user._id)
         .populate({
           path: "favorites",
-          populate: [populateAuthor, populateParts],
+          populate: {
+            path: "story",
+            populate: [populateAuthor, populateParts],
+          },
         })
         .select("favorites")
       if (favorites) {
-        return res.status(200).json({ favorites })
+        return res.status(200).json({ favorites: favorites.reverse() })
       }
-      return res.status(200).json({ message: "user hasn't favorites" })
+      return res.status(200).json({ favorites: [], message: "user hasn't favorites" })
     } catch (e) {
-      return res.status(404).json({ message: "Error to get favorites" })
+      return res.status(404).json({ favorites: [], message: "Error to get favorites" })
     }
   }
   return res.status(400).json({ message: "Error not user" })
@@ -189,7 +193,7 @@ export const getAllStories = async (req: Request, res: Response): Promise<Respon
     const options = req.query
     const storiesPageData = await Story.paginate(
       {},
-      { ...options, sort: { createdAt: -1 }, populate: [populateAuthor, populateParts] }
+      { ...options, sort: { lastPartCreatedAt: -1 }, populate: [populateAuthor, populateParts] }
     )
     if (storiesPageData) {
       return res.status(200).json(storiesPageData)
