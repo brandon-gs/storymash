@@ -8,7 +8,6 @@ import actions from "../../../store/actions"
 import Axios from "axios"
 import { useState } from "react"
 import { ModalLogin } from "../../index"
-import { useRouter } from "next/router"
 
 type Props = {
   part: StoryPart
@@ -22,7 +21,6 @@ export default function LikeIcon({ part, story }: Props): JSX.Element {
   const dispatch = useDispatch()
   const classes = useStyles()
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false)
-  const router = useRouter()
 
   const handleCloseModalLogin = () => {
     setOpenModalLogin(false)
@@ -37,7 +35,7 @@ export default function LikeIcon({ part, story }: Props): JSX.Element {
     if (user) {
       try {
         const { data } = await Axios.put(
-          `/api/story/part/like/${part._id}`,
+          `/api/story/part/like/${option}/${part._id}`,
           {
             option,
           },

@@ -16,7 +16,7 @@ const EditStoryPartPage: NextPage<Props> = ({ story, part }) => {
   return (
     <Layout>
       <Head>
-        <title>Storybox | Crear historia</title>
+        <title>Storybox | Editar {story.title}</title>
       </Head>
       <ProtectPage type={"both"}>
         <FormStory mode="edit" propStory={story} propStoryPart={part} />
@@ -29,7 +29,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async ctx => {
   await configUser(ctx)
   await configStory(ctx)
   const indexPart = Number(ctx.params ? ctx.params.part : ctx.query.part)
-  const story = ctx.store.getState().stories[0]
+  const story = ctx.store.getState().stories.docs[0]
   const part = story.parts[indexPart]
   return {
     props: {

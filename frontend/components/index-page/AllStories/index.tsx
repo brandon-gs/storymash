@@ -58,5 +58,27 @@ export default function AllStories() {
       </Container>
     )
   }
-  return <h1>No hay historias escritas aún</h1>
+  return (
+    <>
+      <Typography
+        component={"h3"}
+        variant={"h4"}
+        align={"center"}
+        className={classes.textMarginTop}
+      >
+        Aún no hay historias publicadas.
+      </Typography>
+      <Typography
+        component={"h3"}
+        variant={"h5"}
+        align={"center"}
+        className={classes.textMarginBot}
+      >
+        ¡Ayuda a nuestra comunidad{" "}
+        <Link href={"/story/add"} underline={"none"}>
+          creando la primera historia!
+        </Link>
+      </Typography>
+    </>
+  )
 }

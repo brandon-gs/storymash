@@ -12,11 +12,11 @@ export default function FavoritesStories(): JSX.Element {
 
   const uniqueIdStory: Array<string> = []
   const onlyUniqueFavorites: Array<Story> = []
-  favorites.slice(0).forEach(story => {
-    if (story._id) {
-      if (!uniqueIdStory.includes(story._id)) {
-        uniqueIdStory.push(story._id)
-        onlyUniqueFavorites.push(story)
+  favorites.slice(0).forEach(favorite => {
+    if (favorite.story._id) {
+      if (!uniqueIdStory.includes(favorite.story._id)) {
+        uniqueIdStory.push(favorite.story._id)
+        onlyUniqueFavorites.push(favorite.story)
       }
     }
   })
