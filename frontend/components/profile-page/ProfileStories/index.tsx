@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import useStyles from "./styles"
 import { useRouter } from "next/router"
 import { useNearScreen } from "../../../hooks"
-import React, { RefObject, useEffect } from "react"
+import React, { Fragment, RefObject, useEffect } from "react"
 import debounce from "just-debounce-it"
 import actions from "../../../store/actions"
 
@@ -44,13 +44,21 @@ function NoStories(): JSX.Element {
 }
 
 function ShowStories(): JSX.Element {
+  // Styles
   const classes = useStyles()
+  // Redux dispatch
   const dispatch = useDispatch()
+
+  // NearScreen to use infinite scroll
   const { isNearScreen, fromRef } = useNearScreen({ once: false, distance: 600 })
+
+  // Redux state
   const {
     stories,
     app: { profile },
+    authentication: { user },
   } = useSelector(state => state)
+
   useEffect(() => {
     if (isNearScreen && stories.hasNextPage) {
       const getDataStories = debounce(() => {
@@ -59,6 +67,12 @@ function ShowStories(): JSX.Element {
       getDataStories()
     }
   }, [isNearScreen])
+
+  // Messages
+  const isCurrentUserProfile = profile?.username === user?.username
+  const noStoriesMessages = isCurrentUserProfile
+    ? "Ya no tienes más historias"
+    : `${profile?.username} ya no tiene más historias.`
 
   if (stories.docs.length > 0 && profile) {
     return (
@@ -70,15 +84,27 @@ function ShowStories(): JSX.Element {
         {stories.hasNextPage ? (
           <div style={{ width: "100%", height: "500px" }} />
         ) : (
-          <>
+          <Fragment>
             <Typography
               component={"h3"}
               variant={"h4"}
               align={"center"}
               className={classes.textMarginTop}
             >
-              {profile.username} ya no tiene más historias.
+              {noStoriesMessages}
             </Typography>
+            {isCurrentUserProfile && (
+              <Fragment>
+                <Typography component={"h3"} variant={"h5"} align={"center"}>
+                  <Link href={"/story/add"} underline={"none"}>
+                    ¡Crea una nueva historia!
+                  </Link>
+                </Typography>
+                <Typography component={"h3"} variant={"h5"} align={"center"}>
+                  O
+                </Typography>
+              </Fragment>
+            )}
             <Typography
               component={"h3"}
               variant={"h5"}
@@ -89,7 +115,7 @@ function ShowStories(): JSX.Element {
                 ¡Mira historias de otros escritores!
               </Link>
             </Typography>
-          </>
+          </Fragment>
         )}
         <div ref={fromRef as RefObject<HTMLDivElement>} />
       </Container>

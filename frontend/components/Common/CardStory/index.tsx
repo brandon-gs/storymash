@@ -39,6 +39,10 @@ export default function CardStory({ story }: Props): JSX.Element {
     setContent(getContent(content))
   }, [])
 
+  // Get user profile
+  const { user } = useSelector(state => state.authentication)
+  const authorImage = user ? user.image : story.author.image
+
   return (
     <Card className={classes.root}>
       <CardActionArea
@@ -55,7 +59,7 @@ export default function CardStory({ story }: Props): JSX.Element {
               alt="Creador de la historia"
               aria-label="Usuario creador de la historia"
               color="inherit"
-              src={story.author.image}
+              src={authorImage}
               className={classes.avatar}
             />
           </Grid>

@@ -1,11 +1,12 @@
+import { useEffect, FC } from "react"
 import { ThemeProvider } from "@material-ui/core/styles"
+import { PageTransition } from "next-page-transitions"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { wrapper } from "../store"
 import theme from "../components/theme"
 import NProgress from "nprogress"
 import Router from "next/router"
 import { AppProps, AppContext, AppInitialProps } from "next/app"
-import { useEffect, FC } from "react"
 import actions from "../store/actions"
 
 Router.events.on("routeChangeStart", () => NProgress.start())
@@ -15,6 +16,8 @@ Router.events.on("routeChangeError", () => NProgress.done())
 const MyApp: FC<AppProps> = (props: AppProps) => {
   const { Component, pageProps } = props
 
+  const TIMEOUT = 400
+
   useEffect(() => {
     const jssStyles = document.querySelector("#jss-server-side")
     if (jssStyles) {
@@ -23,12 +26,21 @@ const MyApp: FC<AppProps> = (props: AppProps) => {
   }, [])
 
   return (
-    <>
+    <PageTransition
+      timeout={TIMEOUT}
+      classNames="page-transition"
+      loadingDelay={500}
+      loadingTimeout={{
+        enter: TIMEOUT,
+        exit: 0,
+      }}
+      loadingClassNames="loading-indicator"
+    >
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Component {...pageProps} />
       </ThemeProvider>
-    </>
+    </PageTransition>
   )
 }
 
