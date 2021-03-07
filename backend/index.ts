@@ -10,11 +10,10 @@ const handler = nextApp.getRequestHandler()
 import "./database"
 import "./src/services/passport"
 import "./src/lib/global"
-
 ;(async () => {
   try {
     await nextApp.prepare()
-    app.get("*", (req, res) => {
+    app.all("*", (req, res) => {
       return handler(req, res)
     })
     app.listen(app.get("port"))

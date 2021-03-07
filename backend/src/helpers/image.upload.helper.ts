@@ -40,6 +40,7 @@ export default async function imageUpload(
     const image = req.file
     const ext = path.extname(image.originalname).toLowerCase()
     const name = generateRandomName(currentImage)
+    createDir(`frontend/public/img/user`)
     const imageName = `${name}${ext}`
     const userFolder = path.resolve(`frontend/public/img/user/${req.user?.username}`)
     createDir(userFolder)
