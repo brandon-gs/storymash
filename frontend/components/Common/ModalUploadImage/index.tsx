@@ -9,20 +9,35 @@ import { useSelector, useDispatch } from "react-redux"
 // Helpers
 import { getUploadErrorMessage } from "../../../utils"
 import actions from "../../../store/actions"
+import { useState } from "react"
 
 type Props = {
   open: boolean
   handleClose: () => void
-  story: Story | null
+  handleSubmit: () => void
+  story: Story | null | undefined
 }
 
-export default function ModalUploadImage({ open, handleClose, story }: Props): JSX.Element {
+const getBackground = (image: string) => {
+  return `linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url("${image}") no-repeat center center/cover`
+}
+
+export default function ModalUploadImage({
+  open,
+  handleClose,
+  handleSubmit,
+  story,
+}: Props): JSX.Element {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { token } = useSelector(state => state.authentication)
 
   const routeImage = story ? story.image : "/img/dashboard.jpg"
-  const background = `linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url("${routeImage}") no-repeat center center/cover`
+  const background = getBackground(routeImage)
+  // state
+  const [image, setImage] = useState(background)
+
+  console.log(story)
 
   const handleUploadImage = async (images: Array<any>) => {
     dispatch(actions.updateLoader(true))
@@ -32,11 +47,15 @@ export default function ModalUploadImage({ open, handleClose, story }: Props): J
       file.id = image.id
       const formData = new FormData()
       formData.append("image", file)
-      await axios.post(`/api/story/image/${story?._id}`, formData, {
+      const result = await axios.post(`/api/story/image/${story?._id}`, formData, {
         headers: {
           authorization: token,
         },
       })
+      if (result) {
+        const background = getBackground(result.data.story.image)
+        setImage(background)
+      }
     } catch (error) {
       dispatch(
         actions.updateAlert({
@@ -73,7 +92,7 @@ export default function ModalUploadImage({ open, handleClose, story }: Props): J
     >
       <Fade in={open}>
         <div className={classes.paper}>
-          <div className={classes.image} style={{ background }} />
+          <div className={classes.image} style={{ background: image }} />
           <h2 id="transition-modal-title" className={classes.title}>
             Portada de la historia
           </h2>
@@ -100,7 +119,7 @@ export default function ModalUploadImage({ open, handleClose, story }: Props): J
               </Files>
             </Grid>
             <Grid item>
-              <Button variant="contained" className={classes.buttonCancel} onClick={handleClose}>
+              <Button variant="contained" className={classes.buttonCancel} onClick={handleSubmit}>
                 Publicar historia
               </Button>
             </Grid>

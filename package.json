@@ -4,7 +4,7 @@
   "description": "A social network of stories",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon backend/",
+    "dev": "nodemon",
     "build": "next build frontend/ && tsc --project frontend/tsconfig.json && tsc --project tsconfig.json",
     "start": "NODE_ENV=production node build/"
   },
@@ -33,6 +33,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "axios": "^0.20.0",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.25.0",
     "clsx": "^1.1.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",

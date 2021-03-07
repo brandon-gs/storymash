@@ -1,18 +1,12 @@
 import { Request } from "express"
-import fs from "fs-extra"
 import path from "path"
+import cloudinary from "cloudinary/"
 
-const createDir = (dir: string) => {
-  // create new directory
-  try {
-    // first check if directory already exists
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir)
-    }
-  } catch (err) {
-    console.error(err)
-  }
-}
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 const generateRandomName = (currentImage: string) => {
   const possible = "abcdefghijklmnopqrstuvwxyz0123456789"
@@ -31,25 +25,14 @@ export type ImageUploadObject = {
   imageName?: string
 }
 
-export default async function imageUpload(
-  req: Request,
-  folder: string,
-  currentImage: string
-): Promise<ImageUploadObject> {
+export default async function imageUpload(req: Request): Promise<ImageUploadObject> {
   if (req.file) {
     const image = req.file
-    const ext = path.extname(image.originalname).toLowerCase()
-    const name = generateRandomName(currentImage)
-    createDir(`frontend/public/img/user`)
-    const imageName = `${name}${ext}`
-    const userFolder = path.resolve(`frontend/public/img/user/${req.user?.username}`)
-    createDir(userFolder)
-    createDir(path.resolve(`frontend/public/img/${folder}`))
-    const targetPath = path.resolve(`frontend/public/img/${folder}/${imageName}`)
+    const result = await cloudinary.v2.uploader.upload(req.file.path)
     const validExt = [".png", ".jpg", ".jpeg"]
-    if (validExt.includes(ext)) {
-      await fs.rename(image.path, targetPath)
-      return { imageName: `/img/${folder}/${imageName}`, message: `Image upload in ${folder}` }
+    const ext = path.extname(image.originalname).toLowerCase()
+    if (result && validExt.includes(ext)) {
+      return { imageName: result.url, message: "Image uploaded" }
     }
     return {
       imageName: "",

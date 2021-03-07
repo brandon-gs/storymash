@@ -18,7 +18,7 @@ const EditStoryPartPage: NextPage<Props> = ({ story, part }) => {
       <Head>
         <title>Storybox | Editar {story.title}</title>
       </Head>
-      <ProtectPage type={"both"}>
+      <ProtectPage type={"private"}>
         <FormStory mode="edit" propStory={story} propStoryPart={part} />
       </ProtectPage>
     </Layout>

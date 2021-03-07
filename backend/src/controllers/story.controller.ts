@@ -63,11 +63,10 @@ export const uploadStoryImage = async (req: Request, res: Response): Promise<Res
     if (!req.file) {
       return res.status(400).json({ message: "Not image provided" })
     }
-    const { username } = req.user
     const { id } = req.params
     const story = await Story.findById(id)
     if (story) {
-      const { imageName, message } = await imageUpload(req, `user/${username}/story`, story.image)
+      const { imageName, message } = await imageUpload(req)
       if (imageName) {
         story.image = imageName
         await story.save()

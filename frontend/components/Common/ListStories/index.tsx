@@ -21,11 +21,9 @@ export default function ShowStories({
 }: Props) {
   const classes = useStyles()
   const columnCount = columns ? columns : stories.length + (firstColumn ? 1 : 0)
+  const style = columns ? { columnCount } : {}
   return (
-    <div
-      className={styles.container ? styles.container : "list_stories--container"}
-      style={{ columnCount }}
-    >
+    <div className={styles.container ? styles.container : "list_stories--container"} style={style}>
       {firstColumn && <div className={classes.cardContainer}>{firstColumn}</div>}
       {stories.map((story, index) => (
         <Grow

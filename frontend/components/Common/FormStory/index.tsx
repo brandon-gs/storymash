@@ -32,12 +32,14 @@ type OnChangeInputType = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 export default function FormStory({ mode, propStory, propStoryPart }: Props): JSX.Element {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const router = useRouter()
   const {
     authentication: { token },
     temp: { formStory },
   } = useSelector(state => state)
-  const [savedStory, setSavedStory] = useState<null | Story>(null)
+
+  const router = useRouter()
+
+  const [savedStory, setSavedStory] = useState<null | Story>(propStory ? propStory : null)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [story, setStory] = useState<StoryState>({
     title: propStory && propStory.title ? propStory.title : formStory.story.title,
@@ -104,19 +106,31 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
     dispatch(actions.updateLoader(false))
   }
 
-  const handleCloseModal = async () => {
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  }
+
+  const handleSubmitImage = async () => {
+    handleCloseModal()
     await router.push("/")
     dispatch(
       actions.updateAlert({
-        message: "¡Su historia ha sido creada!",
+        message: "¡Su historia ha sido publicada!",
         severity: "success",
       })
     )
   }
 
+  const currentStory = mode === "create" ? savedStory : propStory
+
   return (
     <Container maxWidth="md" className={classes.root}>
-      <ModalUploadImage open={openModal} handleClose={handleCloseModal} story={savedStory} />
+      <ModalUploadImage
+        open={openModal}
+        handleClose={handleCloseModal}
+        story={currentStory}
+        handleSubmit={handleSubmitImage}
+      />
       <Typography variant="h1" className={classes.title}>
         {mode === "edit" ? "Editar Historia" : "Crear historia"}
       </Typography>

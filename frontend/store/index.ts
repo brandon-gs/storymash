@@ -38,4 +38,4 @@ const bindMiddleware = (middleware: Array<Middleware>) => {
 
 const makeStore: MakeStore<RootState> = () => createStore(rootReducer, bindMiddleware([thunk]))
 
-export const wrapper = createWrapper<RootState>(makeStore, { debug: true })
+export const wrapper = createWrapper<RootState>(makeStore, { debug: false })

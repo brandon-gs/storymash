@@ -32,7 +32,7 @@ export default function AllStories() {
   if (stories.docs.length > 0) {
     return (
       <Container maxWidth={"lg"} className={classes.root}>
-        <ListStories stories={stories.docs} firstColumn={<SmallFormStory />} columns={4} />
+        <ListStories stories={stories.docs} firstColumn={<SmallFormStory />} />
         {stories.hasNextPage ? (
           <div style={{ width: "100%", height: "500px" }} />
         ) : (
