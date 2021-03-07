@@ -10,8 +10,6 @@
 
 # production
 /frontend/.next
-/frontend/public/img/user/*
-!frontend/public/img/user/.gitkeep
 /build
 .env
 
