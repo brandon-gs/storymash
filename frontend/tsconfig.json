@@ -13,7 +13,7 @@
     "resolveJsonModule": true,
     "jsx": "preserve",
     "isolatedModules": true,
-    "baseUrl": "."
+    "baseUrl": "./"
   },
   "include": ["**/*.ts", "**/*.tsx", "../createPalette.d.ts"],
   "exclude": ["node_modules", ".next"]

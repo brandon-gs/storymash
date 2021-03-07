@@ -16,8 +16,6 @@ export default function SmallFormStory() {
     temp: { formStory },
   } = useSelector(state => state)
 
-  console.log(formStory)
-
   const [story, setStory] = useState(formStory.story)
   const [storyPart, setStoryPart] = useState(formStory.storyPart)
 
@@ -63,7 +61,6 @@ export default function SmallFormStory() {
               onChange={handleChangeStory("title")}
               variant="outlined"
               fullWidth
-              autoFocus
             />
           </Grid>
           <Grid item xs={12}>

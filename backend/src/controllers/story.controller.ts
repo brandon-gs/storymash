@@ -184,7 +184,7 @@ export const deleteStory = async (req: Request, res: Response): Promise<Response
 export const getFavoritesStories = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
-      const { favorites } = await User.findById(req.user._id)
+      const user = await User.findById(req.user._id)
         .populate({
           path: "favorites",
           populate: {
@@ -193,8 +193,11 @@ export const getFavoritesStories = async (req: Request, res: Response): Promise<
           },
         })
         .select("favorites")
-      if (favorites) {
-        return res.status(200).json({ favorites: favorites.reverse() })
+      if (user) {
+        const { favorites } = user
+        if (favorites) {
+          return res.status(200).json({ favorites: favorites.reverse() })
+        }
       }
       return res.status(200).json({ favorites: [], message: "user hasn't favorites" })
     } catch (e) {

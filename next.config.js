@@ -1,3 +1,5 @@
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
+
 module.exports = {
   useFileSystemPublicRoutes: true,
   env: {
@@ -14,6 +16,21 @@ module.exports = {
           // eslint options (if necessary)
         },
       })
+    }
+    if (config.resolve.plugins) {
+      config.resolve.plugins.push(
+        new TsconfigPathsPlugin({
+          configFile: "./frontend/tsconfig.json",
+          baseUrl: "./frontend/",
+        })
+      )
+    } else {
+      config.resolve.plugins = [
+        new TsconfigPathsPlugin({
+          configFile: "./frontend/tsconfig.json",
+          baseUrl: "./frontend/",
+        }),
+      ]
     }
     return config
   },

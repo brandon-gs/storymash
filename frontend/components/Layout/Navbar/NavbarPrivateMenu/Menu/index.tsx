@@ -1,23 +1,9 @@
-import { Link } from "../../../../index"
-import { ListItemIcon, Menu, MenuItem, withStyles, ListItemText, Paper } from "@material-ui/core"
+import { Link } from "components"
+import { ListItemIcon, Menu, MenuItem, ListItemText } from "@material-ui/core"
 import { AccountCircle, ExitToApp, Help } from "@material-ui/icons"
 import useStyles from "./styles"
 import { useSelector, useDispatch } from "react-redux"
-import actions from "../../../../../store/actions"
-
-type StyledMenuItemProps = {
-  children: React.ReactNode
-  onClick?: () => void
-}
-
-const StyledMenuItem = ({ children, onClick }: StyledMenuItemProps) => {
-  const classes = useStyles()
-  return (
-    <MenuItem classes={{ root: classes.menuItem }} autoFocus={false} onClick={onClick}>
-      {children}
-    </MenuItem>
-  )
-}
+import actions from "store/actions"
 
 type Props = {
   anchorEl: Element | null
@@ -68,39 +54,34 @@ export default function AvatarMenu({
         }}
         autoFocus={false}
       >
-        <StyledMenuItem>
+        <MenuItem
+          classes={{ root: classes.menuItem }}
+          autoFocus={false}
+          component={Link}
+          href={`/profile/${user.username}`}
+        >
           <ListItemIcon classes={{ root: classes.icon }}>
             <AccountCircle />
           </ListItemIcon>
           <ListItemText primary="Tu perfil" />
-        </StyledMenuItem>
-        <StyledMenuItem>
+        </MenuItem>
+        <MenuItem
+          classes={{ root: classes.menuItem }}
+          autoFocus={false}
+          component={Link}
+          href="/help"
+        >
           <ListItemIcon classes={{ root: classes.icon }}>
             <Help />
           </ListItemIcon>
           <ListItemText primary="Ayuda" />
-        </StyledMenuItem>
-        <StyledMenuItem onClick={logOut}>
+        </MenuItem>
+        <MenuItem classes={{ root: classes.menuItem }} autoFocus={false} onClick={logOut}>
           <ListItemIcon classes={{ root: classes.icon }}>
             <ExitToApp />
           </ListItemIcon>
           <ListItemText primary="Salir" />
-        </StyledMenuItem>
-        {/* <MenuItem component={Link} href="/story/add" className={classes.sectionMobile}>
-          Crear historia
         </MenuItem>
-        <MenuItem component={Link} href="/help">
-          Ayuda
-        </MenuItem>
-        <hr></hr>
-        <MenuItem
-          onClick={() => {
-            handleAvatarMenuClose()
-            dispatch(actions.deauthenticate())
-          }}
-        >
-          Salir
-        </MenuItem> */}
       </Menu>
     )
   }

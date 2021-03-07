@@ -11,14 +11,13 @@ body {
 }
 
 .list_stories--container {
+  width: max-content;
+  margin: auto;
   column-count: 4;
-  column-gap: 8;
 }
 
 @media screen and (max-width: 1280px) {
   .list_stories--container {
-    width: max-content;
-    margin: auto;
     column-count: 3;
   }
 }

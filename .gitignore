@@ -13,6 +13,7 @@
 /frontend/public/img/user/*
 !frontend/public/img/user/.gitkeep
 /build
+.env
 
 #tasks
 todo.txt

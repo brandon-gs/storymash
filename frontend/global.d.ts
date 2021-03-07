@@ -88,6 +88,10 @@ declare type RegisterFormErrors = {
   hasError?: boolean
 }
 
+declare type ThunkAction = any
+declare type RootState = any
+declare type Action = any
+
 declare type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,

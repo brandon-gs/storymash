@@ -1,45 +1,31 @@
 // Components
-import { Grid, Grow, Typography } from "@material-ui/core"
-import clsx from "clsx"
+import { Grow } from "@material-ui/core"
 import { CardStory } from "../../index"
 // Hooks
 import useStyles from "./styles"
 
 type Props = {
+  columns?: number
   stories: Array<Story>
   timeout?: number
   firstColumn?: React.ReactNode
   styles?: any
 }
 
-// export default function ShowStories({ stories, timeout, firstColumn }: Props) {
-//   const classes = useStyles()
-//   return (
-//     <Grid container justify="center" spacing={2}>
-//       {firstColumn && (
-//         <Grid item className={classes.cardContainer}>
-//           {firstColumn}
-//         </Grid>
-//       )}
-//       {stories.map((story, index) => (
-//         <Grow
-//           in={true}
-//           key={`story-${story._id}-${index}`}
-//           {...{ timeout: timeout ? timeout : 1500 * index < 2000 ? 400 * index : 2000 }}
-//         >
-//           <Grid item className={classes.cardContainer}>
-//             <CardStory story={story} />
-//           </Grid>
-//         </Grow>
-//       ))}
-//     </Grid>
-//   )
-// }
-
-export default function ShowStories({ stories, timeout, firstColumn, styles = "" }: Props) {
+export default function ShowStories({
+  stories,
+  timeout,
+  firstColumn,
+  columns,
+  styles = "",
+}: Props) {
   const classes = useStyles()
+  const columnCount = columns ? columns : stories.length + (firstColumn ? 1 : 0)
   return (
-    <div className={styles.container ? styles.container : "list_stories--container"}>
+    <div
+      className={styles.container ? styles.container : "list_stories--container"}
+      style={{ columnCount }}
+    >
       {firstColumn && <div className={classes.cardContainer}>{firstColumn}</div>}
       {stories.map((story, index) => (
         <Grow

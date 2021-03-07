@@ -1,9 +1,9 @@
 // Components
-import { Avatar, InputBase, Button, Chip, IconButton, Menu } from "@material-ui/core"
+import { Avatar, InputBase, Button } from "@material-ui/core"
 import AvatarMenu from "./Menu"
-import { Link } from "../../../index"
+import { Link } from "components"
 // Icons
-import { Search as SearchIcon, Menu as MenuIcon } from "@material-ui/icons"
+import { Search as SearchIcon } from "@material-ui/icons"
 // Hooks
 import React, { useState } from "react"
 import { useSelector } from "react-redux"
