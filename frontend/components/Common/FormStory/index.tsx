@@ -33,15 +33,18 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
   const classes = useStyles()
   const dispatch = useDispatch()
   const router = useRouter()
-  const { token } = useSelector(state => state.authentication)
+  const {
+    authentication: { token },
+    temp: { formStory },
+  } = useSelector(state => state)
   const [savedStory, setSavedStory] = useState<null | Story>(null)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [story, setStory] = useState<StoryState>({
-    title: propStory && propStory.title ? propStory.title : "",
+    title: propStory && propStory.title ? propStory.title : formStory.story.title,
     category: propStory ? propStory.category : [],
   })
   const [storyPart, setStoryPart] = useState<StoryPartState>({
-    content: propStoryPart ? propStoryPart.content : "",
+    content: propStoryPart ? propStoryPart.content : formStory.storyPart.content,
   })
 
   const handleChangeStory = (prop: string) => (event: OnChangeInputType) => {
@@ -153,7 +156,7 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
               {maxLength - storyPart.content.length} caracteres restantes
             </p>
           </Grid>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} className={classes.categoryContainer}>
             {categories.map((category, index) => (
               <Grid item key={`category-${category}-${index}`}>
                 <Button
@@ -171,7 +174,7 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
             ))}
           </Grid>
         </Grid>
-        <Grid container justify="space-between" spacing={3}>
+        <Grid container justify="space-between" spacing={3} className={classes.buttonsContainer}>
           <Grid item>
             <Link href="/" className={classes.link}>
               Volver

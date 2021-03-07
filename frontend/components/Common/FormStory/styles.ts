@@ -18,6 +18,7 @@ export default makeStyles(theme => ({
       backgroundColor: theme.palette.primary.dark,
     },
   },
+  categoryContainer: { marginBottom: 8 },
   categoryNotSelected: {
     backgroundColor: theme.palette.grey[400],
     "&:hover": {
@@ -26,4 +27,5 @@ export default makeStyles(theme => ({
   },
   link: { display: "block", margin: theme.spacing(2, 0) },
   nameImage: { fontWeight: "bold" },
+  buttonsContainer: { marginBottom: 16 },
 }))

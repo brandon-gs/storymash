@@ -8,6 +8,7 @@ import { AppState } from "./types/app.types"
 import { StoriesState } from "./types/stories.types"
 import { FavoriteStoriesState } from "./types/favorites.types"
 import { TabsState } from "./types/tabs.types"
+import { TempState } from "./types/temp.types"
 
 export interface RootState {
   authentication: AuthState
@@ -15,6 +16,7 @@ export interface RootState {
   stories: StoriesState
   favorites: FavoriteStoriesState
   tabs: TabsState
+  temp: TempState
 }
 
 // Redux types

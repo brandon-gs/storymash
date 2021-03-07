@@ -1,6 +1,9 @@
 import { useState } from "react"
 // Components
 import { Grid, Paper, TextField, Button, Typography } from "@material-ui/core"
+// Redux
+import { useDispatch, useSelector } from "react-redux"
+import actions from "../../../store/actions"
 // Styles
 import useStyles from "./styles"
 import clsx from "clsx"
@@ -8,8 +11,15 @@ import clsx from "clsx"
 export default function SmallFormStory() {
   const classes = useStyles()
 
-  const [story, setStory] = useState({ title: "" })
-  const [storyPart, setStoryPart] = useState({ content: "" })
+  const dispatch = useDispatch()
+  const {
+    temp: { formStory },
+  } = useSelector(state => state)
+
+  console.log(formStory)
+
+  const [story, setStory] = useState(formStory.story)
+  const [storyPart, setStoryPart] = useState(formStory.storyPart)
 
   const handleChangeStory = (prop: string) => (event: OnChangeInputType) => {
     const { value } = event.target
@@ -18,13 +28,21 @@ export default function SmallFormStory() {
 
   const handleChangeStoryPart = (prop: string) => (event: OnChangeInputType) => {
     const { value } = event.target
-    setStoryPart({ ...storyPart, [prop]: value })
+    if (value.length <= 1500) {
+      setStoryPart({ ...storyPart, [prop]: value })
+    } else {
+      const allowValue = value.substr(0, 1500)
+      setStoryPart({ ...storyPart, [prop]: allowValue })
+    }
   }
 
-  // TODO: Store this on redux as a storyTemp and redirect to add story page
-  const handleSubmit = () => ({})
-
-  const currentChars = 0
+  const handleSubmit = () => {
+    const data = {
+      story,
+      storyPart,
+    }
+    dispatch(actions.updateTempStory(data))
+  }
 
   return (
     <div className={classes.form}>
@@ -65,7 +83,7 @@ export default function SmallFormStory() {
           </Grid>
           <Grid item xs={12} className={clsx(classes.input, classes.characters)}>
             <Typography component="p" variant="body2">
-              {currentChars}/1500
+              {storyPart.content.length}/1500
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.input}>
