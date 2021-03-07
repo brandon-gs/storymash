@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon backend/",
     "build": "next build frontend/ && tsc --project frontend/tsconfig.json && tsc --project tsconfig.json",
-    "start": "NODE_ENV=production node build/backend/"
+    "start": "NODE_ENV=production node build/"
   },
   "repository": {
     "type": "git",
