@@ -1,6 +1,7 @@
 import { Request } from "express"
 import path from "path"
 import cloudinary from "cloudinary/"
+import fs from "fs-extra"
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -31,8 +32,9 @@ export default async function imageUpload(req: Request): Promise<ImageUploadObje
     const result = await cloudinary.v2.uploader.upload(req.file.path)
     const validExt = [".png", ".jpg", ".jpeg"]
     const ext = path.extname(image.originalname).toLowerCase()
+    await fs.unlink(req.file.path)
     if (result && validExt.includes(ext)) {
-      return { imageName: result.url, message: "Image uploaded" }
+      return { imageName: result.secure_url, message: "Image uploaded" }
     }
     return {
       imageName: "",

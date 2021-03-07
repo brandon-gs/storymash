@@ -20,6 +20,7 @@ export type ObjectUser = {
   gender: string
   about: string
   image: string
+  imageId: string
   createdAt: Date
   updatedAt: Date
   getPublicData: () => ObjectUser
@@ -35,6 +36,7 @@ export interface IUser extends Document {
   age: number
   points: number
   image: string
+  imageId: string
   about: string
   followers: Array<string>
   following: Array<string>
@@ -59,6 +61,7 @@ const UserSchema = new Schema(
     gender: { type: String, required: true },
     age: { type: Number, required: true },
     image: { type: String, default: "" },
+    imageId: { type: String, default: "" },
     about: { type: String, default: "" },
     followers: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
     following: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
@@ -124,6 +127,7 @@ UserSchema.methods.getPublicData = function (): ObjectUser {
     gender: this.gender,
     about: this.about,
     image: this.image,
+    imageId: this.imageId,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     getPublicData: this.getPublicData,
