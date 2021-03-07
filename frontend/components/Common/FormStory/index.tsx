@@ -39,7 +39,7 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
 
   const router = useRouter()
 
-  const [savedStory, setSavedStory] = useState<null | Story>(propStory ? propStory : null)
+  const [savedStory, setSavedStory] = useState<null | Story | undefined>(propStory)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [story, setStory] = useState<StoryState>({
     title: propStory && propStory.title ? propStory.title : formStory.story.title,
@@ -70,6 +70,8 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
     setStoryPart({ ...storyPart, [prop]: value })
   }
 
+  const changeSavedStory = (story: Story) => setSavedStory(story)
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
     dispatch(actions.updateLoader(true))
@@ -86,7 +88,7 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
           const body = { story: { title, category: transformCategory }, part: { content } }
           const story = await createStory(body, token)
           if (story) {
-            setSavedStory(story)
+            changeSavedStory(story)
           }
         } else if (propStoryPart?._id && propStory?._id) {
           const body = { title, category: transformCategory }
@@ -121,16 +123,16 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
     )
   }
 
-  const currentStory = mode === "create" ? savedStory : propStory
-
   return (
     <Container maxWidth="md" className={classes.root}>
-      <ModalUploadImage
-        open={openModal}
-        handleClose={handleCloseModal}
-        story={currentStory}
-        handleSubmit={handleSubmitImage}
-      />
+      {openModal && (
+        <ModalUploadImage
+          open={openModal}
+          handleClose={handleCloseModal}
+          story={savedStory}
+          handleSubmit={handleSubmitImage}
+        />
+      )}
       <Typography variant="h1" className={classes.title}>
         {mode === "edit" ? "Editar Historia" : "Crear historia"}
       </Typography>

@@ -32,7 +32,7 @@ export default function ModalUploadImage({
   const dispatch = useDispatch()
   const { token } = useSelector(state => state.authentication)
 
-  const routeImage = story ? story.image : "/img/dashboard.jpg"
+  const routeImage = story ? story?.image : "/img/dashboard.jpg"
   const background = getBackground(routeImage)
   // state
   const [image, setImage] = useState(background)
