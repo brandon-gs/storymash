@@ -36,6 +36,14 @@ cd storybox
 npm install
 ```
 
+Create an env file like the next
+
+```
+MONGODB_URI=mongodb://localhost/storymash
+JWT_SECRET=MY_SECRET
+API_SECRET=MY_API_SECRET
+```
+
 ### Starting the app:
 
 ```bash
