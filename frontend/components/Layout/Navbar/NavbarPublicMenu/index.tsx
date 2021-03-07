@@ -1,3 +1,4 @@
+import clsx from "clsx"
 // Components
 import { Button } from "@material-ui/core"
 import { Link } from "../../../index"
@@ -13,7 +14,12 @@ export default function PrivateSection(): React.ReactElement | null {
       <>
         <div className={classes.grow} />
         <div className={classes.sectionDesktop}>
-          <Link naked href="/" activeClassName={classes.linkActive} className={classes.link}>
+          <Link
+            naked
+            href="/"
+            activeClassName={clsx(classes.linkActive, classes.hideLink)}
+            className={classes.link}
+          >
             Inicio
           </Link>
           <Link naked href="/login" activeClassName={classes.linkActive} className={classes.link}>

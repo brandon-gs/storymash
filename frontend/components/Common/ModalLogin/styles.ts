@@ -10,10 +10,10 @@ export default makeStyles(theme => ({
     justifyContent: "center",
   },
   paper: {
+    maxWidth: 450,
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 1, 3),
+    borderRadius: theme.spacing(3),
+    padding: theme.spacing(3, 3, 3),
     margin: theme.spacing(5, 1),
     display: "flex",
     flexDirection: "column",

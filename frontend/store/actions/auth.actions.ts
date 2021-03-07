@@ -56,7 +56,7 @@ const authenticate = (formData: RegisterForm | LoginForm, type: string, ref: str
       setCookie("token", token)
       dispatch({ type: AUTHENTICATE, payload: { token, user } })
       dispatch(actions.removeAlert())
-      if (ref === "/login" || ref === "/register") {
+      if (ref === "/login" || ref === "/register" || ref === "/") {
         await Router.push("/")
       }
       dispatch(actions.updateLoader(false))

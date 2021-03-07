@@ -15,6 +15,7 @@ import CardStoryFooter from "./CardStoryFooter"
 import useStyles from "./styles"
 import { useSelector } from "react-redux"
 import { useState, useEffect } from "react"
+import { getUrl } from "./helpers"
 
 function getContent(content: string) {
   const minLength = 250
@@ -29,23 +30,30 @@ function getContent(content: string) {
 
 type Props = {
   story: Story
+  redirect?: boolean
 }
 
-export default function CardStory({ story }: Props): JSX.Element {
+export default function CardStory({ story, redirect = true }: Props): JSX.Element {
   const background = `linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.9)),url("${story.image}") no-repeat center center/cover`
+  const { user } = useSelector(state => state.authentication)
   const classes = useStyles()
   const [content, setContent] = useState(story.parts[0].content)
   useEffect(() => {
     setContent(getContent(content))
   }, [])
 
+  const beInUserProfile = user?.username === story.author.username
+  const authorImage = beInUserProfile ? user?.image : story.author.image
+
+  const url = getUrl(redirect, story)
+
   return (
     <Card className={classes.root}>
       <CardActionArea
         className={classes.cardActionArea}
         component={Link}
-        href={"/story/read/[id]"}
-        as={`/story/read/${story._id}`}
+        href={url.href}
+        as={url.as}
         underline="none"
       >
         <div className={classes.image} style={{ background }} />
@@ -55,7 +63,7 @@ export default function CardStory({ story }: Props): JSX.Element {
               alt="Creador de la historia"
               aria-label="Usuario creador de la historia"
               color="inherit"
-              src={story.author.image}
+              src={authorImage}
               className={classes.avatar}
             />
           </Grid>

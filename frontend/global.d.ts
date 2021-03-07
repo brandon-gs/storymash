@@ -98,3 +98,9 @@ declare type AppThunk<ReturnType = void> = ThunkAction<
 declare type FilesProps = {
   browseFiles: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | undefined
 }
+
+declare interface RandomStoryResponse {
+  data: {
+    docs: Array<Story>
+  }
+}

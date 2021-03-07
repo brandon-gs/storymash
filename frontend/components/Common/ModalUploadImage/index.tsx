@@ -13,7 +13,7 @@ import actions from "../../../store/actions"
 type Props = {
   open: boolean
   handleClose: () => void
-  story: Story
+  story: Story | null
 }
 
 export default function ModalUploadImage({ open, handleClose, story }: Props): JSX.Element {
@@ -32,7 +32,7 @@ export default function ModalUploadImage({ open, handleClose, story }: Props): J
       file.id = image.id
       const formData = new FormData()
       formData.append("image", file)
-      await axios.post(`/api/story/image/${story._id}`, formData, {
+      await axios.post(`/api/story/image/${story?._id}`, formData, {
         headers: {
           authorization: token,
         },

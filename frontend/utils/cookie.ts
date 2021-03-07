@@ -6,8 +6,6 @@ export const setCookie = (key: string, value: string): any => {
     cookie.set(key, value, {
       expires: 1000,
       path: "/",
-      secure: true,
-      sameSite: "Lax",
     })
   }
 }

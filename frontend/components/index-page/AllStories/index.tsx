@@ -4,6 +4,7 @@ import debounce from "just-debounce-it"
 // Components
 import { Container, Typography } from "@material-ui/core"
 import { Link, ListStories } from "../../index"
+import SmallFormStory from "../SmallFormStory"
 // Hooks
 import { RefObject, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -14,7 +15,10 @@ export default function AllStories() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { isNearScreen, fromRef } = useNearScreen({ once: false, distance: 600 })
-  const { stories } = useSelector(state => state)
+  const {
+    stories,
+    authentication: { token },
+  } = useSelector(state => state)
 
   useEffect(() => {
     if (isNearScreen && stories.hasNextPage) {
@@ -23,12 +27,12 @@ export default function AllStories() {
       }, 200)
       getDataStories()
     }
-  }, [isNearScreen])
+  }, [isNearScreen, token])
 
   if (stories.docs.length > 0) {
     return (
-      <Container maxWidth={"lg"}>
-        <ListStories stories={stories.docs} />
+      <Container maxWidth={"lg"} className={classes.root}>
+        <ListStories stories={stories.docs} firstColumn={<SmallFormStory />} />
         {stories.hasNextPage ? (
           <div style={{ width: "100%", height: "500px" }} />
         ) : (

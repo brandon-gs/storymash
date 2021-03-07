@@ -9,3 +9,28 @@ body {
 #__next {
   height: 100%;
 }
+
+.list_stories--container {
+  column-count: 4;
+  column-gap: 8;
+}
+
+@media screen and (max-width: 1280px) {
+  .list_stories--container {
+    width: max-content;
+    margin: auto;
+    column-count: 3;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .list_stories--container {
+    column-count: 2;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .list_stories--container {
+    column-count: 1;
+  }
+}

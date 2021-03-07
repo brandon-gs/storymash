@@ -57,9 +57,7 @@ export default makeStyles(theme => ({
   grow: {
     flexGrow: 1,
   },
-  chip: {
-    letterSpacing: 2,
-    fontWeight: "bold",
-    textTransform: "uppercase",
+  moreIcon: {
+    color: theme.palette.primary.contrastText,
   },
 }))

@@ -16,10 +16,8 @@ export { default as ModalUploadImage } from "./Common/ModalUploadImage"
 export { default as ProtectPage } from "./Common/ProtectPage"
 // Index Page
 export { default as AllStories } from "./index-page/AllStories"
-export { default as MenuTabs } from "./index-page/MenuTabs"
 export { default as Dashboard } from "./index-page/Dashboard"
 export { default as FavoritesStories } from "./index-page/FavoritesStories"
-export { default as MainMenu } from "./index-page/MainMenu"
 // Login Page
 export { default as Login } from "./login-page/Login"
 export { default as FormLogin } from "./login-page/FormLogin"

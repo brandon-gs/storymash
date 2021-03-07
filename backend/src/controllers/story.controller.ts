@@ -119,6 +119,22 @@ export const getStoriesByUsername = async (req: Request, res: Response): Promise
   }
 }
 
+export const getRandomStory = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const options = req.query
+    const storiesPageData = await Story.paginate(
+      {},
+      { ...options, sort: { lastPartCreatedAt: -1 }, populate: [populateAuthor, populateParts] }
+    )
+    if (storiesPageData) {
+      return res.status(200).json(storiesPageData)
+    }
+    return res.status(400).json({ message: "Error to get Random Story" })
+  } catch (e) {
+    return res.status(400).json({ message: "Catch Error to get Random Story" })
+  }
+}
+
 export const updateStory = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {

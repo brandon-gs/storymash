@@ -41,8 +41,10 @@ export default async function imageUpload(
     const ext = path.extname(image.originalname).toLowerCase()
     const name = generateRandomName(currentImage)
     const imageName = `${name}${ext}`
-    const targetPath = path.resolve(`frontend/public/img/${folder}/${imageName}`)
+    const userFolder = path.resolve(`frontend/public/img/user/${req.user.username}`)
+    createDir(userFolder)
     createDir(path.resolve(`frontend/public/img/${folder}`))
+    const targetPath = path.resolve(`frontend/public/img/${folder}/${imageName}`)
     const validExt = [".png", ".jpg", ".jpeg"]
     if (validExt.includes(ext)) {
       await fs.rename(image.path, targetPath)
