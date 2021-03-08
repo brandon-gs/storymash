@@ -1,5 +1,11 @@
 # StoryMash (NOT COMPLETED)
 
+## Current progress
+
+You can see the current progress of the application [here](https://storymash.herokuapp.com).
+
+## Features
+
 This is a basic social network app using Javascript Technologies like Nodejs, Mongodb, React, and so on.
 This app can:
 
