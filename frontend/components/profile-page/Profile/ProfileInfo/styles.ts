@@ -15,10 +15,11 @@ export default makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    maxWidth: 150,
   },
   imageProfile: {
-    width: 150,
-    height: 150,
+    width: 140,
+    height: 140,
     maxWidth: 150,
     maxHeight: 150,
   },

@@ -48,6 +48,9 @@ Create an env file like the next
 MONGODB_URI=mongodb://localhost/storymash
 JWT_SECRET=MY_SECRET
 API_SECRET=MY_API_SECRET
+CLOUDINARY_API_KEY=123123123
+CLOUDINARY_API_SECRET=123123123
+CLOUDINARY_CLOUD_NAME=name_cloudinary
 ```
 
 ### Starting the app:
