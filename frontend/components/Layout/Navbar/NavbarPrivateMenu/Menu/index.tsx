@@ -1,6 +1,7 @@
+import clsx from "clsx"
 import { Link } from "components"
 import { ListItemIcon, Menu, MenuItem, ListItemText } from "@material-ui/core"
-import { AccountCircle, ExitToApp, Help } from "@material-ui/icons"
+import { AccountCircle, ExitToApp, Help, AddCircle } from "@material-ui/icons"
 import useStyles from "./styles"
 import { useSelector, useDispatch } from "react-redux"
 import actions from "store/actions"
@@ -64,6 +65,17 @@ export default function AvatarMenu({
             <AccountCircle />
           </ListItemIcon>
           <ListItemText primary="Tu perfil" />
+        </MenuItem>
+        <MenuItem
+          classes={{ root: clsx(classes.menuItem, classes.createStoryItem) }}
+          autoFocus={false}
+          component={Link}
+          href="/story/add"
+        >
+          <ListItemIcon classes={{ root: classes.icon }}>
+            <AddCircle />
+          </ListItemIcon>
+          <ListItemText primary="Crear historia" />
         </MenuItem>
         <MenuItem
           classes={{ root: classes.menuItem }}

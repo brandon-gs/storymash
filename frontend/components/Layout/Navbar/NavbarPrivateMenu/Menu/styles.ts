@@ -35,4 +35,10 @@ export default makeStyles(theme => ({
       display: "none",
     },
   },
+  createStoryItem: {
+    display: "none",
+    [theme.breakpoints.down("xs")]: {
+      display: "flex",
+    },
+  },
 }))

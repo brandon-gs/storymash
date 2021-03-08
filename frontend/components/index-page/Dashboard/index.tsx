@@ -64,6 +64,7 @@ export default function Dashboard(): JSX.Element {
         {storyLoaded && (
           <Grid item md className={classes.storyContainer}>
             <ListStories
+              redirect={false}
               stories={[story]}
               timeout={1500}
               styles={{ container: classes.storyContainer }}

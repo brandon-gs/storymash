@@ -10,6 +10,8 @@ type Props = {
   timeout?: number
   firstColumn?: React.ReactNode
   styles?: any
+  redirect?: boolean
+  useCustomColumns?: boolean
 }
 
 export default function ShowStories({
@@ -18,10 +20,12 @@ export default function ShowStories({
   firstColumn,
   columns,
   styles = "",
+  redirect = true,
+  useCustomColumns = false,
 }: Props) {
   const classes = useStyles()
   const columnCount = columns ? columns : stories.length + (firstColumn ? 1 : 0)
-  const style = columns ? { columnCount } : {}
+  const style = useCustomColumns ? { columnCount } : {}
   return (
     <div className={styles.container ? styles.container : "list_stories--container"} style={style}>
       {firstColumn && <div className={classes.cardContainer}>{firstColumn}</div>}
@@ -32,7 +36,7 @@ export default function ShowStories({
           {...{ timeout: timeout ? timeout : 1500 * index < 2000 ? 400 * index : 2000 }}
         >
           <div className={classes.cardContainer}>
-            <CardStory story={story} />
+            <CardStory story={story} redirect={redirect} />
           </div>
         </Grow>
       ))}

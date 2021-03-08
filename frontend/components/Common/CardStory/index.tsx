@@ -60,6 +60,9 @@ export default function CardStory({ story, redirect = true }: Props): JSX.Elemen
         <Grid container className={classes.userContainer}>
           <Grid item>
             <Avatar
+              component={Link}
+              href="/profile/[username]"
+              as={`/profile/${user?.username}`}
               alt="Creador de la historia"
               aria-label="Usuario creador de la historia"
               color="inherit"
@@ -67,7 +70,13 @@ export default function CardStory({ story, redirect = true }: Props): JSX.Elemen
               className={classes.avatar}
             />
           </Grid>
-          <Grid item className={classes.usernameContainer}>
+          <Grid
+            item
+            className={classes.usernameContainer}
+            component={Link}
+            href="/profile/[username]"
+            as={`/profile/${user?.username}`}
+          >
             <span className={classes.username}>{story.author.username}</span>
           </Grid>
         </Grid>

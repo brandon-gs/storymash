@@ -49,6 +49,7 @@ function ShowStories(): JSX.Element {
   const { isNearScreen, fromRef } = useNearScreen({ once: false, distance: 600 })
   const {
     stories,
+    authentication: { user },
     app: { profile },
   } = useSelector(state => state)
   useEffect(() => {
@@ -60,13 +61,18 @@ function ShowStories(): JSX.Element {
     }
   }, [isNearScreen])
 
+  const noMoreStoriesMessage =
+    user?.username === profile?.username
+      ? `${user?.username} ya no tienes más historias`
+      : `${profile?.username} ya no tiene más historias`
+
   if (stories.docs.length > 0 && profile) {
     return (
       <Container maxWidth="lg" className={classes.storiesContainer}>
         <Typography variant="h5" component="h1" gutterBottom align="center">
           Historias de {profile.username}
         </Typography>
-        <ListStories stories={stories.docs} />
+        <ListStories stories={stories.docs} useCustomColumns={true} />
         {stories.hasNextPage ? (
           <div style={{ width: "100%", height: "500px" }} />
         ) : (
@@ -77,7 +83,7 @@ function ShowStories(): JSX.Element {
               align={"center"}
               className={classes.textMarginTop}
             >
-              {profile.username} ya no tiene más historias.
+              {noMoreStoriesMessage}
             </Typography>
             <Typography
               component={"h3"}
