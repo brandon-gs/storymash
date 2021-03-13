@@ -98,9 +98,7 @@ export default function CardStory({ story, redirect = true }: Props): JSX.Elemen
           ))}
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <CardStoryFooter story={story} />
-      </CardActions>
+      <CardStoryFooter story={story} />
     </Card>
   )
 }

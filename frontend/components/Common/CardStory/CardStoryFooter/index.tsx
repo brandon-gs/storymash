@@ -22,7 +22,7 @@ export default function CardStoryFooter({ story }: Props): JSX.Element {
   const likes = getCountProperty(story.parts, "likes")
   const comments = getCountProperty(story.parts, "comments")
   return (
-    <Grid container spacing={1} direction="row-reverse">
+    <Grid container spacing={1} direction="row-reverse" className={classes.root}>
       <Grid item className={classes.cardActionsItem}>
         <ButtonLike part={story.parts[0]} story={story} />
         <Typography variant="body2" component="p">

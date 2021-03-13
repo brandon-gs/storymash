@@ -43,6 +43,8 @@ export default function ProfileInfo(): JSX.Element {
     }, 5000)
   }
 
+  const isMyProfile = profile?.username === user?.username
+
   if (profile) {
     return (
       <Container className={classes.root} maxWidth="sm">
@@ -78,7 +80,7 @@ export default function ProfileInfo(): JSX.Element {
               </Files>
             )}
           </Grid>
-          <Grid item sm>
+          <Grid item>
             <Grid container spacing={5}>
               <Grid item>
                 <h2 className={classes.username}>{profile.username}</h2>
@@ -92,10 +94,12 @@ export default function ProfileInfo(): JSX.Element {
                 </Typography>
               </Grid>
               <Grid item>
-                {profile.username === user?.username && (
-                  <div className={classes.spaceButtonFollow}></div>
+                {isMyProfile && (
+                  <Hidden xsDown>
+                    <div className={classes.spaceButtonFollow}></div>
+                  </Hidden>
                 )}
-                {!(profile.username === user?.username) && (
+                {!isMyProfile && (
                   <>
                     <Hidden smUp>
                       <div className={classes.spaceButtonFollow}></div>
@@ -125,9 +129,11 @@ export default function ProfileInfo(): JSX.Element {
               </Typography>
             </Grid>
             <Grid item>
-              <Hidden smUp>
-                <ButtonFollow />
-              </Hidden>
+              {!isMyProfile && (
+                <Hidden smUp>
+                  <ButtonFollow />
+                </Hidden>
+              )}
             </Grid>
           </Grid>
           <Grid item className={classes.itemAbout}>
