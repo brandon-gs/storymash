@@ -3,7 +3,6 @@ import {
   Card,
   Grid,
   CardActionArea,
-  CardActions,
   CardContent,
   Typography,
   Avatar,
