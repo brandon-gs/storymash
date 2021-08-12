@@ -14,6 +14,11 @@ body {
   opacity: 0;
   transform: translate3d(0, 20px, 0);
 }
+
+.page-transition-enter-done {
+  height: 100%;
+}
+
 .page-transition-enter-active {
   opacity: 1;
   transform: translate3d(0, 0, 0);

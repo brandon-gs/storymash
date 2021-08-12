@@ -87,6 +87,13 @@ export const updatePhotoProfile = (file: any, token: string | null) => {
       }
     }
     dispatch(actions.updateLoader(false))
+    dispatch(
+      actions.updateAlert({
+        message: "Imagen actualizada correctamente",
+        severity: "success",
+        open: true,
+      })
+    )
   }
 }
 

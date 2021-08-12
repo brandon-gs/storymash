@@ -13,9 +13,6 @@ export default function PrivateSection(): React.ReactElement | null {
       <>
         <div className={classes.grow} />
         <div className={classes.sectionDesktop}>
-          <Link naked href="/" activeClassName={classes.linkActive} className={classes.link}>
-            Inicio
-          </Link>
           <Link naked href="/login" activeClassName={classes.linkActive} className={classes.link}>
             Iniciar sesión
           </Link>

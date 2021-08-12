@@ -24,14 +24,16 @@ export default function AvatarMenu({
   if (user) {
     return (
       <Menu
+        elevation={0}
+        getContentAnchorEl={null}
         anchorEl={anchorEl}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
+          vertical: "bottom",
+          horizontal: "center",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "right",
+          horizontal: "center",
         }}
         id={avatarMenuId}
         keepMounted

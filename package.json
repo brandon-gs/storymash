@@ -33,6 +33,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "axios": "^0.20.0",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.26.3",
     "clsx": "^1.1.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",

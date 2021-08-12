@@ -62,7 +62,7 @@ export default function ProfileAbout(): JSX.Element {
     return (
       <>
         {((!isMyProfile && profile.about) || (isMyProfile && !edit)) && (
-          <Container maxWidth="sm" component="section">
+          <Container className={classes.root} maxWidth="sm" component="section">
             <Grid container>
               <Grid item xs>
                 <p

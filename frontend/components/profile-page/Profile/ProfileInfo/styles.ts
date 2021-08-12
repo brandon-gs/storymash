@@ -5,7 +5,7 @@ export default makeStyles(theme => ({
     display: "flex",
     flexGrow: 1,
     marginTop: theme.spacing(3),
-    borderBottom: `1px solid ${theme.palette.grey[500]}`,
+    minWidth: 366,
   },
   itemAbout: {
     position: "relative",
@@ -45,5 +45,11 @@ export default makeStyles(theme => ({
   },
   iconFollowers: {
     marginRight: 4,
+  },
+  borderBottom: {
+    maxWidth: 600,
+    display: "flex",
+    margin: "0 auto",
+    borderBottom: `1px solid ${theme.palette.grey[500]}`,
   },
 }))

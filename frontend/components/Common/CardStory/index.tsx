@@ -13,7 +13,6 @@ import { Link } from "../../index"
 import CardStoryFooter from "./CardStoryFooter"
 // Hooks
 import useStyles from "./styles"
-import { useSelector } from "react-redux"
 import { useState, useEffect } from "react"
 
 function getContent(content: string) {
@@ -39,9 +38,7 @@ export default function CardStory({ story }: Props): JSX.Element {
     setContent(getContent(content))
   }, [])
 
-  // Get user profile
-  const { user } = useSelector(state => state.authentication)
-  const authorImage = user ? user.image : story.author.image
+  const authorImage = story.author.image
 
   return (
     <Card className={classes.root}>

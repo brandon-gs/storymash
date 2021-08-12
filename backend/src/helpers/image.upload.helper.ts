@@ -1,18 +1,15 @@
 import { Request } from "express"
-import fs from "fs-extra"
 import path from "path"
+import fs from "fs-extra"
+import cloudinary from "cloudinary"
 
-const createDir = (dir: string) => {
-  // create new directory
-  try {
-    // first check if directory already exists
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir)
-    }
-  } catch (err) {
-    console.error(err)
-  }
-}
+const VALID_EXTENSIONS = [".png", ".jpg", ".jpeg"]
+
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 const generateRandomName = (currentImage: string) => {
   const possible = "abcdefghijklmnopqrstuvwxyz0123456789"
@@ -31,30 +28,23 @@ export type ImageUploadObject = {
   imageName?: string
 }
 
-export default async function imageUpload(
-  req: Request,
-  folder: string,
-  currentImage: string
-): Promise<ImageUploadObject> {
+export default async function imageUpload(req: Request): Promise<ImageUploadObject> {
   if (req.file) {
     const image = req.file
-    const ext = path.extname(image.originalname).toLowerCase()
-    const name = generateRandomName(currentImage)
-    const imageName = `${name}${ext}`
-    const targetPath = path.resolve(`frontend/public/img/${folder}/${imageName}`)
-    createDir(path.resolve(`frontend/public/img/${folder}`))
-    const validExt = [".png", ".jpg", ".jpeg"]
-    if (validExt.includes(ext)) {
-      await fs.rename(image.path, targetPath)
-      return { imageName: `/img/${folder}/${imageName}`, message: `Image upload in ${folder}` }
+    const result = await cloudinary.v2.uploader.upload(req.file.path)
+    const ext = path.extname(image.originalname).toLocaleLowerCase()
+    await fs.unlink(req.file.path)
+    if (result && VALID_EXTENSIONS.includes(ext)) {
+      return { imageName: result.secure_url, message: "Image uploaded" }
     }
     return {
       imageName: "",
       message: "Invalid file extension",
     }
   }
+
   return {
     imageName: "",
-    message: "No image, assign model default pre function",
+    message: "No image to upload",
   }
 }

@@ -1,9 +1,14 @@
 import { makeStyles } from "@material-ui/core"
 
 export default makeStyles(theme => ({
+  root: {
+    minWidth: 366,
+  },
   textAbout: {
-    fontSize: "1.2em",
+    fontSize: "1.3em",
     wordBreak: "break-word",
+    textAlign: "center",
+    fontWeight: "bolder",
   },
   textNoAbout: {
     color: theme.palette.grey[600],

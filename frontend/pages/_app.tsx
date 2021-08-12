@@ -26,21 +26,12 @@ const MyApp: FC<AppProps> = (props: AppProps) => {
   }, [])
 
   return (
-    <PageTransition
-      timeout={TIMEOUT}
-      classNames="page-transition"
-      loadingDelay={500}
-      loadingTimeout={{
-        enter: TIMEOUT,
-        exit: 0,
-      }}
-      loadingClassNames="loading-indicator"
-    >
+    <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Component {...pageProps} />
       </ThemeProvider>
-    </PageTransition>
+    </>
   )
 }
 

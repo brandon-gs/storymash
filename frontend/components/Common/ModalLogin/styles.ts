@@ -11,9 +11,11 @@ export default makeStyles(theme => ({
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
+    // border: "2px solid #000",
+    border: "none",
+    borderRadius: theme.spacing(1),
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 1, 3),
+    padding: theme.spacing(3, 4, 3),
     margin: theme.spacing(5, 1),
     display: "flex",
     flexDirection: "column",

@@ -5,6 +5,7 @@ export default makeStyles(theme => ({
     justifyContent: "center",
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(4),
+    minWidth: 366,
   },
   noStoriesIcon: {
     fontSize: 60,
