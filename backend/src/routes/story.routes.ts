@@ -13,6 +13,7 @@ import {
   deleteStory,
   uploadStoryImage,
   getAllStories,
+  addStoryView,
 } from "../controllers/story.controller"
 
 const router = Router()
@@ -26,5 +27,7 @@ router.route("/:id").get(getStory).put(requireAuth, updateStory).delete(requireA
 router.route("/image/:id").post(requireAuth, uploadStoryImage)
 
 router.route("/user/:username").get(getStoriesByUsername)
+
+router.route("/view/add/:id").put(requireAuth, addStoryView)
 
 module.exports = router

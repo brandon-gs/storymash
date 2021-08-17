@@ -89,7 +89,7 @@ export const getStory = async (req: Request, res: Response): Promise<Response> =
     }
     return res.status(404).json({ message: "Story dont found" })
   } catch (error) {
-    return res.status(404).json({ message: "Error to get story" })
+    return res.status(400).json({ message: "Error to get story" })
   }
 }
 
@@ -201,4 +201,35 @@ export const getAllStories = async (req: Request, res: Response): Promise<Respon
   } catch (e) {
     return res.status(400).json({ message: "Catch Error to get All Story" })
   }
+}
+
+/**
+ * Route: view/add/:id
+ *
+ * Complete Route: /api/story/view/add/:id
+ *
+ * Method: PUT
+ *
+ * Action: Add user's id to story's array views
+ *
+ */
+export const addStoryView = async (req: Request, res: Response): Promise<Response> => {
+  if (req.user) {
+    try {
+      const storyId = req.params.id
+      const story = await Story.findByIdAndUpdate(
+        storyId,
+        {
+          $addToSet: { views: req.user.id },
+        },
+        { new: true }
+      )
+      return res.status(200).json({ story, message: "Successfully added a view to the story" })
+    } catch (e) {
+      return res
+        .status(400)
+        .json({ error: JSON.stringify(e), message: "Error to add view to the story" })
+    }
+  }
+  return res.status(401).json({ message: "Not authorized" })
 }

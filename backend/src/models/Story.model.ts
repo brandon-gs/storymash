@@ -51,7 +51,10 @@ StorySchema.pre<IStory>("save", async function (next) {
 })
 
 StorySchema.methods.populateAuthor = async function () {
-  await this.populate("author", { username: 1, image: 1 }).execPopulate()
+  await this.populate({
+    path: "author",
+    select: { username: 1, image: 1 },
+  }).execPopulate()
 }
 
 StorySchema.methods.populateParts = async function () {

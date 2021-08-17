@@ -45,6 +45,8 @@ export interface IUser extends Document {
   comments: number
   level: number
   notifications: Array<string>
+  createdAt: Date
+  updatedAt: Date
   matchPassword: (password: string) => Promise<boolean>
   getPublicData: () => ObjectUser
 }
@@ -100,11 +102,14 @@ UserSchema.pre<IUser>("save", async function (next) {
   next()
 })
 
-UserSchema.methods.matchPassword = async function (password: string): Promise<boolean> {
+UserSchema.methods.matchPassword = async function (
+  this: IUser,
+  password: string
+): Promise<boolean> {
   return await bcrypt.compare(password, this.password)
 }
 
-UserSchema.methods.getPublicData = function (): ObjectUser {
+UserSchema.methods.getPublicData = function (this: IUser): ObjectUser {
   const user: ObjectUser = {
     _id: this._id,
     type: this.type,
@@ -116,7 +121,7 @@ UserSchema.methods.getPublicData = function (): ObjectUser {
     favorites: this.favorites,
     followers: this.followers,
     following: this.following,
-    firstName: this.firsName,
+    firstName: this.firstName,
     lastName: this.lastName,
     username: this.username,
     email: this.email,
