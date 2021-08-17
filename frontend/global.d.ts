@@ -1,6 +1,5 @@
 declare module "react-butterfiles"
 declare module "intersection-observer"
-declare module "next-page-transitions"
 
 declare type ValidationReturn = string | null
 

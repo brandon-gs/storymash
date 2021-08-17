@@ -21,8 +21,11 @@ const LoginPage: NextPage = () => {
   )
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(async ctx => {
-  await configUser(ctx)
+export const getServerSideProps = wrapper.getServerSideProps(store => async ctx => {
+  await configUser(ctx, store)
+  return {
+    props: {},
+  }
 })
 
 export default LoginPage

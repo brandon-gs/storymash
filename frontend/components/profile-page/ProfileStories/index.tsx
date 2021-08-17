@@ -12,12 +12,18 @@ import React, { Fragment, RefObject, useEffect } from "react"
 import debounce from "just-debounce-it"
 import actions from "../../../store/actions"
 
-export default function ProfileStories(): JSX.Element {
+export default function ProfileStories(): JSX.Element | null {
+  const { profile } = useSelector(state => state.app)
   const { docs } = useSelector(state => state.stories)
+
+  if (!profile) {
+    return null
+  }
 
   if (docs.length > 0) {
     return <ShowStories />
   }
+
   return <NoStories />
 }
 
@@ -34,7 +40,7 @@ function NoStories(): JSX.Element {
   return (
     <Container maxWidth="md" component="section" className={classes.storiesContainer}>
       <Grid component="article" container alignItems="center" direction="column">
-        <Grid container justify="center" alignItems="center">
+        <Grid container justifyContent="center" alignItems="center">
           <SentimentDissatisfied className={classes.noStoriesIcon} color="primary" />
           <h3>{message}</h3>
         </Grid>

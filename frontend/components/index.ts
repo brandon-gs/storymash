@@ -14,6 +14,7 @@ export { default as ListStories } from "./Common/ListStories"
 export { default as ModalLogin } from "./Common/ModalLogin"
 export { default as ModalUploadImage } from "./Common/ModalUploadImage"
 export { default as ProtectPage } from "./Common/ProtectPage"
+export { default as NotFound } from "./Common/NotFound"
 // Index Page
 export { default as AllStories } from "./index-page/AllStories"
 export { default as MenuTabs } from "./index-page/MenuTabs"

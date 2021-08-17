@@ -1,6 +1,7 @@
 // Hooks
 import useStyles from "./styles"
 // Components
+import Image from "next/image"
 import HideOnScroll from "./HideOnScroll"
 import { AppBar, Avatar, Toolbar, Typography } from "@material-ui/core"
 import NavbarPrivateMenu from "./NavbarPrivateMenu"
@@ -16,7 +17,14 @@ export default function Navbar() {
         <AppBar color="primary">
           <Toolbar>
             <Avatar component={Link} href="/" className={classes.logo} naked alt={"Storymash logo"}>
-              <img src={"/img/logo.png"} alt={"Storymash logo"} className={classes.imageLogo} />
+              <Image
+                src={"/img/logo.png"}
+                width="100%"
+                height="100%"
+                layout="intrinsic"
+                alt={"Storymash logo"}
+                className={classes.imageLogo}
+              />
             </Avatar>
             <NavbarPublicMenu />
             <NavbarPrivateMenu />

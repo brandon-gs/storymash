@@ -35,7 +35,7 @@ export default function useNearScreen({ distance = 100, once = true }: Props) {
       }
     })
     return () => observer && observer.disconnect()
-  })
+  }, [fromRef, distance])
 
   return { isNearScreen, fromRef }
 }

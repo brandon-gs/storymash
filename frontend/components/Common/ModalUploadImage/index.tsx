@@ -5,6 +5,7 @@ import Files from "react-butterfiles"
 import { PhotoCamera } from "@material-ui/icons"
 // Hooks
 import useStyles from "./styles"
+import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 // Helpers
 import { getUploadErrorMessage } from "../../../utils"
@@ -13,15 +14,20 @@ import actions from "../../../store/actions"
 type Props = {
   open: boolean
   handleClose: () => void
-  story: Story
+  story?: Story
 }
 
-export default function ModalUploadImage({ open, handleClose, story }: Props): JSX.Element {
+export default function ModalUploadImage({ open, handleClose, story }: Props): JSX.Element | null {
+  if (!story) {
+    return null
+  }
+
   const classes = useStyles()
   const dispatch = useDispatch()
   const { token } = useSelector(state => state.authentication)
 
-  const routeImage = story ? story.image : "/img/dashboard.jpg"
+  const [routeImage, setRouteImage] = useState<string>(story ? story.image : "/img/dashboard.jpg")
+
   const background = `linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url("${routeImage}") no-repeat center center/cover`
 
   const handleUploadImage = async (images: Array<any>) => {
@@ -32,11 +38,17 @@ export default function ModalUploadImage({ open, handleClose, story }: Props): J
       file.id = image.id
       const formData = new FormData()
       formData.append("image", file)
-      await axios.post(`/api/story/image/${story._id}`, formData, {
+      // Send file to api to upload
+      const uploadResponse = await axios.post(`/api/story/image/${story._id}`, formData, {
         headers: {
           authorization: token,
         },
       })
+      // Update local state with image url from api response
+      const {
+        story: { image: uploadedImageUrl },
+      } = uploadResponse.data
+      setRouteImage(uploadedImageUrl)
     } catch (error) {
       dispatch(
         actions.updateAlert({
@@ -77,7 +89,7 @@ export default function ModalUploadImage({ open, handleClose, story }: Props): J
           <h2 id="transition-modal-title" className={classes.title}>
             Portada de la historia
           </h2>
-          <Grid container justify="center" spacing={2}>
+          <Grid container justifyContent="center" spacing={2}>
             <Grid item>
               <Files
                 multiple={false}

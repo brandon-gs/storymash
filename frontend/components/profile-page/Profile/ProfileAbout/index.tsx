@@ -101,7 +101,12 @@ export default function ProfileAbout(): JSX.Element {
                     multiline
                   />
                 </Grid>
-                <Grid container className={classes.containerButtons} spacing={3} justify="flex-end">
+                <Grid
+                  container
+                  className={classes.containerButtons}
+                  spacing={3}
+                  justifyContent="flex-end"
+                >
                   <Grid item>
                     <Button
                       aria-label="Cancelar edicion de información sobre mí"

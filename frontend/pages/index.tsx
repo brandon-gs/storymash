@@ -27,12 +27,15 @@ const IndexPage: NextPage = () => {
   )
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(async ctx => {
-  await configUser(ctx)
-  const isAuthenticated = ctx.store.getState().authentication.auth
+export const getServerSideProps = wrapper.getServerSideProps(store => async ctx => {
+  await configUser(ctx, store)
+  const isAuthenticated = store.getState().authentication.auth
   if (isAuthenticated) {
-    await configFavoritesStories(ctx)
-    await configAllStories(ctx)
+    await configFavoritesStories(ctx, store)
+    await configAllStories(ctx, store)
+  }
+  return {
+    props: {},
   }
 })
 

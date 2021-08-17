@@ -11,7 +11,7 @@ export default makeStyles(theme => ({
     flexDirection: "column",
     alignItems: "center",
     backgroundColor: theme.palette.background.paper,
-    border: `2px solid ${theme.palette.primary.main}`,
+    // border: `2px solid ${theme.palette.primary.main}`,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(0, 0, 3),
     width: "100%",
@@ -21,7 +21,6 @@ export default makeStyles(theme => ({
     textAlign: "center",
   },
   buttonUpload: {
-    color: "#000",
     backgroundColor: theme.palette.secondary.main,
     "&:hover": {
       backgroundColor: theme.palette.secondary.dark,
@@ -37,7 +36,6 @@ export default makeStyles(theme => ({
   image: {
     width: "100%",
     height: 190,
-    maxWidth: 496,
     maxHeight: 190,
   },
 }))

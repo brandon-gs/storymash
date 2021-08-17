@@ -24,7 +24,7 @@ export default function FavoritesStories(): JSX.Element {
   if (favorites.length > 0) {
     return (
       <>
-        <Grid container justify="center" spacing={2}>
+        <Grid container justifyContent="center" spacing={2}>
           {onlyUniqueFavorites.map(story => (
             <Grid item key={`favorite-story-${story._id}`} className={classes.cardContainer}>
               <CardStory story={story} />

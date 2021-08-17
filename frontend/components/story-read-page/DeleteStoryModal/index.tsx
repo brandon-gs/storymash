@@ -75,7 +75,7 @@ export default function DeleteStoryModal({
           <h2 id="transition-modal-title" className={classes.title}>
             {title}
           </h2>
-          <Grid container justify="center" spacing={2}>
+          <Grid container justifyContent="center" spacing={2}>
             <Grid item>
               <Button variant="contained" className={classes.buttonCancel} onClick={handleClose}>
                 Cancelar

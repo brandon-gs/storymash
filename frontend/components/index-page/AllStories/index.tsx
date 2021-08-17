@@ -16,12 +16,21 @@ export default function AllStories() {
   const { isNearScreen, fromRef } = useNearScreen({ once: false, distance: 600 })
   const { stories } = useSelector(state => state)
 
+  console.log(stories)
+
   useEffect(() => {
-    if (isNearScreen && stories.hasNextPage) {
-      const getDataStories = debounce(() => {
-        dispatch(actions.asyncUpdateDataStories(stories))
-      }, 200)
+    let mounted = true
+
+    const getDataStories = debounce(() => {
+      dispatch(actions.asyncUpdateDataStories(stories))
+    }, 200)
+
+    if (mounted && isNearScreen && stories.hasNextPage) {
       getDataStories()
+    }
+
+    return () => {
+      mounted = false
     }
   }, [isNearScreen])
 

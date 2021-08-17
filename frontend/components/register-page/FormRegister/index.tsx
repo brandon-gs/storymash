@@ -248,7 +248,7 @@ export default function FormRegister(): React.ReactElement {
             >
               Crear cuenta
             </Button>
-            <Grid container justify="flex-end">
+            <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">
                   ¿Ya tienes cuenta? Inicia sesión

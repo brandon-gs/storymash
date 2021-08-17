@@ -6,16 +6,15 @@ import getNameServer from "../utils/getNameServer"
 import Axios from "axios"
 
 export default async function configUserStories(
-  ctx: GetServerSidePropsContext & {
-    store: Store<RootState, AnyAction>
-  }
+  ctx: GetServerSidePropsContext,
+  store: Store<RootState, AnyAction>
 ): Promise<any> {
   try {
     const server = getNameServer(ctx)
-    const limitStories = ctx.store.getState().stories.limit
+    const limitStories = store.getState().stories.limit
     const { data } = await Axios.get(`${server}/api/story/?limit=${limitStories}`)
-    ctx.store.dispatch(actions.updateDataStories(data))
+    store.dispatch(actions.updateDataStories(data))
   } catch (error) {
-    ctx.store.dispatch(actions.removeStories())
+    store.dispatch(actions.removeStories())
   }
 }

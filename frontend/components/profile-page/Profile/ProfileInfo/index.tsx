@@ -45,7 +45,7 @@ export default function ProfileInfo(): JSX.Element {
     return (
       <>
         <Container className={classes.root} maxWidth="sm">
-          <Grid container spacing={4} justify="center">
+          <Grid container spacing={4} justifyContent="center">
             <Grid item className={classes.imageContainer}>
               <Avatar
                 alt="mostrar mas"

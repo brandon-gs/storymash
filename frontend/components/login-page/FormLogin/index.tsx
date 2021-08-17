@@ -90,7 +90,7 @@ export default function LoginForm(): JSX.Element {
       >
         Iniciar sesión
       </Button>
-      <Grid container justify="flex-end">
+      <Grid container justifyContent="flex-end">
         <Grid item>
           <Link href="/register" variant="body2">
             ¿No tienes una cuenta? Crea una

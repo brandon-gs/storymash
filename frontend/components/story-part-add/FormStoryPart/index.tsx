@@ -85,7 +85,7 @@ export default function CreateStoryPart(): JSX.Element {
                 />
               </Grid>
             </Grid>
-            <Grid container justify="space-between" spacing={3}>
+            <Grid container justifyContent="space-between" spacing={3}>
               <Grid item>
                 <Link href="/" className={classes.link}>
                   Volver
@@ -97,7 +97,7 @@ export default function CreateStoryPart(): JSX.Element {
                 </p>
               </Grid>
             </Grid>
-            <Grid container justify="flex-end" spacing={3}>
+            <Grid container justifyContent="flex-end" spacing={3}>
               <Grid item>
                 <Button variant="contained" color="primary" type="submit">
                   Publicar

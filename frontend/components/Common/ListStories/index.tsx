@@ -11,7 +11,7 @@ type Props = {
 export default function ShowStories({ stories }: Props) {
   const classes = useStyles()
   return (
-    <Grid container justify="center" spacing={2}>
+    <Grid container justifyContent="center" spacing={2}>
       {stories.map((story, index) => (
         <Grow
           in={true}

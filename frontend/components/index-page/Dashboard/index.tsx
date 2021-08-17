@@ -18,7 +18,7 @@ export default function Dashboard(): JSX.Element {
           <img src="/img/login.jpg" className={classes.image} />
         </Grid>
       </Grid>
-      <Grid container justify="center" alignItems="center">
+      <Grid container justifyContent="center" alignItems="center">
         <Button
           color="secondary"
           variant="contained"

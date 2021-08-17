@@ -8,20 +8,32 @@ import { configUser, configStory } from "../../../services"
 // Helpers
 import { wrapper } from "../../../store"
 
-const ReadStoryPage: NextPage = () => {
+interface ReadStoryPageProps {
+  title: string
+}
+
+const ReadStoryPage: NextPage<ReadStoryPageProps> = ({ title }) => {
   return (
     <Layout>
       <Head>
-        <title>Storymash | Crear historia</title>
+        <title>{title}</title>
       </Head>
       <ReadStory />
     </Layout>
   )
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(async ctx => {
-  await configUser(ctx)
-  await configStory(ctx)
+export const getServerSideProps = wrapper.getServerSideProps(store => async ctx => {
+  await configUser(ctx, store)
+  await configStory(ctx, store)
+  // Create title for this page
+  const { docs } = store.getState().stories
+  const hasStory = docs.length > 0
+  const title = `Storymash | ${hasStory ? docs[0].title : "Página no encontrada"}`
+
+  return {
+    props: { title },
+  }
 })
 
 export default ReadStoryPage

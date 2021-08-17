@@ -26,12 +26,12 @@ const ProfilePage: NextPage<Props> = ({ title }) => {
   )
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(async ctx => {
-  await configUser(ctx)
-  await configProfile(ctx)
-  await configUserStories(ctx)
-  const { profile } = ctx.store.getState().app
-  const title = profile ? `Storymash | ${profile.username}` : "Storymash"
+export const getServerSideProps = wrapper.getServerSideProps(store => async ctx => {
+  await configUser(ctx, store)
+  await configProfile(ctx, store)
+  await configUserStories(ctx, store)
+  const { profile } = store.getState().app
+  const title = profile ? `Storymash | ${profile.username}` : "Storymash | Usuario no encontrado"
   return {
     props: {
       title,

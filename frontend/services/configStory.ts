@@ -5,20 +5,23 @@ import { RootState } from "../store"
 import getNameServer from "../utils/getNameServer"
 import Axios from "axios"
 
-// checks if the page is being loaded on the server, and if so, get auth token from the cookie:
+// checks if the page is being loaded on the server, and if so, get a story
 export default async function configStory(
-  ctx: GetServerSidePropsContext & {
-    store: Store<RootState, AnyAction>
-  }
+  ctx: GetServerSidePropsContext,
+  store: Store<RootState, AnyAction>
 ): Promise<any> {
   try {
     if (ctx.params) {
       const { id } = ctx.params
       const server = getNameServer(ctx)
-      const { data } = await Axios.get(`${server}/api/story/${id}`)
-      ctx.store.dispatch(actions.updateStories([data.story]))
+      const response = await Axios.get(`${server}/api/story/${id}`)
+      const storiesDocs = response.data.story ? [response.data.story] : []
+      console.log("Test")
+      console.log("data: ", response)
+      console.log("storiesDocs", storiesDocs)
+      store.dispatch(actions.updateStories(storiesDocs))
     }
   } catch (error) {
-    ctx.store.dispatch(actions.removeStories())
+    store.dispatch(actions.removeStories())
   }
 }

@@ -34,7 +34,7 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
   const dispatch = useDispatch()
   const router = useRouter()
   const { token } = useSelector(state => state.authentication)
-  const [savedStory, setSavedStory] = useState<null | Story>(null)
+  const [savedStory, setSavedStory] = useState<undefined | Story>(propStory)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [story, setStory] = useState<StoryState>({
     title: propStory && propStory.title ? propStory.title : "",
@@ -144,7 +144,7 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
             />
           </Grid>
         </Grid>
-        <Grid container justify="space-between" spacing={3}>
+        <Grid container justifyContent="space-between" spacing={3}>
           <Grid item>
             <p className={classes.infoCategory}>* Se deben seleccionar sólo 2 categorias: </p>
           </Grid>
@@ -171,7 +171,7 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
             ))}
           </Grid>
         </Grid>
-        <Grid container justify="space-between" spacing={3}>
+        <Grid container justifyContent="space-between" spacing={3}>
           <Grid item>
             <Link href="/" className={classes.link}>
               Volver

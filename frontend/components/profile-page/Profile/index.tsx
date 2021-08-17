@@ -1,3 +1,4 @@
+import { NotFound } from "components/"
 import { useSelector } from "react-redux"
 import ProfileInfo from "./ProfileInfo"
 
@@ -10,5 +11,5 @@ export default function Profile(): React.ReactElement {
       </>
     )
   }
-  return <h1>Profile not found</h1>
+  return <NotFound />
 }

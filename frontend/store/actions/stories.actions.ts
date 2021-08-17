@@ -55,7 +55,7 @@ const asyncUpdateDataStories = (prevDataStories: StoriesState, limit = 0, page =
 
 const removeStories = (): any => {
   return (dispatch: any) => {
-    dispatch({ type: UPDATE_STORIES, payload: { stories: [] } })
+    dispatch({ type: UPDATE_STORIES, payload: { docs: [] } })
   }
 }
 
