@@ -1,3 +1,5 @@
+const path = require("path")
+
 module.exports = {
   useFileSystemPublicRoutes: true,
   env: {
@@ -14,6 +16,9 @@ module.exports = {
           // eslint options (if necessary)
         },
       })
+
+      // Use baseUrl
+      config.resolve.modules.push(path.resolve("./"))
     }
     return config
   },
