@@ -34,3 +34,5 @@ export { default as FormStoryPart } from "./story-part-add/FormStoryPart"
 // Story Read Page
 export { default as ReadStory } from "./story-read-page/ReadStory"
 export { default as DeleteStoryModal } from "./story-read-page/DeleteStoryModal"
+// Help page
+export { default as Questions } from "./help-page/Questions"
