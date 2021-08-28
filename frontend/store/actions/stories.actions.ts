@@ -4,6 +4,9 @@ import {
   UPDATE_STORIES,
   UPDATE_DATA_STORIES,
   StoriesState,
+  ADD_COMMENT_TO_STORY,
+  UPDATE_COMMENT,
+  DELETE_COMMENT,
 } from "../types/stories.types"
 import Router from "next/router"
 
@@ -59,9 +62,33 @@ const removeStories = (): any => {
   }
 }
 
+// STORY PART COMMENTS ACTIONS
+
+const addCommentToStorPart = (indexPart: number, comment: StoryPartComment): any => {
+  return (dispatch: any) => {
+    dispatch({ type: ADD_COMMENT_TO_STORY, payload: { indexPart, comment } })
+  }
+}
+
+const updateComment = (indexPart: number, comment: StoryPartComment): any => {
+  return (dispatch: any) => {
+    dispatch({ type: UPDATE_COMMENT, payload: { indexPart, comment } })
+  }
+}
+
+const deleteComment = (indexPart: number, idComment: string): any => {
+  return (dispatch: any) => {
+    dispatch({ type: DELETE_COMMENT, payload: { indexPart, idComment } })
+  }
+}
+
 export default {
   updateStories,
   updateDataStories,
   asyncUpdateDataStories,
   removeStories,
+  // Comment actions
+  addCommentToStorPart,
+  updateComment,
+  deleteComment,
 }

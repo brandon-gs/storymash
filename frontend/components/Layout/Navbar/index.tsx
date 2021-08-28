@@ -18,7 +18,7 @@ export default function Navbar() {
           <Toolbar>
             <Avatar component={Link} href="/" className={classes.logo} naked alt={"Storymash logo"}>
               <Image
-                src={"/img/logo.png"}
+                src="/img/logo.png"
                 width="100%"
                 height="100%"
                 layout="intrinsic"

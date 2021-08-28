@@ -9,7 +9,7 @@ export default makeStyles(theme => ({
     width: "100%",
     top: "calc(100% - 64px)",
     left: 0,
-    zIndex: 1110,
+    zIndex: theme.zIndex.drawer + 10000,
   },
   alert: {
     height: 64,

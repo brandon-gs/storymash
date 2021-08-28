@@ -43,16 +43,10 @@ const authenticate = (formData: RegisterForm | LoginForm, type: string, ref: str
   return async (dispatch: any) => {
     dispatch(actions.updateLoader(true))
     try {
+      const response = await axios.post(`/api/auth/${type}`, formData)
       const {
-        data: { token },
-      } = await axios.post(`/api/auth/${type}`, formData)
-      const {
-        data: { user },
-      } = await axios.get("/api/user", {
-        headers: {
-          authorization: token,
-        },
-      })
+        data: { token, user },
+      } = response
       setCookie("token", token)
       dispatch({ type: AUTHENTICATE, payload: { token, user } })
       dispatch(actions.removeAlert())
@@ -78,7 +72,7 @@ const reauthenticate = (token: string, user: User): any => {
   }
 }
 
-// removing the token
+// remove token
 const deauthenticate = () => {
   return (dispatch: any) => {
     dispatch(actions.updateLoader(true))

@@ -4,17 +4,16 @@ import cookie from "js-cookie"
 export const setCookie = (key: string, value: string): any => {
   if (process.browser) {
     cookie.set(key, value, {
-      expires: 1000,
+      expires: 364,
       path: "/",
       secure: true,
-      sameSite: "Lax",
     })
   }
 }
 
 export const removeCookie = (key: string): any => {
   if (process.browser) {
-    cookie.remove(key, {})
+    cookie.remove(key, { expires: 1 })
   }
 }
 

@@ -1,7 +1,7 @@
 import { Schema, model, Document } from "mongoose"
 
 export interface IComment extends Document {
-  author: Array<string>
+  author: string
   content: string
   likes: Array<string>
   createdAt: Date

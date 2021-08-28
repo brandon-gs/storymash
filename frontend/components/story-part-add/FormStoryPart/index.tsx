@@ -77,8 +77,8 @@ export default function CreateStoryPart(): JSX.Element {
                   value={storyPart.content}
                   onChange={handleChangeStoryPart("content")}
                   variant="outlined"
-                  rows={15}
-                  rowsMax={15}
+                  minRows={15}
+                  maxRows={15}
                   required
                   fullWidth
                   multiline

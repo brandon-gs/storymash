@@ -25,8 +25,24 @@ declare type StoryPart = {
   _id?: string
   content: string
   likes: Array<string>
-  comments: Array<string>
+  comments: StoryPartComment[]
   createdAt: Date
+}
+
+declare type Author = {
+  username: string
+  image: string
+  _id: string
+}
+
+declare type StoryPartComment = {
+  __v: number
+  _id: string
+  author: Author
+  content: string
+  likes: string[]
+  createdAt: Date
+  updatedAt: Date
 }
 
 declare type User = {

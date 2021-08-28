@@ -32,14 +32,15 @@ export default function LoginForm(): JSX.Element {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    console.log(`Values to login: ${values}`)
+    console.log(values)
     await dispatch(actions.authenticate(values, "login", router.asPath))
   }
 
-  const handleChange = (prop: string) => (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
+  const handleChange =
+    (prop: string) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setValues({ ...values, [prop]: event.target.value })
+    }
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })

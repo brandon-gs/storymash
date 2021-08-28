@@ -96,8 +96,8 @@ export default function ProfileAbout(): JSX.Element {
                     onChange={handleAboutChange}
                     label="Sobre ti"
                     variant="outlined"
-                    rows={5}
-                    rowsMax={5}
+                    minRows={5}
+                    maxRows={5}
                     multiline
                   />
                 </Grid>
