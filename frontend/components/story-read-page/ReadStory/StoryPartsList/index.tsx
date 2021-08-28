@@ -10,7 +10,7 @@ interface StoryPartListProps {
 export default function StoryPartList({ parts }: StoryPartListProps) {
   const classes = useStyles()
 
-  if (parts.length < 1) return null
+  if (parts.length <= 1) return null
 
   return (
     <Grid item>
