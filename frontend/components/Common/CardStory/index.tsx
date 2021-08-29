@@ -41,17 +41,7 @@ export default function CardStory({ story, redirect = true }: CardStoryProps): J
 
   const authorImage = story.author.image
 
-  const url = getUrl(redirect, story)
-
-  const cardRedirectProps =
-    url.href !== "#"
-      ? {
-          component: Link,
-          href: url.href,
-          as: url.as,
-          underline: "none",
-        }
-      : {}
+  const cardRedirectProps = getCardProps(redirect, story)
 
   return (
     <Card className={classes.root}>
@@ -96,7 +86,7 @@ export default function CardStory({ story, redirect = true }: CardStoryProps): J
   )
 }
 
-export const getUrl = (redirect: boolean, story: Story) => {
+export const getCardProps = (redirect: boolean, story: Story) => {
   const urlStory = {
     href: "/story/read/[id]",
     as: `/story/read/${story._id}`,
@@ -105,5 +95,13 @@ export const getUrl = (redirect: boolean, story: Story) => {
     href: "#",
     as: "",
   }
-  return redirect ? urlStory : noRedirect
+  const url = redirect ? urlStory : noRedirect
+  return url.href !== "#"
+    ? {
+        component: Link,
+        href: url.href,
+        as: url.as,
+        underline: "none",
+      }
+    : {}
 }

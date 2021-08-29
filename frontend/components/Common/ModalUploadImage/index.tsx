@@ -13,11 +13,17 @@ import actions from "../../../store/actions"
 
 type Props = {
   open: boolean
-  handleClose: () => void
   story?: Story
+  handleClose: () => void
+  handleUpdate?: () => void
 }
 
-export default function ModalUploadImage({ open, handleClose, story }: Props): JSX.Element | null {
+export default function ModalUploadImage({
+  open,
+  story,
+  handleClose,
+  handleUpdate,
+}: Props): JSX.Element | null {
   if (!story) {
     return null
   }
@@ -49,6 +55,7 @@ export default function ModalUploadImage({ open, handleClose, story }: Props): J
         story: { image: uploadedImageUrl },
       } = uploadResponse.data
       setRouteImage(uploadedImageUrl)
+      handleUpdate && handleUpdate()
     } catch (error) {
       dispatch(
         actions.updateAlert({
@@ -57,7 +64,6 @@ export default function ModalUploadImage({ open, handleClose, story }: Props): J
         })
       )
     }
-
     dispatch(actions.updateLoader(false))
   }
 

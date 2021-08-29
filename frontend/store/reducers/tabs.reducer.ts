@@ -8,7 +8,7 @@ const initialState: TabsState = {
 export default function storiesReducer(state = initialState, action: TabsActionTypes): TabsState {
   switch (action.type) {
     case HYDRATE:
-      return action.payload.tabs
+      return { ...state, ...action.payload.tabs }
     case UPDATE_ACTIVE_TAB:
       return { ...state, indexTab: action.payload.indexTab }
     default:

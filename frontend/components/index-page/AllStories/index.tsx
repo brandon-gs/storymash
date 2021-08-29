@@ -9,6 +9,7 @@ import { RefObject, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNearScreen } from "../../../hooks"
 import useStyles from "./styles"
+import SmallFormStory from "../SmallFormStory"
 
 export default function AllStories() {
   const classes = useStyles()
@@ -32,60 +33,38 @@ export default function AllStories() {
     }
   }, [isNearScreen])
 
-  if (stories.docs.length > 0) {
-    return (
-      <Container maxWidth={"lg"}>
-        <ListStories stories={stories.docs} />
-        {stories.hasNextPage ? (
-          <div style={{ width: "100%", height: "500px" }} />
-        ) : (
-          <>
-            <Typography
-              component={"h3"}
-              variant={"h4"}
-              align={"center"}
-              className={classes.textMarginTop}
-            >
-              Ya no hay más historias.
-            </Typography>
-            <Typography
-              component={"h3"}
-              variant={"h5"}
-              align={"center"}
-              className={classes.textMarginBot}
-            >
-              ¡Ayuda a nuestra comunidad{" "}
-              <Link href={"/story/add"} underline={"none"}>
-                creando una historia!
-              </Link>
-            </Typography>
-          </>
-        )}
-        <div ref={fromRef as RefObject<HTMLDivElement>} />
-      </Container>
-    )
-  }
+  console.log(isNearScreen)
+  console.log(stories)
+
   return (
-    <>
-      <Typography
-        component={"h3"}
-        variant={"h4"}
-        align={"center"}
-        className={classes.textMarginTop}
-      >
-        Aún no hay historias publicadas.
-      </Typography>
-      <Typography
-        component={"h3"}
-        variant={"h5"}
-        align={"center"}
-        className={classes.textMarginBot}
-      >
-        ¡Ayuda a nuestra comunidad{" "}
-        <Link href={"/story/add"} underline={"none"}>
-          creando la primera historia!
-        </Link>
-      </Typography>
-    </>
+    <Container maxWidth={"lg"}>
+      <ListStories stories={stories.docs} firstColumn={<SmallFormStory />} />
+      {stories.hasNextPage ? (
+        <div style={{ width: "100%", height: "500px" }} />
+      ) : (
+        <>
+          <Typography
+            component={"h3"}
+            variant={"h4"}
+            align={"center"}
+            className={classes.textMarginTop}
+          >
+            Ya no hay más historias.
+          </Typography>
+          <Typography
+            component={"h3"}
+            variant={"h5"}
+            align={"center"}
+            className={classes.textMarginBot}
+          >
+            ¡Ayuda a nuestra comunidad{" "}
+            <Link href={"/story/add"} underline={"none"}>
+              creando una historia!
+            </Link>
+          </Typography>
+        </>
+      )}
+      <div ref={fromRef as RefObject<HTMLDivElement>} />
+    </Container>
   )
 }

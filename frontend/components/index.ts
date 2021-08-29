@@ -22,6 +22,7 @@ export { default as MenuTabs } from "./index-page/MenuTabs"
 export { default as Dashboard } from "./index-page/Dashboard"
 export { default as FavoritesStories } from "./index-page/FavoritesStories"
 export { default as MainMenu } from "./index-page/MainMenu"
+export { default as SmallFormStory } from "./index-page/SmallFormStory"
 // Login Page
 export { default as Login } from "./login-page/Login"
 export { default as FormLogin } from "./login-page/FormLogin"

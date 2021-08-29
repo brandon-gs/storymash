@@ -16,10 +16,10 @@ const initialState: StoriesState = {
   offset: 0,
   limit: 9,
   totalPages: 0,
-  page: 1,
+  page: 0,
   pagingCounter: 0,
   hasPrevPage: false,
-  hasNextPage: false,
+  hasNextPage: true,
   prevPage: null,
   nextPage: 1,
 }
@@ -30,7 +30,7 @@ export default function storiesReducer(
 ): StoriesState {
   switch (action.type) {
     case HYDRATE:
-      return action.payload.stories
+      return { ...state, ...action.payload.stories }
     case UPDATE_STORIES:
       return { ...state, docs: action.payload.docs }
     case UPDATE_DATA_STORIES:

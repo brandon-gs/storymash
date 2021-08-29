@@ -3,7 +3,7 @@ import { Container, Typography, Grid, TextField, Button } from "@material-ui/cor
 import { Link, ModalUploadImage } from "../../index"
 // Hooks
 import useStyles from "./styles"
-import { useState, ChangeEvent, FormEvent } from "react"
+import { useState, ChangeEvent, FormEvent, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useRouter } from "next/router"
 // helpers
@@ -33,15 +33,20 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
   const classes = useStyles()
   const dispatch = useDispatch()
   const router = useRouter()
-  const { token } = useSelector(state => state.authentication)
+  const {
+    authentication: { token },
+    temp: { formStory },
+  } = useSelector(state => state)
+
   const [savedStory, setSavedStory] = useState<undefined | Story>(propStory)
   const [openModal, setOpenModal] = useState<boolean>(false)
+  const [uploadImage, setUploadImage] = useState<boolean>(false)
   const [story, setStory] = useState<StoryState>({
-    title: propStory && propStory.title ? propStory.title : "",
+    title: propStory && propStory.title ? propStory.title : formStory.story.title,
     category: propStory ? propStory.category : [],
   })
   const [storyPart, setStoryPart] = useState<StoryPartState>({
-    content: propStoryPart ? propStoryPart.content : "",
+    content: propStoryPart ? propStoryPart.content : formStory.storyPart.content,
   })
 
   const handleChangeStory = (prop: string) => (event: OnChangeInputType) => {
@@ -89,11 +94,19 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
           await editStory(propStory._id, body, token)
         }
         setOpenModal(true)
+        dispatch(
+          actions.updateAlert({
+            message: "¡Su historia ha sido creada!",
+            severity: "success",
+            open: true,
+          })
+        )
       } catch (e) {
         dispatch(
           actions.updateAlert({
             message: "Lo sentimos, ocurrió un error inténtalo más tarde",
             severity: "error",
+            open: true,
           })
         )
       }
@@ -101,19 +114,38 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
     dispatch(actions.updateLoader(false))
   }
 
+  const handleUpdateImage = () => {
+    setUploadImage(true)
+  }
+
   const handleCloseModal = async () => {
     await router.push("/")
-    dispatch(
-      actions.updateAlert({
-        message: "¡Su historia ha sido creada!",
-        severity: "success",
-      })
-    )
+    if (uploadImage) {
+      dispatch(
+        actions.updateAlert({
+          message: "¡Se ha actualizado la imágen!",
+          severity: "success",
+          open: true,
+        })
+      )
+    }
   }
+
+  useEffect(() => {
+    const { title } = formStory.story
+    const { content } = formStory.storyPart
+    if (title) setStory({ ...story, title })
+    if (content) setStoryPart({ ...storyPart, content })
+  }, [formStory.story.title, formStory.storyPart.content])
 
   return (
     <Container maxWidth="md" className={classes.root}>
-      <ModalUploadImage open={openModal} handleClose={handleCloseModal} story={savedStory} />
+      <ModalUploadImage
+        open={openModal}
+        handleClose={handleCloseModal}
+        handleUpdate={handleUpdateImage}
+        story={savedStory}
+      />
       <Typography variant="h1" className={classes.title}>
         {mode === "edit" ? "Editar Historia" : "Crear historia"}
       </Typography>

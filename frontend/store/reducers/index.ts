@@ -4,6 +4,7 @@ import appReducer from "./app.reducer"
 import storiesReducer from "./stories.reducer"
 import favoritesReducer from "./favorites.reducer"
 import tabsReducer from "./tabs.reducer"
+import tempReducer from "./temp.reducer"
 
 const rootReducer = combineReducers({
   authentication: authReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   stories: storiesReducer,
   favorites: favoritesReducer,
   tabs: tabsReducer,
+  temp: tempReducer,
 })
 
 export default rootReducer

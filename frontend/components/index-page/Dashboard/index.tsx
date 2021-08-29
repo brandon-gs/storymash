@@ -7,7 +7,7 @@ import React from "react"
 export default function Dashboard(): JSX.Element {
   const classes = useStyles()
 
-  const { story, storyLoaded, isDefaultStory } = useRandomStory()
+  const { story, storyLoaded, isDefaultStory } = useRandomStory(true)
 
   return (
     <Container maxWidth="lg" className={classes.root}>
@@ -35,7 +35,7 @@ export default function Dashboard(): JSX.Element {
         </Grid>
         {storyLoaded && (
           <Grid item md className={classes.storyContainer}>
-            <ListStories redirect={!isDefaultStory} stories={[story]} timeout={1500} />
+            <ListStories redirect={!isDefaultStory} stories={[story]} timeout={1500} columns={1} />
           </Grid>
         )}
       </Grid>

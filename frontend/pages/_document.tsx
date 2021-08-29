@@ -16,6 +16,7 @@ class MyDocument extends Document {
           />
           <link rel="stylesheet" href="/css/global.css" />
           <link rel="stylesheet" href="/css/nprogress.css" />
+          <link rel="stylesheet" href="/css/list_stories.css" />
         </Head>
         <body>
           <Main></Main>
