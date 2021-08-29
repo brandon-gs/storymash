@@ -26,11 +26,12 @@ function getContent(content: string) {
   return content
 }
 
-type Props = {
+interface CardStoryProps {
   story: Story
+  redirect?: boolean
 }
 
-export default function CardStory({ story }: Props): JSX.Element {
+export default function CardStory({ story, redirect = true }: CardStoryProps): JSX.Element {
   const background = `linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.9)),url("${story.image}") no-repeat center center/cover`
   const classes = useStyles()
   const [content, setContent] = useState(story.parts[0].content)
@@ -40,15 +41,21 @@ export default function CardStory({ story }: Props): JSX.Element {
 
   const authorImage = story.author.image
 
+  const url = getUrl(redirect, story)
+
+  const cardRedirectProps =
+    url.href !== "#"
+      ? {
+          component: Link,
+          href: url.href,
+          as: url.as,
+          underline: "none",
+        }
+      : {}
+
   return (
     <Card className={classes.root}>
-      <CardActionArea
-        className={classes.cardActionArea}
-        component={Link}
-        href={"/story/read/[id]"}
-        as={`/story/read/${story._id}`}
-        underline="none"
-      >
+      <CardActionArea className={classes.cardActionArea} {...cardRedirectProps}>
         <div className={classes.image} style={{ background }} />
         <Grid container className={classes.userContainer}>
           <Grid item>
@@ -87,4 +94,16 @@ export default function CardStory({ story }: Props): JSX.Element {
       </CardActions>
     </Card>
   )
+}
+
+export const getUrl = (redirect: boolean, story: Story) => {
+  const urlStory = {
+    href: "/story/read/[id]",
+    as: `/story/read/${story._id}`,
+  }
+  const noRedirect = {
+    href: "#",
+    as: "",
+  }
+  return redirect ? urlStory : noRedirect
 }

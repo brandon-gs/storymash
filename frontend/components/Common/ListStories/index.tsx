@@ -4,11 +4,14 @@ import { CardStory } from "../../index"
 // Hooks
 import useStyles from "./styles"
 
-type Props = {
+interface ListStoriesProps {
   stories: Array<Story>
+  redirect?: boolean
+  timeout?: number
+  // styles?:
 }
 
-export default function ShowStories({ stories }: Props) {
+export default function ShowStories({ stories, timeout, redirect = true }: ListStoriesProps) {
   const classes = useStyles()
   return (
     <Grid container justifyContent="center" spacing={2}>
@@ -19,7 +22,7 @@ export default function ShowStories({ stories }: Props) {
           {...{ timeout: 500 * index < 2000 ? 400 * index : 2000 }}
         >
           <Grid item className={classes.cardContainer}>
-            <CardStory story={story} />
+            <CardStory story={story} redirect={redirect} />
           </Grid>
         </Grow>
       ))}

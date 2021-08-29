@@ -14,11 +14,14 @@ import {
   uploadStoryImage,
   getAllStories,
   addStoryView,
+  getRandomStory,
 } from "../controllers/story.controller"
 
 const router = Router()
 
 router.route("/").post(requireAuth, createStory).get(getAllStories)
+
+router.route("/random").get(getRandomStory)
 
 router.route("/favorites").get(requireAuth, getFavoritesStories)
 
