@@ -16,8 +16,6 @@ export default function AllStories() {
   const { isNearScreen, fromRef } = useNearScreen({ once: false, distance: 600 })
   const { stories } = useSelector(state => state)
 
-  console.log(stories)
-
   useEffect(() => {
     let mounted = true
 

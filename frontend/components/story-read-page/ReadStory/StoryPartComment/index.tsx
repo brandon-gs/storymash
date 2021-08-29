@@ -110,6 +110,7 @@ const useStyles = makeStyles(theme => ({
   secondaryAction: {
     top: 27,
     right: 0,
+    zIndex: 100,
   },
   commentContent: {
     maxWidth: "85%",

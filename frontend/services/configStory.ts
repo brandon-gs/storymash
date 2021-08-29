@@ -16,9 +16,6 @@ export default async function configStory(
       const server = getNameServer(ctx)
       const response = await Axios.get(`${server}/api/story/${id}`)
       const storiesDocs = response.data.story ? [response.data.story] : []
-      console.log("Test")
-      console.log("data: ", response)
-      console.log("storiesDocs", storiesDocs)
       store.dispatch(actions.updateStories(storiesDocs))
     }
   } catch (error) {

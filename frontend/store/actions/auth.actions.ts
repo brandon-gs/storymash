@@ -43,23 +43,27 @@ const authenticate = (formData: RegisterForm | LoginForm, type: string, ref: str
   return async (dispatch: any) => {
     dispatch(actions.updateLoader(true))
     try {
-      const response = await axios.post(`/api/auth/${type}`, formData)
+      // Get user info
       const {
         data: { token, user },
-      } = response
+      } = await axios.post(`/api/auth/${type}`, formData)
+      // Add token to axios headers
+      axios.defaults.headers.common["authorization"] = token
+      // Create cookie with token
       setCookie("token", token)
+      // Save auth data in axios
       dispatch({ type: AUTHENTICATE, payload: { token, user } })
-      dispatch(actions.removeAlert())
+      // If user is in login or register page redirect to index
       if (ref === "/login" || ref === "/register") {
         await Router.push("/")
       }
-      dispatch(actions.updateLoader(false))
     } catch (e) {
       const { response } = e
       if (response.status === 401) {
         const message = "Datos incorrectos, intente nuevamente."
         dispatch(actions.updateAlert({ message, severity: "error", open: true }))
       }
+    } finally {
       dispatch(actions.updateLoader(false))
     }
   }
@@ -68,6 +72,9 @@ const authenticate = (formData: RegisterForm | LoginForm, type: string, ref: str
 // gets the token from the cookie and saves it in the store
 const reauthenticate = (token: string, user: User): any => {
   return (dispatch: any) => {
+    // Add token to axios headers
+    axios.defaults.headers.common["authorization"] = token
+    // Save authenticated data in redux
     dispatch({ type: AUTHENTICATE, payload: { token, user } })
   }
 }
@@ -76,9 +83,11 @@ const reauthenticate = (token: string, user: User): any => {
 const deauthenticate = () => {
   return (dispatch: any) => {
     dispatch(actions.updateLoader(true))
+    removeCookie("token")
     dispatch({ type: DEAUTHENTICATE })
     dispatch(actions.removeUser())
-    removeCookie("token")
+    // Remove token from axios headers
+    axios.defaults.headers.common["authorization"] = null
     if (!publicRoutes.includes(Router.pathname)) {
       Router.push("/")
     }

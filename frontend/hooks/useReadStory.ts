@@ -1,10 +1,9 @@
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
-import useAxios from "./useAxios"
+import axios from "axios"
 
 export default function useStoriesServices(id?: string) {
   const { auth } = useSelector(state => state.authentication)
-  const axios = useAxios()
 
   useEffect(() => {
     const addView = async () => {

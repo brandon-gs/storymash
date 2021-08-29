@@ -42,13 +42,14 @@ const theme = createTheme({
       // dark: "#e4b306",
     },
     error: {
-      main: red.A400,
+      main: "#a5383d",
+      // main: red.A400,
     },
     warning: {
       main: "#ff9800",
     },
     success: {
-      main: "#4caf50",
+      main: "#007d5c",
     },
     info: {
       main: "#00b894",

@@ -1,6 +1,6 @@
 // Components
 import Alert, { AlertProps } from "@material-ui/lab/Alert"
-import { IconButton, Slide } from "@material-ui/core"
+import { IconButton, Slide, Typography } from "@material-ui/core"
 import CloseIcon from "@material-ui/icons/Close"
 // Hooks
 import { useSelector, useDispatch } from "react-redux"
@@ -34,7 +34,9 @@ export default function Message(props: AlertProps) {
           variant="filled"
           {...props}
         >
-          {message}
+          <Typography component="p" variant="subtitle1">
+            {message}
+          </Typography>
         </Alert>
       </Slide>
     </div>

@@ -7,6 +7,7 @@ import {
 } from "../types/auth.types"
 import { HYDRATE } from "next-redux-wrapper"
 import { AnyAction } from "redux"
+import axios from "axios"
 
 const initialState: AuthState = {
   token: null,
@@ -17,6 +18,7 @@ const initialState: AuthState = {
 export default function authReducer(state = initialState, action: AnyAction): AuthState {
   switch (action.type) {
     case HYDRATE:
+      axios.defaults.headers.common["authorization"] = action.payload.authentication.token
       return { ...state, ...action.payload.authentication }
     case AUTHENTICATE:
       return {
@@ -30,7 +32,7 @@ export default function authReducer(state = initialState, action: AnyAction): Au
     case UPDATE_USER:
       return { ...state, user: action.payload, auth: true }
     case REMOVE_USER:
-      return { ...state, user: null, auth: false }
+      return { ...state, token: null, user: null, auth: false }
     default:
       return state
   }

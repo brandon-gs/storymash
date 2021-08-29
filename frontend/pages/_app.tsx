@@ -6,7 +6,6 @@ import theme from "../components/theme"
 import NProgress from "nprogress"
 import Router from "next/router"
 import { AppProps } from "next/app"
-import actions from "../store/actions"
 
 /**
  * Nprogress config

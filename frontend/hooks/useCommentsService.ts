@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import actions from "store/actions"
-import useAxios from "./useAxios"
+import axios from "axios"
 
 const BASE_URI = "/api/comment"
 
@@ -15,7 +15,6 @@ export default function useCommentsService(storyPartId: string = "", indexStoryP
   const CREATE_READ_URI = `${BASE_URI}/part/${storyPartId}`
 
   // Hooks
-  const axios = useAxios()
   const dispatch = useDispatch()
 
   const sendComment = async (content: string, fn?: () => void) => {

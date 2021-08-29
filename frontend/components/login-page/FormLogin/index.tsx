@@ -32,8 +32,6 @@ export default function LoginForm(): JSX.Element {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    console.log(`Values to login: ${values}`)
-    console.log(values)
     await dispatch(actions.authenticate(values, "login", router.asPath))
   }
 

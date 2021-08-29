@@ -34,6 +34,6 @@ const bindMiddleware = (middleware: Array<Middleware>) => {
   return applyMiddleware(...middleware)
 }
 
-const makeStore = () => createStore(rootReducer, bindMiddleware([thunk]))
+export const makeStore = () => createStore(rootReducer, bindMiddleware([thunk]))
 
 export const wrapper = createWrapper<Store<RootState>>(makeStore, { debug: true })
