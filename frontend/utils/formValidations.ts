@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 const emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 export const usernameRegex = /^[A-Za-z0-9_]{2,15}$/
 
@@ -35,11 +35,16 @@ export const usernameValidation = async (username: ValidationReturn): Promise<Va
     try {
       await axios.post("/api/auth/verify/username", { username })
       return null
-    } catch ({ response }) {
-      const {
-        data: { message },
-      } = response
-      return message
+    } catch (error) {
+      const e = error as AxiosError
+      const { response } = e
+      if (response) {
+        const {
+          data: { message },
+        } = response
+        return message
+      }
+      return "Error"
     }
   }
   return "Debe ingresar un nombre de usuario"
@@ -67,11 +72,15 @@ export const emailValidation = async (email: ValidationReturn): Promise<Validati
         try {
           await axios.post("/api/auth/verify/email", { email })
           return null
-        } catch ({ response }) {
-          const {
-            data: { message },
-          } = response
-          return message
+        } catch (error) {
+          const e = error as AxiosError
+          const { response } = e
+          if (response) {
+            const {
+              data: { message },
+            } = response
+            return message
+          }
         }
       }
       return "Por favor ingrese un correcto electrónico válido"

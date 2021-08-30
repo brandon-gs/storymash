@@ -16,9 +16,9 @@ export default function useNearScreen({ distance = 100, once = true }: Props) {
       const el = entries[0]
       if (el.isIntersecting) {
         setIsNearScreen(true)
-        once && observer.disconnect()
+        if (once) observer.disconnect()
       } else {
-        !once && setIsNearScreen(false)
+        if (!once) setIsNearScreen(false)
       }
     }
 
@@ -35,7 +35,7 @@ export default function useNearScreen({ distance = 100, once = true }: Props) {
       }
     })
     return () => observer && observer.disconnect()
-  }, [fromRef, distance])
+  }, [fromRef, distance, once])
 
   return { isNearScreen, fromRef }
 }

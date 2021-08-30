@@ -9,7 +9,6 @@ import { Book, Favorite, Home, TrendingUp, WhatshotSharp } from "@material-ui/ic
 import { useSelector, useDispatch } from "react-redux"
 import useStyles from "./styles"
 import { useRouter } from "next/router"
-import { route } from "next/dist/next-server/server/router"
 
 function a11yProps(index: any) {
   return {

@@ -38,7 +38,8 @@ export default function smoothScroll(eID: string): void {
   let timer = 0
   if (stopY > startY) {
     for (let i = startY; i < stopY; i += step) {
-      setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed)
+      // eslint-disable-next-line @typescript-eslint/no-loop-func
+      setTimeout(() => window.scrollTo(0, leapY), timer * speed)
       leapY += step
       if (leapY > stopY) leapY = stopY
       timer++
@@ -46,7 +47,8 @@ export default function smoothScroll(eID: string): void {
     return
   }
   for (let i = startY; i > stopY; i -= step) {
-    setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed)
+    // eslint-disable-next-line @typescript-eslint/no-loop-func
+    setTimeout(() => window.scrollTo(0, leapY), timer * speed)
     leapY -= step
     if (leapY < stopY) leapY = stopY
     timer++

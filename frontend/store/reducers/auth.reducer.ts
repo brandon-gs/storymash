@@ -18,7 +18,7 @@ const initialState: AuthState = {
 export default function authReducer(state = initialState, action: AnyAction): AuthState {
   switch (action.type) {
     case HYDRATE:
-      axios.defaults.headers.common["authorization"] = action.payload.authentication.token
+      axios.defaults.headers.common.authorization = action.payload.authentication.token
       return { ...state, ...action.payload.authentication }
     case AUTHENTICATE:
       return {

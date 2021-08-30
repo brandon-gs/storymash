@@ -7,9 +7,7 @@ import { AccountCircle, AddCircle, Help, ExitToApp } from "@material-ui/icons"
 import useListMenu from "hooks/useListMenu"
 import clsx from "clsx"
 
-interface AvatarMenuProps {}
-
-export default function AvatarMenu({}: AvatarMenuProps): JSX.Element {
+export default function AvatarMenu(): JSX.Element {
   const { user } = useSelector(state => state.authentication)
   const dispatch = useDispatch()
   const classes = useStyles()

@@ -37,7 +37,7 @@ export default function CardStory({ story, redirect = true }: CardStoryProps): J
   const [content, setContent] = useState(story.parts[0].content)
   useEffect(() => {
     setContent(getContent(content))
-  }, [])
+  }, [content])
 
   const authorImage = story.author.image
 

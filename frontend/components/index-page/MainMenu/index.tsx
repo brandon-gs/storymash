@@ -2,7 +2,7 @@ import { ChangeEvent, ReactNode } from "react"
 // Components
 import SwipeableViews from "react-swipeable-views"
 import { AllStories, FavoritesStories } from "../../index"
-import { AppBar, Tabs, Tab, Box, Container } from "@material-ui/core"
+import { AppBar, Tabs, Tab, Box } from "@material-ui/core"
 // Icons
 import { Home, Book, Favorite, WhatshotSharp, TrendingUp } from "@material-ui/icons"
 // Hooks

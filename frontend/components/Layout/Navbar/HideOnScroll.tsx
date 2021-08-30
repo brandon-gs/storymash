@@ -6,7 +6,7 @@ type Props = {
   window?: () => Window
 }
 
-export default function HideOnScroll({ children, window }: Props) {
+export default function HideOnScroll({ children }: Props) {
   const trigger = useScrollTrigger()
   return (
     <Slide appear={false} direction="down" in={!trigger}>

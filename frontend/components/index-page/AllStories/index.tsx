@@ -31,7 +31,7 @@ export default function AllStories() {
     return () => {
       mounted = false
     }
-  }, [isNearScreen])
+  }, [isNearScreen, dispatch, stories])
 
   console.log(isNearScreen)
   console.log(stories)

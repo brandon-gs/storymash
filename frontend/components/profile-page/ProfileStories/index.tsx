@@ -72,7 +72,7 @@ function ShowStories(): JSX.Element {
       }, 200)
       getDataStories()
     }
-  }, [isNearScreen])
+  }, [isNearScreen, dispatch, stories])
 
   // Messages
   const isCurrentUserProfile = profile?.username === user?.username

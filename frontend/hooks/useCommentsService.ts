@@ -10,7 +10,7 @@ const BASE_URI = "/api/comment"
  * @param index index of story part
  * @returns
  */
-export default function useCommentsService(storyPartId: string = "", indexStoryPart: number) {
+export default function useCommentsService(storyPartId = "", indexStoryPart: number) {
   // Constants
   const CREATE_READ_URI = `${BASE_URI}/part/${storyPartId}`
 
@@ -37,7 +37,7 @@ export default function useCommentsService(storyPartId: string = "", indexStoryP
         })
       )
     }
-    fn && fn()
+    if (fn) fn()
   }
 
   const editComment = async (idComment: string, content: string, fn?: () => void) => {
@@ -60,12 +60,12 @@ export default function useCommentsService(storyPartId: string = "", indexStoryP
         })
       )
     }
-    fn && fn()
+    if (fn) fn()
   }
 
   const deleteComment = async (idComment: string, fn?: () => void) => {
     try {
-      const { data } = await axios.delete(`${BASE_URI}/${idComment}`)
+      await axios.delete(`${BASE_URI}/${idComment}`)
       dispatch(actions.deleteComment(indexStoryPart, idComment))
       dispatch(
         actions.updateAlert({
@@ -83,7 +83,7 @@ export default function useCommentsService(storyPartId: string = "", indexStoryP
         })
       )
     }
-    fn && fn()
+    if (fn) fn()
   }
 
   return { sendComment, editComment, deleteComment }

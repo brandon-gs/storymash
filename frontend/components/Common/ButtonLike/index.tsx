@@ -15,7 +15,7 @@ type Props = {
 }
 
 // Get icon from depend if a user is creator of history or if he liked the history
-export default function LikeIcon({ part, story }: Props): JSX.Element {
+export default function LikeIcon({ part }: Props): JSX.Element {
   const { token, user } = useSelector(state => state.authentication)
   const { stories } = useSelector(state => state)
   const dispatch = useDispatch()
@@ -45,7 +45,7 @@ export default function LikeIcon({ part, story }: Props): JSX.Element {
             },
           }
         )
-        const storyIndex = stories.docs.map(story => story._id).indexOf(data.story._id)
+        const storyIndex = stories.docs.map(({ _id }) => _id).indexOf(data.story._id)
         const newStories = stories.docs.slice(0)
         newStories.splice(storyIndex, 1, data.story)
         dispatch(actions.updateStories(newStories))

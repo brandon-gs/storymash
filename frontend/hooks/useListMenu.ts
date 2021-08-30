@@ -27,8 +27,8 @@ export default function useListMenu<TypeRef extends HTMLElement>() {
   const prevOpen = useRef(open)
 
   useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current!.focus()
+    if (prevOpen.current === true && open === false && anchorRef.current) {
+      anchorRef.current.focus()
     }
 
     prevOpen.current = open

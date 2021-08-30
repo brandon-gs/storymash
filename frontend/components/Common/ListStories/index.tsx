@@ -46,7 +46,7 @@ export default function ShowStories({
       setCurrentNCols(nCols)
       setStoriesLength(stories.length)
     }
-  }, [stories, width])
+  }, [columns, currentNCols, firstColumn, stories, storiesLength, width])
 
   return (
     <Grid container direction="row" justifyContent="center" spacing={2}>

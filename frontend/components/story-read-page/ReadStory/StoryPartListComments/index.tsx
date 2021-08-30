@@ -5,7 +5,7 @@ import { QuestionAnswer } from "@material-ui/icons"
 import StoryPartCreateComment, { StoryPartCreateCommentProps } from "../StoryPartCreateComment"
 import StoryPartComment from "../StoryPartComment"
 
-interface StoryPartListComments extends StoryPartCreateCommentProps {
+interface StoryPartListCommentsProps extends StoryPartCreateCommentProps {
   comments: StoryPartComment[]
   userId: string
 }
@@ -16,7 +16,7 @@ export default function StoryPartListComments({
   userImage,
   userId,
   storyPartId,
-}: StoryPartListComments) {
+}: StoryPartListCommentsProps) {
   const classes = useStyles()
 
   const [showComments, setShowComments] = useState<boolean>(false)

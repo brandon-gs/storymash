@@ -80,13 +80,13 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
       dispatch(actions.updateAlert({ message: error, severity: "error" }))
     } else if (token) {
       // Replace all space at final of string
-      const transformCategory = category.map(category => category.replace(/\s+$/, ""))
+      const transformCategory = category.map(cat => cat.replace(/\s+$/, ""))
       try {
         if (mode === "create") {
           const body = { story: { title, category: transformCategory }, part: { content } }
-          const story = await createStory(body, token)
-          if (story) {
-            setSavedStory(story)
+          const storyResponse = await createStory(body, token)
+          if (storyResponse) {
+            setSavedStory(storyResponse)
           }
         } else if (propStoryPart?._id && propStory?._id) {
           const body = { title, category: transformCategory }
@@ -134,9 +134,9 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
   useEffect(() => {
     const { title } = formStory.story
     const { content } = formStory.storyPart
-    if (title) setStory({ ...story, title })
-    if (content) setStoryPart({ ...storyPart, content })
-  }, [formStory.story.title, formStory.storyPart.content])
+    if (title !== story.title) setStory({ ...story, title })
+    if (content !== storyPart.content) setStoryPart({ ...storyPart, content })
+  }, [formStory.story, formStory.storyPart, story, storyPart])
 
   return (
     <Container maxWidth="md" className={classes.root}>

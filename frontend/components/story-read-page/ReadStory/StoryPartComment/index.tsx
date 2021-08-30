@@ -87,7 +87,7 @@ export default function StoryPartComment({
           <StoryPartMenuComment
             commentId={comment._id}
             onPressEdit={() => setIsEditing(true)}
-            onPressDelete={async () => await deleteComment(comment._id)}
+            onPressDelete={() => deleteComment(comment._id)}
           />
         </ListItemSecondaryAction>
       )}

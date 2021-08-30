@@ -52,8 +52,8 @@ export default function StoryPartCreateComment({
   const handleCancelComment = () => {
     handleClearComment()
     setOnFocus(false)
-    if (isEditing) {
-      removeEditingMode && removeEditingMode()
+    if (isEditing && removeEditingMode) {
+      removeEditingMode()
     }
   }
 

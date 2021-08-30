@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import Router from "next/router"
 import { AUTHENTICATE, DEAUTHENTICATE, UPDATE_USER, REMOVE_USER } from "../types/auth.types"
 import { setCookie, removeCookie } from "../../utils/cookie"
@@ -48,7 +48,7 @@ const authenticate = (formData: RegisterForm | LoginForm, type: string, ref: str
         data: { token, user },
       } = await axios.post(`/api/auth/${type}`, formData)
       // Add token to axios headers
-      axios.defaults.headers.common["authorization"] = token
+      axios.defaults.headers.common.authorization = token
       // Create cookie with token
       setCookie("token", token)
       // Save auth data in axios
@@ -57,9 +57,10 @@ const authenticate = (formData: RegisterForm | LoginForm, type: string, ref: str
       if (ref === "/login" || ref === "/register") {
         await Router.push("/")
       }
-    } catch (e) {
+    } catch (error) {
+      const e = error as AxiosError
       const { response } = e
-      if (response.status === 401) {
+      if (response && response.status === 401) {
         const message = "Datos incorrectos, intente nuevamente."
         dispatch(actions.updateAlert({ message, severity: "error", open: true }))
       }
@@ -73,7 +74,7 @@ const authenticate = (formData: RegisterForm | LoginForm, type: string, ref: str
 const reauthenticate = (token: string, user: User): any => {
   return (dispatch: any) => {
     // Add token to axios headers
-    axios.defaults.headers.common["authorization"] = token
+    axios.defaults.headers.common.authorization = token
     // Save authenticated data in redux
     dispatch({ type: AUTHENTICATE, payload: { token, user } })
   }
@@ -87,7 +88,7 @@ const deauthenticate = () => {
     dispatch({ type: DEAUTHENTICATE })
     dispatch(actions.removeUser())
     // Remove token from axios headers
-    axios.defaults.headers.common["authorization"] = null
+    axios.defaults.headers.common.authorization = null
     if (!publicRoutes.includes(Router.pathname)) {
       Router.push("/")
     }

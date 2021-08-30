@@ -41,23 +41,22 @@ export default function FormRegister(): React.ReactElement {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
-    const errors = await validate(values)
-    setErrors(errors)
-    if (!errors.hasError) {
+    const submitErrors = await validate(values)
+    setErrors(submitErrors)
+    if (!submitErrors.hasError) {
       values.firstName = normalizeName(values.firstName)
       values.lastName = normalizeName(values.lastName)
       await dispatch(actions.authenticate(values, "register", router.asPath))
     }
   }
 
-  const handleChange = (prop: string) => (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { value } = event.target
-    const newValues = normalizeValues(values, prop, value)
-    setValues(newValues)
-    setErrors({ ...errors, [prop]: "" })
-  }
+  const handleChange =
+    (prop: string) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { value } = event.target
+      const newValues = normalizeValues(values, prop, value)
+      setValues(newValues)
+      setErrors({ ...errors, [prop]: "" })
+    }
 
   const handleChangeSelect = (event: ChangeEvent<{ name?: string | null; value: unknown }>) => {
     const { name, value } = event.target

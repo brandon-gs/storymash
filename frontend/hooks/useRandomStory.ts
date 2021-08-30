@@ -2,7 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { getRandomNumber } from "utils/getRandomNumber"
 
-export default function useRandomStory(useDefault: boolean = false) {
+export default function useRandomStory(useDefault = false) {
   const [storyLoaded, setStoryLoaded] = useState<boolean>(false)
   const [isDefaultStory, setIsDefaultStory] = useState<boolean>(true)
   const [story, setStory] = useState<Story>(defaultStory)
@@ -33,7 +33,7 @@ export default function useRandomStory(useDefault: boolean = false) {
       getRandomStory()
     }
     setStoryLoaded(true)
-  }, [])
+  }, [useDefault])
 
   return { story, storyLoaded, isDefaultStory }
 }

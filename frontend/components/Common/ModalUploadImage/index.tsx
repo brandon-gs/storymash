@@ -24,10 +24,6 @@ export default function ModalUploadImage({
   handleClose,
   handleUpdate,
 }: Props): JSX.Element | null {
-  if (!story) {
-    return null
-  }
-
   const classes = useStyles()
   const dispatch = useDispatch()
   const { token } = useSelector(state => state.authentication)
@@ -37,34 +33,38 @@ export default function ModalUploadImage({
   const background = `linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url("${routeImage}") no-repeat center center/cover`
 
   const handleUploadImage = async (images: Array<any>) => {
-    dispatch(actions.updateLoader(true))
-    try {
-      const image = images[0]
-      const { file } = image.src
-      file.id = image.id
-      const formData = new FormData()
-      formData.append("image", file)
-      // Send file to api to upload
-      const uploadResponse = await axios.post(`/api/story/image/${story._id}`, formData, {
-        headers: {
-          authorization: token,
-        },
-      })
-      // Update local state with image url from api response
-      const {
-        story: { image: uploadedImageUrl },
-      } = uploadResponse.data
-      setRouteImage(uploadedImageUrl)
-      handleUpdate && handleUpdate()
-    } catch (error) {
-      dispatch(
-        actions.updateAlert({
-          severity: "error",
-          message: "Ocurrio un error al subir la imágen intentalo de nuevo",
+    if (story) {
+      dispatch(actions.updateLoader(true))
+      try {
+        const image = images[0]
+        const { file } = image.src
+        file.id = image.id
+        const formData = new FormData()
+        formData.append("image", file)
+        // Send file to api to upload
+        const uploadResponse = await axios.post(`/api/story/image/${story._id}`, formData, {
+          headers: {
+            authorization: token,
+          },
         })
-      )
+        // Update local state with image url from api response
+        const {
+          story: { image: uploadedImageUrl },
+        } = uploadResponse.data
+        setRouteImage(uploadedImageUrl)
+
+        // Execute handleUpdate callback if was pass by props
+        if (handleUpdate) handleUpdate()
+      } catch (error) {
+        dispatch(
+          actions.updateAlert({
+            severity: "error",
+            message: "Ocurrio un error al subir la imágen intentalo de nuevo",
+          })
+        )
+      }
+      dispatch(actions.updateLoader(false))
     }
-    dispatch(actions.updateLoader(false))
   }
 
   const handleErrorUploadImage = (errors: Array<any>) => {
@@ -75,6 +75,8 @@ export default function ModalUploadImage({
       dispatch(actions.removeAlert())
     }, 5000)
   }
+
+  if (!story) return null
 
   return (
     <Modal

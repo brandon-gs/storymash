@@ -8,7 +8,6 @@ import StoryPartActions from "../StoryPartActions"
 // Timeago config
 import * as timeago from "timeago.js"
 import es from "timeago.js/lib/lang/es"
-import StoryPartCreateComment from "../StoryPartCreateComment"
 import StoryPartListComments from "../StoryPartListComments"
 
 // Register timeago spanish

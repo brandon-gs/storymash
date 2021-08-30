@@ -1,6 +1,6 @@
 import { composeWithDevTools } from "redux-devtools-extension"
 import thunk from "redux-thunk"
-import { createStore, applyMiddleware, Middleware, Store, AnyAction } from "redux"
+import { createStore, applyMiddleware, Middleware, Store } from "redux"
 import rootReducer from "./reducers"
 import { createWrapper, HYDRATE } from "next-redux-wrapper"
 import { AuthState } from "./types/auth.types"
@@ -26,6 +26,7 @@ export type HydrateAction = {
 }
 
 declare module "react-redux" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultRootState extends RootState {}
 }
 

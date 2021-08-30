@@ -3,7 +3,7 @@ import useStyles from "./styles"
 // Components
 import Image from "next/image"
 import HideOnScroll from "./HideOnScroll"
-import { AppBar, Avatar, Toolbar, Typography } from "@material-ui/core"
+import { AppBar, Avatar, Toolbar } from "@material-ui/core"
 import NavbarPrivateMenu from "./NavbarPrivateMenu"
 import NavbarPublicMenu from "./NavbarPublicMenu"
 import { Link } from "../../index"
