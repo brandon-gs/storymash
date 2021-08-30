@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon backend/",
-    "build": "next build frontend/ && tsc --project tsconfig.json",
+    "build": "next build frontend/ && tsc --project frontend/tsconfig.json",
     "start": "NODE_ENV=production node backend/",
     "type-check:front": "tsc --pretty --noEmit --project ./frontend/tsconfig.json",
     "format:front": "prettier --write ./frontend/**/*.ts{,x}",
