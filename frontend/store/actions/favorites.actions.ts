@@ -1,4 +1,4 @@
-import { UPDATE_FAVORITE_STORIES, FavoriteStoriesState } from "../types/favorites.types"
+import { FavoriteStoriesState, UPDATE_FAVORITE_STORIES } from "../types/favorites.types"
 import axios from "axios"
 
 const updateFavoriteStories = (favorites: FavoriteStoriesState): any => {

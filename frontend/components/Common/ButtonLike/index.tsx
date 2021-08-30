@@ -45,15 +45,25 @@ export default function LikeIcon({ part }: Props): JSX.Element {
             },
           }
         )
-        const storyIndex = stories.docs.map(({ _id }) => _id).indexOf(data.story._id)
-        const newStories = stories.docs.slice(0)
-        newStories.splice(storyIndex, 1, data.story)
-        dispatch(actions.updateStories(newStories))
-        dispatch(actions.asyncUpdateFavorites(token))
-        dispatch(actions.updateProfile(data.author))
+
+        if (data.story) {
+          const storyIndex = stories.docs.map(({ _id }) => _id).indexOf(data.story._id)
+          const newStories = stories.docs.slice(0)
+          newStories.splice(storyIndex, 1, data.story)
+          dispatch(actions.updateStories(newStories))
+          dispatch(actions.asyncUpdateFavorites(token))
+          dispatch(actions.updateProfile(data.author))
+        } else {
+          throw new Error("La historia no existe")
+        }
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error)
+        dispatch(
+          actions.updateAlert({
+            message: "Algo salió mal, intentalo más tarde",
+            severity: "error",
+            open: true,
+          })
+        )
       }
     }
     dispatch(actions.updateLoader(false))

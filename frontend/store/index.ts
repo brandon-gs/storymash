@@ -39,4 +39,6 @@ const bindMiddleware = (middleware: Array<Middleware>) => {
 
 export const makeStore = () => createStore(rootReducer, bindMiddleware([thunk]))
 
-export const wrapper = createWrapper<Store<RootState>>(makeStore, { debug: true })
+export const wrapper = createWrapper<Store<RootState>>(makeStore, {
+  debug: process.env.NODE_ENV === "production",
+})

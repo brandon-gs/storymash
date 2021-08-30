@@ -136,7 +136,8 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
     const { content } = formStory.storyPart
     if (title !== story.title) setStory({ ...story, title })
     if (content !== storyPart.content) setStoryPart({ ...storyPart, content })
-  }, [formStory.story, formStory.storyPart, story, storyPart])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formStory.story, formStory.storyPart])
 
   return (
     <Container maxWidth="md" className={classes.root}>

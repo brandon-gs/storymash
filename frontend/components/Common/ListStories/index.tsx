@@ -32,20 +32,19 @@ export default function ShowStories({
   /* Create story ordered by columns ex: [[1, 5], [2], [3], [4]] */
   useEffect(() => {
     const nCols = columns ? columns : width <= 679 ? 1 : width <= 980 ? 2 : width <= 1280 ? 3 : 4
-    if (nCols != currentNCols || stories.length !== storiesLength) {
-      const fillStoryColumns: Story[][] = []
-      for (let i = 0; i < nCols; i++) {
-        fillStoryColumns.push([])
-      }
-      stories.forEach((s, i) => {
-        // if has a first column add 1 to the index
-        const idx = firstColumn && i < nCols ? i + 1 : i
-        fillStoryColumns[idx % nCols].push(s)
-      })
-      setStoryColumns(fillStoryColumns)
-      setCurrentNCols(nCols)
-      setStoriesLength(stories.length)
+    // if (nCols != currentNCols || stories.length !== storiesLength) {
+    const fillStoryColumns: Story[][] = []
+    for (let i = 0; i < nCols; i++) {
+      fillStoryColumns.push([])
     }
+    stories.forEach((s, i) => {
+      // if has a first column add 1 to the index
+      const idx = firstColumn && i < nCols ? i + 1 : i
+      fillStoryColumns[idx % nCols].push(s)
+    })
+    setStoryColumns(fillStoryColumns)
+    setCurrentNCols(nCols)
+    setStoriesLength(stories.length)
   }, [columns, currentNCols, firstColumn, stories, storiesLength, width])
 
   return (

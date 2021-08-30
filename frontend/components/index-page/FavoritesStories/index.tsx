@@ -1,6 +1,6 @@
+import { useState, useEffect } from "react"
 // Helpers
 import { Grid, Typography } from "@material-ui/core"
-import React from "react"
 import { CardStory, Link } from "../../index"
 // Hooks
 import useStyles from "./styles"
@@ -8,20 +8,26 @@ import { useSelector } from "react-redux"
 
 export default function FavoritesStories(): JSX.Element {
   const { favorites } = useSelector(state => state)
+
   const classes = useStyles()
 
-  const uniqueIdStory: Array<string> = []
-  const onlyUniqueFavorites: Array<Story> = []
-  favorites.forEach(story => {
-    if (story._id) {
-      if (!uniqueIdStory.includes(story._id)) {
-        uniqueIdStory.push(story._id)
-        onlyUniqueFavorites.push(story)
-      }
-    }
-  })
+  const [onlyUniqueFavorites, setOnlyUniqueFavorites] = useState<Story[]>([])
 
-  if (favorites.length > 0) {
+  useEffect(() => {
+    const uniqueIds: string[] = []
+    const uniqueFavorites: Story[] = []
+    favorites.forEach(({ story }) => {
+      if (story && story._id) {
+        if (!uniqueIds.includes(story._id)) {
+          uniqueIds.push(story._id)
+          uniqueFavorites.push(story)
+        }
+      }
+    })
+    setOnlyUniqueFavorites(uniqueFavorites)
+  }, [favorites])
+
+  if (onlyUniqueFavorites.length > 0) {
     return (
       <>
         <Grid container justifyContent="center" spacing={2}>

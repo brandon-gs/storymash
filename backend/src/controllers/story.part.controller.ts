@@ -59,33 +59,40 @@ export const addLike = async (req: Request, res: Response) => {
         { $push: { likes: userId } },
         { new: true }
       )
-      // Add like to story
-      let story = await Story.findByIdAndUpdate(
-        storyPart.story,
-        { $inc: { totalLikes: -1 } },
-        { new: true }
-      )
-      // Add view to story
-      const userView = story.views.includes(userId)
-      if (!userView) {
-        story = await Story.findByIdAndUpdate(
+      if (storyPart) {
+        // Add like to story
+        let story = await Story.findByIdAndUpdate(
           storyPart.story,
-          { $push: { views: userId } },
+          { $inc: { totalLikes: 1 } },
           { new: true }
         )
+
+        // Add view to story
+        if (story) {
+          const userView = story.views.includes(userId)
+          if (!userView) {
+            story = await Story.findByIdAndUpdate(
+              storyPart.story,
+              { $push: { views: userId } },
+              { new: true }
+            )
+          }
+        }
+        // Add 1 like to author likes
+        const author = await User.findByIdAndUpdate(storyPart.author, { $inc: { likes: 1 } })
+        // Add idStoryPart to user's favorites stories
+        await User.findByIdAndUpdate(userId, {
+          $push: { favorites: { story: storyPart.story, storyPart: storyPartId } },
+        })
+        // Populate story
+        if (story) {
+          await story.populateAuthor()
+          await story.populateParts()
+        }
+        return res.status(200).json({ author, story })
       }
-      // Add 1 like to author likes
-      const author = await User.findByIdAndUpdate(storyPart.author, { $inc: { likes: 1 } })
-      // Add idStoryPart to user's favorites stories
-      await User.findByIdAndUpdate(userId, {
-        $push: { favorites: { story: storyPart.story, storyPart: storyPartId } },
-      })
-      // Populate story
-      await story.populateAuthor()
-      await story.populateParts()
-      return res.status(200).json({ author, story })
     } catch (e) {
-      res.status(401).json({ message: "Something wrong" })
+      res.status(400).json({ message: "Something wrong" })
     }
   }
   return res.status(401).json({ message: "Not authorized" })
@@ -102,23 +109,27 @@ export const removeLike = async (req: Request, res: Response) => {
         { $pull: { likes: userId } },
         { new: true }
       )
-      // Remove 1 like to author likes
-      const author = await User.findByIdAndUpdate(storyPart.author, { $inc: { likes: -1 } })
-      // Remove idStoryPart to user's favorites stories
-      await User.findByIdAndUpdate(userId, {
-        $pull: { favorites: { story: storyPart.story, storyPart: storyPartId } },
-      })
-      // Get story
-      const story = await Story.findByIdAndUpdate(
-        storyPart.story,
-        { $inc: { totalLikes: -1 } },
-        { new: true }
-      )
-      await story.populateAuthor()
-      await story.populateParts()
-      return res.json({ author, story })
+      if (storyPart) {
+        // Remove 1 like to author likes
+        const author = await User.findByIdAndUpdate(storyPart.author, { $inc: { likes: -1 } })
+        // Remove idStoryPart to user's favorites stories
+        await User.findByIdAndUpdate(userId, {
+          $pull: { favorites: { story: storyPart.story, storyPart: storyPartId } },
+        })
+        // Get story
+        const story = await Story.findByIdAndUpdate(
+          storyPart.story,
+          { $inc: { totalLikes: -1 } },
+          { new: true }
+        )
+        if (story) {
+          await story.populateAuthor()
+          await story.populateParts()
+        }
+        return res.json({ author, story })
+      }
     } catch (e) {
-      res.status(401).json({ message: "Something wrong" })
+      res.status(400).json({ message: "Something wrong" })
     }
   }
   return res.status(401).json({ message: "Not authorized" })

@@ -33,9 +33,6 @@ export default function AllStories() {
     }
   }, [isNearScreen, dispatch, stories])
 
-  console.log(isNearScreen)
-  console.log(stories)
-
   return (
     <Container maxWidth={"lg"}>
       <ListStories stories={stories.docs} firstColumn={<SmallFormStory />} />
