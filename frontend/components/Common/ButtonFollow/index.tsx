@@ -32,15 +32,8 @@ export default function ButtonFollow(props: ButtonProps): JSX.Element {
   const unfollowUser = async () => {
     dispatch(actions.updateLoader(true))
     if (profile && user) {
-      const { followers, username } = profile
-      const { following } = user
-      const indexOfFollowerUser = followers.indexOf(user._id)
-      const indexOfFollwingUser = following.indexOf(profile._id)
-      followers.splice(indexOfFollowerUser, 1)
-      following.splice(indexOfFollwingUser, 1)
-
-      dispatch(actions.asyncUpdateUser(token, { following }))
-      dispatch(actions.asyncUpdateProfile(username, { followers }, token))
+      const { username } = profile
+      dispatch(actions.followUser("unfollow", username, token))
     }
     dispatch(actions.updateLoader(false))
   }
@@ -48,12 +41,8 @@ export default function ButtonFollow(props: ButtonProps): JSX.Element {
   const followUser = async () => {
     dispatch(actions.updateLoader(true))
     if (profile && user) {
-      const { followers, username } = profile
-      const { following } = user
-      followers.push(user._id)
-      following.push(profile._id)
-      dispatch(actions.asyncUpdateUser(token, { following }))
-      dispatch(actions.asyncUpdateProfile(username, { followers }, token))
+      const { username } = profile
+      dispatch(actions.followUser("follow", username, token))
     }
     dispatch(actions.updateLoader(false))
   }

@@ -2,6 +2,7 @@ import StoryPart from "../models/StoryPart.model"
 import User from "../models/User.model"
 import Story from "../models/Story.model"
 import { Request, Response } from "express"
+import { Points } from "../helpers/points.heleprs"
 
 export const createStoryPart = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
@@ -78,8 +79,10 @@ export const addLike = async (req: Request, res: Response) => {
             )
           }
         }
-        // Add 1 like to author likes
-        const author = await User.findByIdAndUpdate(storyPart.author, { $inc: { likes: 1 } })
+        // Add 1 like to author likes and points
+        const author = await User.findByIdAndUpdate(storyPart.author, {
+          $inc: { likes: 1, points: Points.STORY_PART_LIKE },
+        })
         // Add idStoryPart to user's favorites stories
         await User.findByIdAndUpdate(userId, {
           $push: { favorites: { story: storyPart.story, storyPart: storyPartId } },
@@ -110,8 +113,10 @@ export const removeLike = async (req: Request, res: Response) => {
         { new: true }
       )
       if (storyPart) {
-        // Remove 1 like to author likes
-        const author = await User.findByIdAndUpdate(storyPart.author, { $inc: { likes: -1 } })
+        // Remove 1 like to author likes and points
+        const author = await User.findByIdAndUpdate(storyPart.author, {
+          $inc: { likes: -1, points: -Points.STORY_PART_LIKE },
+        })
         // Remove idStoryPart to user's favorites stories
         await User.findByIdAndUpdate(userId, {
           $pull: { favorites: { story: storyPart.story, storyPart: storyPartId } },

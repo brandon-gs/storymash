@@ -17,7 +17,11 @@ export default function ReadStory(): JSX.Element | null {
   const [openDeleteStory, setOpenDeleteStory] = useState(false)
 
   // Add 1 view to current story
-  useReadStory(docs[0]._id)
+  useReadStory(docs.length > 0 ? docs[0]._id : "")
+
+  if (docs.length === 0) {
+    return <NotFound />
+  }
 
   const handleOpenDeleteStoryPart = () => setOpenDeleteStoryPart(true)
 
@@ -30,10 +34,6 @@ export default function ReadStory(): JSX.Element | null {
   const story = docs[0]
   const { author, parts, image } = story
   const background = `linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.9)),url("${image}") no-repeat center center/cover`
-
-  if (docs.length === 0) {
-    return <NotFound />
-  }
 
   return (
     <>

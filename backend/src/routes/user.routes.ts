@@ -11,6 +11,8 @@ import {
   updateUserFromUsername,
   updateUserImage,
   getAllUsernames,
+  addFollower,
+  removeFollower,
 } from "../controllers/user.controller"
 
 const router = Router()
@@ -27,5 +29,8 @@ router
   .put(requireAuth, requireApiSecret, updateUserFromUsername)
 
 router.route("/usernames").get(getAllUsernames)
+
+router.route("/follow/:username").put(requireAuth, requireApiSecret, addFollower)
+router.route("/unfollow/:username").put(requireAuth, requireApiSecret, removeFollower)
 
 module.exports = router

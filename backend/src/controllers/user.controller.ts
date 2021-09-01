@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import User from "../models/User.model"
 import { hasOnlyPublicFields } from "../helpers/user.controller.helper"
 import imageUpload from "../helpers/image.upload.helper"
+import { Points } from "../helpers/points.heleprs"
 
 export function getUserFromToken(req: Request, res: Response): Response {
   if (req.user) {
@@ -47,9 +48,106 @@ export const updateUserFromUsername = async (req: Request, res: Response): Promi
       const user = (
         await User.findOneAndUpdate({ username }, req.body, { new: true })
       )?.getPublicData()
+
       return res.status(200).json({ user })
     } catch (error) {
       return res.status(404).json({ message: "Error to get user from username or body is null" })
+    }
+  } else {
+    return res.status(404).json({ message: "Unauthorized" })
+  }
+}
+
+export const addFollower = async (req: Request, res: Response): Promise<Response> => {
+  if (req.user) {
+    try {
+      const onlyPublicFields = hasOnlyPublicFields(req)
+
+      if (!onlyPublicFields) {
+        return res.status(404).json({ message: "Unauthorized changes" })
+      }
+
+      // Update user profile followers and points
+      const { username } = req.params // username from user profile
+      const userProfile = (
+        await User.findOneAndUpdate(
+          { username },
+          {
+            $push: {
+              followers: req.user._id,
+            },
+            $inc: {
+              points: Points.GET_FOLLOWER,
+            },
+          },
+          { new: true }
+        )
+      )?.getPublicData()
+
+      // Update user following
+      const user = (
+        await User.findOneAndUpdate(
+          { _id: req.user._id },
+          {
+            $push: {
+              following: userProfile._id,
+            },
+          },
+          { new: true }
+        )
+      ).getPublicData()
+
+      return res.status(200).json({ user, profile: userProfile, message: "Follow success" })
+    } catch (error) {
+      return res.status(404).json({ message: "Error to follow a user" })
+    }
+  } else {
+    return res.status(404).json({ message: "Unauthorized" })
+  }
+}
+
+export const removeFollower = async (req: Request, res: Response): Promise<Response> => {
+  if (req.user) {
+    try {
+      const onlyPublicFields = hasOnlyPublicFields(req)
+
+      if (!onlyPublicFields) {
+        return res.status(404).json({ message: "Unauthorized changes" })
+      }
+
+      // Update user profile followers and points
+      const { username } = req.params // username from user profile
+      const userProfile = (
+        await User.findOneAndUpdate(
+          { username },
+          {
+            $pull: {
+              followers: req.user._id,
+            },
+            $inc: {
+              points: -Points.GET_FOLLOWER,
+            },
+          },
+          { new: true }
+        )
+      )?.getPublicData()
+
+      // Update user following
+      const user = (
+        await User.findOneAndUpdate(
+          { _id: req.user._id },
+          {
+            $pull: {
+              following: userProfile._id,
+            },
+          },
+          { new: true }
+        )
+      ).getPublicData()
+
+      return res.status(200).json({ user, profile: userProfile, message: "Unfollow success" })
+    } catch (error) {
+      return res.status(404).json({ message: "Error to follow a user" })
     }
   } else {
     return res.status(404).json({ message: "Unauthorized" })

@@ -3,7 +3,8 @@ import Story from "../models/Story.model"
 import User from "../models/User.model"
 import StoryPart from "../models/StoryPart.model"
 import imageUpload from "../helpers/image.upload.helper"
-import { getLikesFromStory } from "../helpers/story.controller.helper"
+import { getCommentsFromStoryParts, getLikesFromStory } from "../helpers/story.controller.helper"
+import { Points } from "../helpers/points.heleprs"
 
 const populateAuthor = {
   path: "author",
@@ -21,35 +22,40 @@ const populateParts = {
 export const createStory = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
-      const { _id, stories } = req.user
+      const { _id: idAuthor } = req.user
       const { title, category } = req.body.story
       const { content } = req.body.part
 
+      // Create story
       const story = await new Story({
-        author: _id,
+        author: idAuthor,
         title,
         category,
         lastPartCreatedAt: new Date(),
       }).save()
 
+      // Create storypart
       const storyPart = await new StoryPart({
-        author: _id,
+        author: idAuthor,
         story: story._id,
         content,
       }).save()
 
-      story.parts = [storyPart._id]
-      await story.save()
+      // Add storypart id to story.parts
+      await story.updateOne({ $push: { parts: storyPart._id } })
 
+      // Add story to user stories and add points
       const user = (
         await User.findByIdAndUpdate(
-          _id,
+          idAuthor,
           {
-            stories: [...stories, _id],
+            $push: { stories: story._id },
+            $inc: { points: Points.CREATE_STORY },
           },
           { new: true }
         )
       )?.getPublicData()
+
       return res.status(200).json({ story, user, message: "Content story saved" })
     } catch (error) {
       return res.status(400).json({ message: "Error to create story" })
@@ -138,23 +144,50 @@ export const updateStory = async (req: Request, res: Response): Promise<Response
 export const deleteStory = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
-      const { _id, stories, likes } = req.user
-      const { id } = req.params
+      const { _id } = req.user
+      const { id } = req.params // Id story
+      // Delete story by id
       const story = await Story.findByIdAndDelete(id)
+      // Remove story from all users that have it as favorite
+      await User.updateMany(
+        { "favorites.story": id },
+        {
+          $pull: {
+            favorites: { story: id },
+          },
+        }
+      )
       if (story) {
         await story.populateParts()
+        // Delete storyParts
         const parts = story.parts
+
+        // Remove likes, comments, points from the author
         const storyLikes = getLikesFromStory(parts)
-        const indexOfStory = stories.indexOf(id)
-        const newStories = stories.slice(0)
-        newStories.splice(indexOfStory, 1)
-        const newLikes = likes - storyLikes
-        const user = await User.findByIdAndUpdate(
+        const storyComments = getCommentsFromStoryParts(parts)
+        const storyLikesPoints = storyLikes * Points.STORY_PART_LIKE
+        const author = await User.findByIdAndUpdate(
           _id,
-          { stories: newStories, likes: newLikes },
+          {
+            $inc: {
+              likes: -storyLikes,
+              comments: -storyComments,
+              points: -(Points.CREATE_STORY + storyLikesPoints),
+            },
+            $pull: {
+              stories: id,
+            },
+          },
           { new: true }
         )
-        return res.status(200).json({ user, stories: newStories, message: "Story deleted" })
+
+        // Delete storyParts
+        await StoryPart.deleteMany({
+          story: story._id,
+        })
+
+        // Return stories
+        return res.status(200).json({ user: author, message: "Story deleted" })
       }
       return res.status(404).json({ message: "Story do not found" })
     } catch (e) {
