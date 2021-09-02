@@ -2,7 +2,7 @@ import StoryPart from "../models/StoryPart.model"
 import User from "../models/User.model"
 import Story from "../models/Story.model"
 import { Request, Response } from "express"
-import { Points } from "../helpers/points.heleprs"
+import { Points } from "../helpers/points.helpers"
 
 export const createStoryPart = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
@@ -23,7 +23,16 @@ export const createStoryPart = async (req: Request, res: Response): Promise<Resp
           { parts, lastPartCreatedAt: new Date() },
           { new: true }
         )
-        const user = await User.findById(_id)
+        // Add points to user
+        const user = await User.findByIdAndUpdate(
+          { _id },
+          {
+            $inc: {
+              points: Points.CREATE_STORY_PART,
+            },
+          },
+          { new: true }
+        )
         return res.status(200).json({ user, message: "Parte creada" })
       }
       return res.status(400).json({ message: "Story dont found" })
@@ -44,6 +53,35 @@ export const updateStoryPart = async (req: Request, res: Response): Promise<Resp
       return res.status(200).json({ user, storyPart, message: "Parte de la historia actualizada" })
     } catch (e) {
       return res.status(404).json({ message: "Story part do not found" })
+    }
+  }
+  return res.status(401).json({ message: "Not authorized" })
+}
+
+export const deleteStoryPart = async (req: Request, res: Response): Promise<Response> => {
+  if (req.user) {
+    try {
+      const { id } = req.params
+      const storyPart = await StoryPart.findOneAndDelete({ _id: id })
+      if (storyPart) {
+        const story = await Story.findById(storyPart.story)
+        if (story) {
+          // Sub likes from story part to author
+          const likePoints = storyPart.likes.length * Points.STORY_PART_LIKE
+          await User.findByIdAndUpdate(storyPart.author, {
+            $inc: {
+              likes: -storyPart.likes.length,
+              points: -(likePoints + Points.CREATE_STORY_PART),
+            },
+          })
+          // Add points to user
+          return res.status(200).json({ story, message: "Parte de la historia eliminada" })
+        }
+        return res.status(404).json({ message: "Story not found" })
+      }
+      return res.status(404).json({ message: "Story part not found" })
+    } catch (e) {
+      return res.status(404).json({ message: "Error to delete story part" })
     }
   }
   return res.status(401).json({ message: "Not authorized" })
@@ -135,33 +173,6 @@ export const removeLike = async (req: Request, res: Response) => {
       }
     } catch (e) {
       res.status(400).json({ message: "Something wrong" })
-    }
-  }
-  return res.status(401).json({ message: "Not authorized" })
-}
-
-export const deleteStoryPart = async (req: Request, res: Response): Promise<Response> => {
-  if (req.user) {
-    try {
-      const { likes } = req.user
-      const { id } = req.params
-      const storyPart = await StoryPart.findOneAndDelete({ _id: id })
-      if (storyPart) {
-        const story = await Story.findById(storyPart.story)
-        if (story) {
-          // Sub likes from story part to author
-          const newLikes = likes - storyPart.likes.length
-          await User.findByIdAndUpdate(storyPart.author, { likes: newLikes })
-          // Remove story part from "favorites in
-          await story.populateAuthor()
-          await story.populateParts()
-          return res.status(200).json({ story, message: "Parte de la historia eliminada" })
-        }
-        return res.status(404).json({ message: "Story not found" })
-      }
-      return res.status(404).json({ message: "Story part not found" })
-    } catch (e) {
-      return res.status(404).json({ message: "Story part not found" })
     }
   }
   return res.status(401).json({ message: "Not authorized" })

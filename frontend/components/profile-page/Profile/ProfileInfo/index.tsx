@@ -112,7 +112,8 @@ export default function ProfileInfo(): JSX.Element {
                   <span style={{ color: getColorFromLevel(profile.level) }}>
                     <Grade fontSize="small" />
                   </span>{" "}
-                  Nivel {profile.level} <span>({profile.points} puntos)</span>
+                  Nivel {profile.level}
+                  <span className={classes.points}>({profile.points} puntos)</span>
                 </Typography>
               </Grid>
             </Grid>

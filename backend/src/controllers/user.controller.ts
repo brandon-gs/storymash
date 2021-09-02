@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import User from "../models/User.model"
 import { hasOnlyPublicFields } from "../helpers/user.controller.helper"
 import imageUpload from "../helpers/image.upload.helper"
-import { Points } from "../helpers/points.heleprs"
+import { Points } from "../helpers/points.helpers"
 
 export function getUserFromToken(req: Request, res: Response): Response {
   if (req.user) {

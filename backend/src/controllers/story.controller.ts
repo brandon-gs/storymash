@@ -4,7 +4,7 @@ import User from "../models/User.model"
 import StoryPart from "../models/StoryPart.model"
 import imageUpload from "../helpers/image.upload.helper"
 import { getCommentsFromStoryParts, getLikesFromStory } from "../helpers/story.controller.helper"
-import { Points } from "../helpers/points.heleprs"
+import { Points } from "../helpers/points.helpers"
 
 const populateAuthor = {
   path: "author",

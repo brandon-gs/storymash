@@ -52,4 +52,8 @@ export default makeStyles(theme => ({
     margin: "0 auto",
     borderBottom: `1px solid ${theme.palette.grey[500]}`,
   },
+  points: {
+    color: theme.palette.grey[700],
+    marginLeft: 4,
+  },
 }))

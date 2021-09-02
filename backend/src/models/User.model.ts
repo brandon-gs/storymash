@@ -1,5 +1,6 @@
 import { Schema, model, Document } from "mongoose"
 import bcrypt from "bcryptjs"
+import { getLevel } from "../helpers/levels.helpers"
 
 export type ObjectUser = {
   _id: string
@@ -136,5 +137,9 @@ UserSchema.methods.getPublicData = function (this: IUser): ObjectUser {
   }
   return user
 }
+
+UserSchema.pre<IUser>("updateOne", function () {
+  this.set({ level: getLevel(this.points) })
+})
 
 export default model<IUser>("User", UserSchema)

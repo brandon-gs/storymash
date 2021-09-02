@@ -29,7 +29,7 @@ export default makeStyles(theme => ({
   titleContainer: {
     display: "flex",
     textAlign: "center",
-    alignItems: "end",
+    alignItems: "flex-end",
   },
   title: {
     position: "relative",

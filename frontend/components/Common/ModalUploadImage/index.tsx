@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux"
 // Helpers
 import { getUploadErrorMessage } from "../../../utils"
 import actions from "../../../store/actions"
+import { useEffect } from "react"
 
 type Props = {
   open: boolean
@@ -75,6 +76,12 @@ export default function ModalUploadImage({
       dispatch(actions.removeAlert())
     }, 5000)
   }
+
+  useEffect(() => {
+    if (story) {
+      setRouteImage(story.image)
+    }
+  }, [story])
 
   if (!story) return null
 

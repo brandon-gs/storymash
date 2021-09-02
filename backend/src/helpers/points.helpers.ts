@@ -1,6 +1,6 @@
 export enum Points {
   STORY_PART_LIKE = 3,
-  CREATE_STORY = 20,
+  CREATE_STORY = 10,
   CREATE_STORY_PART = 5,
   GET_FOLLOWER = 20,
 }
