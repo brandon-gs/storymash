@@ -17,8 +17,11 @@ export default async function configStory(
       const response = await Axios.get(`${server}/api/story/${id}`)
       const storiesDocs = response.data.story ? [response.data.story] : []
       store.dispatch(actions.updateStories(storiesDocs))
+      return response.data.story
     }
+    return null
   } catch (error) {
     store.dispatch(actions.removeStories())
+    return null
   }
 }

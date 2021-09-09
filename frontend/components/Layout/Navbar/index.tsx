@@ -6,7 +6,7 @@ import HideOnScroll from "./HideOnScroll"
 import { AppBar, Avatar, Toolbar } from "@material-ui/core"
 import NavbarPrivateMenu from "./NavbarPrivateMenu"
 import NavbarPublicMenu from "./NavbarPublicMenu"
-import { Link } from "../../index"
+import { Link, MainMenu } from "../../index"
 import { Fragment } from "react"
 
 export default function Navbar() {
@@ -32,6 +32,7 @@ export default function Navbar() {
         </AppBar>
       </HideOnScroll>
       <Toolbar id="back-to-top-anchor" />
+      <MainMenu />
     </Fragment>
   )
 }

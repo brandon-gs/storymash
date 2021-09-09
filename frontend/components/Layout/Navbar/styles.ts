@@ -9,7 +9,7 @@ export default makeStyles(theme => ({
     height: theme.spacing(6),
     width: theme.spacing(6),
     backgroundColor: "unset",
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1),
   },
   containerLogo: {
     display: "none",

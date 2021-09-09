@@ -27,9 +27,8 @@ const EditStoryPartPage: NextPage<Props> = ({ story, part }) => {
 
 export const getServerSideProps = wrapper.getServerSideProps(store => async ctx => {
   await configUser(ctx, store)
-  await configStory(ctx, store)
+  const story = await configStory(ctx, store)
   const indexPart = Number(ctx.params ? ctx.params.part : ctx.query.part)
-  const story = store.getState().stories.docs[0]
   const part = story.parts[indexPart]
   return {
     props: {

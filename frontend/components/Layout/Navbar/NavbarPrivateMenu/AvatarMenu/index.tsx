@@ -40,7 +40,7 @@ export default function AvatarMenu(): JSX.Element {
       component: Link,
       href: "/help",
       Icon: <Help className={classes.icon} />,
-      primary: "Ayuda",
+      primary: "Preguntas frecuentes",
     },
     {
       onClick: logOut,

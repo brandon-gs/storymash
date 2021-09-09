@@ -294,3 +294,84 @@ export const getRandomStory = async (req: Request, res: Response): Promise<Respo
     return res.status(400).json({ message: "Catch Error to get Random Story" })
   }
 }
+
+/**
+ * Route: search/:query
+ *
+ * Complete Route: /api/story/search/:query
+ *
+ * Method: GET
+ *
+ * Action: Get a story filtered by query
+ *
+ * Auth required: No
+ *
+ */
+export const getStoryBySearch = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { query } = req.params
+
+    // Test search stories by content
+    const storyParts = await StoryPart.find({
+      content: {
+        $regex: new RegExp(query),
+        $options: "i",
+      },
+    }).select("story")
+
+    const storyIds = storyParts.map(part => part.story)
+
+    // Search stories by title
+    const stories = await Story.find({
+      $or: [
+        {
+          title: {
+            $regex: new RegExp(query),
+            $options: "i",
+          },
+        },
+        {
+          _id: { $in: storyIds },
+        },
+      ],
+    })
+      .populate(populateAuthor)
+      .populate(populateParts)
+
+    return res.status(200).json({ stories, message: "Get stories by query" })
+  } catch (e) {
+    return res.status(400).json({ message: "Catch Error to get story by query" })
+  }
+}
+
+/**
+ * Route: plank/
+ *
+ * Complete Route: /api/story/plank/
+ *
+ * Method: GET
+ *
+ * Action: Get stories from all users that a user follow
+ *
+ * Auth required: Yes
+ *
+ */
+export const getStoriesPlank = async (req: Request, res: Response): Promise<Response> => {
+  if (req.user) {
+    try {
+      const { following } = req.user
+      // Search stories if author is in the following array
+      const stories = await Story.find({
+        author: { $in: following },
+      })
+        .sort({ lastPartCreatedAt: -1 })
+        .populate(populateAuthor)
+        .populate(populateParts)
+
+      return res.status(200).json({ stories, message: "Get stories from users that i follow" })
+    } catch (e) {
+      return res.status(400).json({ message: "Catch Error to get plank stories" })
+    }
+  }
+  return res.status(401).json({ message: "No authenticated" })
+}

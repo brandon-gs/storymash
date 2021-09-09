@@ -139,6 +139,18 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formStory.story, formStory.storyPart])
 
+  useEffect(() => {
+    if (propStory) {
+      const { title } = propStory
+      setStory({ ...story, title })
+    }
+    if (propStoryPart) {
+      const { content } = propStoryPart
+      setStoryPart({ ...storyPart, content })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [propStory, propStoryPart])
+
   return (
     <Container maxWidth="md" className={classes.root}>
       <ModalUploadImage

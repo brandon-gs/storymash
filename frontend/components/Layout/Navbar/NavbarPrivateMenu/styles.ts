@@ -6,20 +6,41 @@ export default makeStyles(theme => ({
     width: theme.spacing(5),
     cursor: "pointer",
   },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
+  inputSearch: {
     backgroundColor: alpha(theme.palette.common.white, 0.15),
+    borderRadius: theme.shape.borderRadius,
+    maxWidth: theme.spacing(30),
+    marginRight: theme.spacing(1),
     "&:hover": {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
+    "& .MuiTextField-root": {
+      color: "inherit",
     },
+    "& .MuiInputBase-input": {
+      color: theme.palette.primary.contrastText,
+      padding: theme.spacing(1, 0, 1, 1),
+      transition: theme.transitions.create("width"),
+    },
+    "& .MuiInput-underline": {
+      borderBottom: "none",
+      "&:before": {
+        borderBottom: "none",
+      },
+      "&:after": {
+        borderBottom: "none",
+      },
+      "&:hover:not(.Mui-disabled)::before": {
+        borderBottom: "none",
+      },
+    },
+  },
+  iconSearch: {
+    color: alpha(theme.palette.primary.contrastText, 0.5),
+    "&:hover": {
+      color: theme.palette.primary.contrastText,
+    },
+    transition: theme.transitions.create(["color"]),
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -29,19 +50,6 @@ export default makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
   },
   sectionDesktop: {
     display: "none",

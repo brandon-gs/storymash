@@ -1,7 +1,8 @@
 // Types
 import { NextPage } from "next"
 // Components
-import { Layout, Dashboard, MainMenu } from "components"
+import { Box } from "@material-ui/core"
+import { Layout, Dashboard, AllStories } from "components"
 import Head from "next/head"
 // Hooks
 import { useSelector } from "react-redux"
@@ -19,9 +20,9 @@ const IndexPage: NextPage = () => {
       </Head>
       {!auth && <Dashboard />}
       {auth && (
-        <>
-          <MainMenu />
-        </>
+        <Box mt={3}>
+          <AllStories />
+        </Box>
       )}
     </Layout>
   )

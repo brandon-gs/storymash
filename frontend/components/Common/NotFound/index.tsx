@@ -37,7 +37,7 @@ export default function NotFound() {
   )
 }
 
-function RedirectOption() {
+export function RedirectOption() {
   const styles = useStyles()
   const {
     authentication: { auth },

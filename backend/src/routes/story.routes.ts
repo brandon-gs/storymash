@@ -15,6 +15,8 @@ import {
   getAllStories,
   addStoryView,
   getRandomStory,
+  getStoryBySearch,
+  getStoriesPlank,
 } from "../controllers/story.controller"
 
 const router = Router()
@@ -25,6 +27,8 @@ router.route("/random").get(getRandomStory)
 
 router.route("/favorites").get(requireAuth, getFavoritesStories)
 
+router.route("/plank").get(requireAuth, getStoriesPlank)
+
 router.route("/:id").get(getStory).put(requireAuth, updateStory).delete(requireAuth, deleteStory)
 
 router.route("/image/:id").post(requireAuth, uploadStoryImage)
@@ -32,5 +36,7 @@ router.route("/image/:id").post(requireAuth, uploadStoryImage)
 router.route("/user/:username").get(getStoriesByUsername)
 
 router.route("/view/add/:id").put(requireAuth, addStoryView)
+
+router.route("/search/:query").get(getStoryBySearch)
 
 module.exports = router
