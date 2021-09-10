@@ -2,6 +2,7 @@ import { ChangeEvent, ReactNode } from "react"
 // Components
 import SwipeableViews from "react-swipeable-views"
 import { AppBar, Tabs, Tab, Box } from "@material-ui/core"
+import { Link } from "components"
 // Icons
 import { Home, Book, Favorite, WhatshotSharp, TrendingUp } from "@material-ui/icons"
 // Hooks
@@ -42,6 +43,7 @@ function a11yProps(index: any) {
   }
 }
 
+// Bottom menu
 export default function FullWidthTabs(): JSX.Element {
   const { auth } = useSelector(state => state.authentication)
   const classes = useStyles()
@@ -73,19 +75,37 @@ export default function FullWidthTabs(): JSX.Element {
           variant="scrollable"
           scrollButtons="on"
         >
-          <Tab icon={<Home />} {...a11yProps(MenuRoutes.HomeIndex)} className={classes.tab} />
-          <Tab icon={<Book />} {...a11yProps(MenuRoutes.PlankIndex)} className={classes.tab} />
           <Tab
+            component={Link}
+            href="/"
+            icon={<Home />}
+            {...a11yProps(MenuRoutes.HomeIndex)}
+            className={classes.tab}
+          />
+          <Tab
+            component={Link}
+            href="/plank"
+            icon={<Book />}
+            {...a11yProps(MenuRoutes.PlankIndex)}
+            className={classes.tab}
+          />
+          <Tab
+            component={Link}
+            href="/favorites"
             icon={<Favorite />}
             {...a11yProps(MenuRoutes.FavoriteIndex)}
             className={classes.tab}
           />
           <Tab
+            component={Link}
+            href="/rank"
             icon={<TrendingUp />}
             {...a11yProps(MenuRoutes.TrendingIndex)}
             className={classes.tab}
           />
           <Tab
+            component={Link}
+            href="/trending"
             icon={<WhatshotSharp />}
             {...a11yProps(MenuRoutes.RankIndex)}
             className={classes.tab}
