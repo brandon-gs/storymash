@@ -38,6 +38,8 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
     temp: { formStory },
   } = useSelector(state => state)
 
+  const storyPartIndex: string = router.query.part as string
+
   const [savedStory, setSavedStory] = useState<undefined | Story>(propStory)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [uploadImage, setUploadImage] = useState<boolean>(false)
@@ -88,9 +90,9 @@ export default function FormStory({ mode, propStory, propStoryPart }: Props): JS
           if (storyResponse) {
             setSavedStory(storyResponse)
           }
-        } else if (propStoryPart?._id && propStory?._id) {
+        } else if (storyPartIndex && propStory?._id) {
           const body = { title, category: transformCategory }
-          await editStoryPart(propStoryPart._id, { content: storyPart.content }, token)
+          await editStoryPart(propStory._id, storyPartIndex, { content: storyPart.content }, token)
           await editStory(propStory._id, body, token)
         }
         setOpenModal(true)

@@ -44,25 +44,21 @@ export default function storiesReducer(
       return { ...state, docs: newDocs }
     }
     case DELETE_COMMENT: {
-      const { indexPart, idComment } = action.payload
+      const { indexPart, indexComment } = action.payload
       const filteredDocs = [...state.docs]
       // Filter the comment that has the idComment from payload
-      filteredDocs[0].parts[indexPart].comments = filteredDocs[0].parts[indexPart].comments.filter(
-        comment => comment._id !== idComment
+      filteredDocs[0].parts[indexPart].comments = filteredDocs[0].parts[indexPart].comments.splice(
+        indexComment,
+        1
       )
       return { ...state, docs: filteredDocs }
     }
     case UPDATE_COMMENT: {
-      const { indexPart, comment } = action.payload
+      const { indexPart, indexComment, comment } = action.payload
       const story = state.docs[0]
       const part = story.parts[indexPart]
-      const newComments = part.comments.map(currentComment => {
-        // Replace comment
-        if (currentComment._id === comment._id) {
-          return comment
-        }
-        return currentComment
-      })
+      const newComments = [...part.comments]
+      newComments[indexComment] = comment
       // Update new comments in story part
       part.comments = newComments
       // Assign part with updated comments to current story

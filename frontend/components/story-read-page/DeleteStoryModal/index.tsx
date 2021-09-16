@@ -11,13 +11,13 @@ import useStyles from "./styles"
 type Props = {
   handleClose: () => void
   open: boolean
-  idPart?: string
-  idStory?: string
+  idStory: string
+  storyPartIndex?: number
 }
 
 export default function DeleteStoryModal({
+  storyPartIndex,
   idStory,
-  idPart,
   open,
   handleClose,
 }: Props): JSX.Element {
@@ -44,7 +44,7 @@ export default function DeleteStoryModal({
 
   const handleDeleteStoryPart = async () => {
     dispatch(actions.updateLoader(true))
-    const { data } = await axios.delete(`/api/story/part/${idPart}`, {
+    const { data } = await axios.delete(`/api/story/part/${idStory}/${storyPartIndex}`, {
       headers: {
         authorization: token,
       },
@@ -55,7 +55,7 @@ export default function DeleteStoryModal({
     handleClose()
   }
 
-  const handleDelete = idStory ? handleDeleteStory : handleDeleteStoryPart
+  const handleDelete = storyPartIndex ? handleDeleteStoryPart : handleDeleteStory
 
   return (
     <Modal

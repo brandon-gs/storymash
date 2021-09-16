@@ -10,12 +10,13 @@ import { useState } from "react"
 import { ModalLogin } from "../../index"
 
 type Props = {
+  storyPartIndex: number
   part: StoryPart
   story: Story
 }
 
 // Get icon from depend if a user is creator of history or if he liked the history
-export default function LikeIcon({ part }: Props): JSX.Element {
+export default function LikeIcon({ storyPartIndex, part, story }: Props): JSX.Element {
   const { token, user } = useSelector(state => state.authentication)
   const { stories } = useSelector(state => state)
   const dispatch = useDispatch()
@@ -35,7 +36,7 @@ export default function LikeIcon({ part }: Props): JSX.Element {
     if (user) {
       try {
         const { data } = await Axios.put(
-          `/api/story/part/like/${option}/${part._id}`,
+          `/api/story/part/like/${option}/${story._id}/${storyPartIndex}`,
           {
             option,
           },
@@ -70,7 +71,7 @@ export default function LikeIcon({ part }: Props): JSX.Element {
   }
 
   if (user) {
-    if (user._id === part.author) {
+    if (user._id === story.author._id) {
       return <Favorite className={classes.disabledIcon} />
     } else if (!part.likes.includes(user._id)) {
       return (

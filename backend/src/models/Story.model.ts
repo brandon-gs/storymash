@@ -1,38 +1,23 @@
 import mongoosePagination from "mongoose-paginate-v2"
 import { Schema, model, Document, PaginateModel } from "mongoose"
 import { getRandomNumber } from "../lib/random"
-import { IStoryPart } from "./StoryPart.model"
-
-export interface IStory extends Document {
-  author: string
-  title: string
-  image: string
-  totalLikes: number
-  totalComments: number
-  views: Array<string>
-  category: Array<string>
-  parts: Array<IStoryPart | string>
-  lastPartCreatedAt: Date
-  createdAt: Date
-  updatedAt: Date
-  populateAuthor: () => Promise<VoidFunction>
-  populateParts: () => Promise<VoidFunction>
-}
+import { IStory } from "./types/Story.types"
 
 const StorySchema = new Schema(
   {
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
     title: { type: String, required: true },
-    category: { type: Array, required: true },
     image: { type: String, default: "" },
-    totalLikes: { type: Number, default: 0 },
-    totalComments: { type: Number, default: 0 },
+    category: { type: Array, required: true },
     lastPartCreatedAt: { type: Date, default: new Date() },
     views: [{ type: Schema.Types.ObjectId, default: [] }],
+    totalLikes: { type: Number, default: 0 },
+    totalComments: { type: Number, default: 0 },
+    totalRankPoints: { type: Number, default: 0 },
     parts: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "StoryPart",
+        type: Schema.Types.Mixed,
+        ref: "IStoryPart",
         default: [],
       },
     ],
@@ -54,16 +39,6 @@ StorySchema.methods.populateAuthor = async function () {
   await this.populate({
     path: "author",
     select: { username: 1, image: 1 },
-  }).execPopulate()
-}
-
-StorySchema.methods.populateParts = async function () {
-  await this.populate({
-    path: "parts",
-    populate: {
-      path: "comments",
-      populate: { path: "author", select: { username: 1, image: 1 } },
-    },
   }).execPopulate()
 }
 

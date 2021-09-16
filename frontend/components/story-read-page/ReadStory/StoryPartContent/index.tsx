@@ -56,7 +56,8 @@ export default function StoryPartContent({
       <DeleteStoryModal
         open={openDeleteStoryPart}
         handleClose={handleCloseDeleteStoryPart}
-        idPart={part._id}
+        idStory={story._id}
+        storyPartIndex={index}
       />
 
       <Grid
@@ -121,7 +122,7 @@ export default function StoryPartContent({
         <Grid item>
           <Grid container spacing={1} direction="row-reverse">
             <Grid item className={classes.cardActionsItem}>
-              <ButtonLike story={story} part={part} />
+              <ButtonLike story={story} part={part} storyPartIndex={index} />
               <Typography variant="body2" component="p">
                 {part.likes.length}
               </Typography>
@@ -137,11 +138,12 @@ export default function StoryPartContent({
       </Grid>
 
       <StoryPartListComments
+        story={story}
         comments={part.comments}
         indexPart={index}
         userId={userId}
         userImage={userImage}
-        storyPartId={part._id}
+        storyId={story._id}
       />
     </Container>
   )
@@ -185,6 +187,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.6em",
     transitionDuration: "0.5s",
     marginRight: theme.spacing(1),
+    borderRadius: theme.spacing(0.5),
     "&:hover": {
       backgroundColor: theme.palette.red.dark,
     },
@@ -195,6 +198,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     fontSize: "1.6em",
     transitionDuration: "0.5s",
+    borderRadius: theme.spacing(0.5),
     "&:hover": {
       backgroundColor: theme.palette.primary.dark,
     },

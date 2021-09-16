@@ -14,26 +14,26 @@ import { useState } from "react"
 import clsx from "clsx"
 
 export interface StoryPartCreateCommentProps {
+  storyId: string
   userId: string
   userImage: string
   indexPart: number
-  storyPartId?: string
   className?: string
   defaultValue?: string
   isEditing?: boolean
-  idComment?: string
+  indexComment?: number
   removeEditingMode?: () => void
 }
 
 export default function StoryPartCreateComment({
+  storyId,
   userId,
   userImage,
-  storyPartId = "",
   indexPart,
   className,
   defaultValue = "",
+  indexComment = -1,
   isEditing = false,
-  idComment = "",
   removeEditingMode,
 }: StoryPartCreateCommentProps) {
   const classes = useStyles()
@@ -41,7 +41,7 @@ export default function StoryPartCreateComment({
   const [comment, setComment] = useState<string>(defaultValue)
   const [onFocus, setOnFocus] = useState<boolean>(false)
 
-  const { sendComment, editComment } = useCommentsService(storyPartId, indexPart)
+  const { sendComment, editComment } = useCommentsService(storyId, indexPart)
 
   const handleChangeComment = (event: ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value)
@@ -60,7 +60,7 @@ export default function StoryPartCreateComment({
   const handleSendComment = async (e: FormEvent) => {
     e.preventDefault()
     if (isEditing) {
-      editComment(idComment, comment, removeEditingMode)
+      editComment(indexComment, comment, removeEditingMode)
       return
     }
     sendComment(comment, handleClearComment)

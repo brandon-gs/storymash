@@ -10,9 +10,10 @@ export default function storiesReducer(
 ): FavoriteStoriesState {
   switch (action.type) {
     case HYDRATE:
-      return [...state, ...action.payload.favorites]
+      return [...action.payload.favorites]
     case UPDATE_FAVORITE_STORIES:
-      return action.favorites
+      const favorites: FavoriteStoriesState = Array.from(new Set(action.favorites))
+      return favorites
     default:
       return state
   }

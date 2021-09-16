@@ -9,9 +9,9 @@ const handler = nextApp.getRequestHandler()
 
 import "./database"
 import "./src/services/passport"
-import "./src/lib/global"
+import "./src/lib/global.types"
 
-(async () => {
+;(async () => {
   try {
     await nextApp.prepare()
     app.get("*", (req, res) => {

@@ -70,15 +70,15 @@ const addCommentToStorPart = (indexPart: number, comment: StoryPartComment): any
   }
 }
 
-const updateComment = (indexPart: number, comment: StoryPartComment): any => {
+const updateComment = (indexPart: number, indexComment: number, comment: StoryPartComment): any => {
   return (dispatch: any) => {
-    dispatch({ type: UPDATE_COMMENT, payload: { indexPart, comment } })
+    dispatch({ type: UPDATE_COMMENT, payload: { indexPart, indexComment, comment } })
   }
 }
 
-const deleteComment = (indexPart: number, idComment: string): any => {
+const deleteComment = (indexPart: number, indexComment: number): any => {
   return (dispatch: any) => {
-    dispatch({ type: DELETE_COMMENT, payload: { indexPart, idComment } })
+    dispatch({ type: DELETE_COMMENT, payload: { indexPart, indexComment } })
   }
 }
 

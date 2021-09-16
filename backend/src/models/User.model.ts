@@ -1,58 +1,9 @@
-import { Schema, model, Document } from "mongoose"
+import { Schema, model } from "mongoose"
 import bcrypt from "bcryptjs"
 import { getLevel } from "../helpers/levels.helpers"
+import { IUser, PublicDataUser } from "./types/User.types"
 
-export type ObjectUser = {
-  _id: string
-  type: string
-  level: number
-  points: number
-  likes: number
-  comments: number
-  stories: Array<string>
-  favorites: Array<{ story: string; storyPart: string }>
-  followers: Array<string>
-  following: Array<string>
-  firstName: string
-  lastName: string
-  username: string
-  email: string
-  age: number
-  gender: string
-  about: string
-  image: string
-  createdAt: Date
-  updatedAt: Date
-  getPublicData: () => ObjectUser
-}
-
-export interface IUser extends Document {
-  _id: string
-  firstName: string
-  lastName: string
-  username: string
-  email: string
-  password: string
-  gender: string
-  age: number
-  points: number
-  image: string
-  about: string
-  followers: Array<string>
-  following: Array<string>
-  stories: Array<string>
-  favorites: Array<{ story: string; storyPart: string }>
-  type: string
-  likes: number
-  comments: number
-  level: number
-  notifications: Array<string>
-  createdAt: Date
-  updatedAt: Date
-  matchPassword: (password: string) => Promise<boolean>
-  getPublicData: () => ObjectUser
-}
-
+// Schema
 const UserSchema = new Schema(
   {
     firstName: { type: String, required: true },
@@ -67,12 +18,7 @@ const UserSchema = new Schema(
     followers: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
     following: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
     stories: [{ type: Schema.Types.ObjectId, ref: "Story", default: [] }],
-    favorites: [
-      {
-        story: { type: Schema.Types.ObjectId, ref: "Story" },
-        storyPart: { type: Schema.Types.ObjectId, ref: "StoryPart" },
-      },
-    ],
+    favorites: [{ type: Schema.Types.ObjectId, ref: "Story", default: [] }],
     type: { type: String, default: "Redactor Becario" },
     likes: { type: Number, default: 0 },
     comments: { type: Number, default: 0 },
@@ -85,6 +31,7 @@ const UserSchema = new Schema(
   }
 )
 
+// Methods
 UserSchema.pre<IUser>("save", async function (next) {
   // Change image based in his gender
   if (!this.image) {
@@ -111,8 +58,8 @@ UserSchema.methods.matchPassword = async function (
   return await bcrypt.compare(password, this.password)
 }
 
-UserSchema.methods.getPublicData = function (this: IUser): ObjectUser {
-  const user: ObjectUser = {
+UserSchema.methods.getPublicData = function (this: IUser): PublicDataUser {
+  const user: PublicDataUser = {
     _id: this._id,
     type: this.type,
     level: this.level,

@@ -59,7 +59,7 @@ export default function ShowStories({
   }, [columns, currentNCols, firstColumn, stories, storiesLength, width])
 
   return (
-    <Grid container direction="row" justifyContent="center" spacing={2}>
+    <Grid container direction="row" justifyContent="flex-start" spacing={2}>
       {storyColumns.map((column, idxCol) => (
         <Grid container item key={`story-column-${idxCol}`} className={classes.root}>
           {idxCol === 0 && firstColumn && (

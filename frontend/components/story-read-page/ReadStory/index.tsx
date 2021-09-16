@@ -79,7 +79,7 @@ export default function ReadStory(): JSX.Element | null {
           {/* Show all story's parts content */}
           {parts.map((part, index) => (
             <StoryPartContent
-              key={`story-part-content-${part._id}-${index}`}
+              key={`story-part-content-${story._id}-${index}`}
               part={part}
               index={index}
               story={story}

@@ -24,7 +24,7 @@ export default function CardStoryFooter({ story }: Props): JSX.Element {
   return (
     <Grid container spacing={1} direction="row-reverse">
       <Grid item className={classes.cardActionsItem}>
-        <ButtonLike part={story.parts[0]} story={story} />
+        <ButtonLike part={story.parts[0]} story={story} storyPartIndex={0} />
         <Typography variant="body2" component="p">
           {likes}
         </Typography>

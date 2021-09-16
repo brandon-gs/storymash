@@ -1,23 +1,24 @@
 /*
   @url: /api/story
 */
-
 import { Router } from "express"
-import { requireAuth } from "../middlewares/authentication"
+import { requireAuth } from "../../middlewares/authentication"
 import {
   createStory,
   getStory,
-  getStoriesByUsername,
-  getFavoritesStories,
   updateStory,
   deleteStory,
-  uploadStoryImage,
+} from "../../controllers/story/story.controller"
+import {
+  getStoriesByUsername,
+  getFavoritesStories,
   getAllStories,
-  addStoryView,
-  getRandomStory,
-  getStoryBySearch,
-  getStoriesPlank,
-} from "../controllers/story.controller"
+} from "../../controllers/story/stories.controller"
+import { uploadStoryImage } from "../../controllers/story/image.controller"
+import { addStoryView } from "../../controllers/story/views.controller"
+import { getStoryBySearch } from "../../controllers/story/search.controller"
+import { getRandomStory } from "../../controllers/story/random.controller"
+import { getStoriesPlank } from "../../controllers/story/plank.controller"
 
 const router = Router()
 
@@ -31,7 +32,7 @@ router.route("/plank").get(requireAuth, getStoriesPlank)
 
 router.route("/:id").get(getStory).put(requireAuth, updateStory).delete(requireAuth, deleteStory)
 
-router.route("/image/:id").post(requireAuth, uploadStoryImage)
+router.route("/image/:id").put(requireAuth, uploadStoryImage)
 
 router.route("/user/:username").get(getStoriesByUsername)
 

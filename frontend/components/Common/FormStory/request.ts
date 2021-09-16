@@ -50,12 +50,13 @@ export async function createStoryPart(
 }
 
 export async function editStoryPart(
-  idStoryPart: string,
+  storyId: string,
+  storyPartIndex: number | string,
   body: { content: string },
   token: string
 ): Promise<User | Message> {
   try {
-    const { data } = await axios.put(`/api/story/part/${idStoryPart}`, body, {
+    const { data } = await axios.put(`/api/story/part/${storyId}/${storyPartIndex}`, body, {
       headers: { authorization: token },
     })
     return data.user

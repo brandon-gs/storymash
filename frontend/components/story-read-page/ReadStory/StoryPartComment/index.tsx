@@ -16,10 +16,16 @@ import { useCommentsService, useIsMounted } from "hooks"
 import StoryPartCreateComment, { StoryPartCreateCommentProps } from "../StoryPartCreateComment"
 
 interface StoryPartCommentProps extends StoryPartCreateCommentProps {
+  story: Story
+  commentIndex: number
+  storyId: string
   comment: StoryPartComment
 }
 
 export default function StoryPartComment({
+  story,
+  commentIndex,
+  storyId,
   comment,
   ...createCommentProps
 }: StoryPartCommentProps) {
@@ -27,25 +33,27 @@ export default function StoryPartComment({
 
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const { mounted } = useIsMounted()
-  const { deleteComment } = useCommentsService(
-    createCommentProps.storyPartId,
-    createCommentProps.indexPart
-  )
+  const { deleteComment } = useCommentsService(storyId, createCommentProps.indexPart)
 
   return isEditing ? (
     <Box mt={3}>
       <StoryPartCreateComment
         {...createCommentProps}
-        idComment={comment._id}
+        storyId={storyId}
+        indexComment={commentIndex}
         isEditing={isEditing}
         removeEditingMode={() => setIsEditing(false)}
         defaultValue={comment.content}
       />
     </Box>
   ) : (
-    <ListItem className={classes.listItem} alignItems="flex-start" key={comment._id}>
+    <ListItem
+      className={classes.listItem}
+      alignItems="flex-start"
+      key={`${storyId}-${commentIndex}`}
+    >
       <ListItemAvatar>
-        <Avatar alt={`Comentario de ${comment.author.username}`} src={comment.author.image} />
+        <Avatar alt={`Comentario de ${story.author.username}`} src={story.author.image} />
       </ListItemAvatar>
 
       <ListItemText
@@ -56,7 +64,7 @@ export default function StoryPartComment({
               variant="body1"
               className={clsx(classes.username, classes.inline)}
             >
-              {comment.author.username}
+              {story.author.username}
             </Typography>
             {mounted && (
               <TimeAgo
@@ -82,12 +90,12 @@ export default function StoryPartComment({
       />
 
       {/** Icon to edit or delete this comment ONLY show when User is the owner of the comment */}
-      {createCommentProps.userId === comment.author._id && (
+      {createCommentProps.userId === story.author._id && (
         <ListItemSecondaryAction className={classes.secondaryAction}>
           <StoryPartMenuComment
-            commentId={comment._id}
+            commentIndex={commentIndex}
             onPressEdit={() => setIsEditing(true)}
-            onPressDelete={() => deleteComment(comment._id)}
+            onPressDelete={() => deleteComment(commentIndex)}
           />
         </ListItemSecondaryAction>
       )}

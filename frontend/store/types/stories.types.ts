@@ -43,12 +43,12 @@ interface AddCommentStoriesAction {
 
 interface UpdateCommentAction {
   type: typeof UPDATE_COMMENT
-  payload: { indexPart: number; comment: StoryPartComment }
+  payload: { indexPart: number; indexComment: number; comment: StoryPartComment }
 }
 
 interface DeleteCommentAction {
   type: typeof DELETE_COMMENT
-  payload: { indexPart: number; idComment: string }
+  payload: { indexPart: number; indexComment: number }
 }
 
 export type StoriesActionTypes =

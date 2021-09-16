@@ -10,7 +10,7 @@ declare type Message = {
 }
 
 declare type Story = {
-  _id?: string
+  _id: string
   author: { image: string; _id: string; username: string }
   title: string
   category: Array<string>
@@ -20,9 +20,6 @@ declare type Story = {
 }
 
 declare type StoryPart = {
-  story: string
-  author: string
-  _id?: string
   content: string
   likes: Array<string>
   comments: StoryPartComment[]
@@ -36,9 +33,6 @@ declare type Author = {
 }
 
 declare type StoryPartComment = {
-  __v: number
-  _id: string
-  author: Author
   content: string
   likes: string[]
   createdAt: Date

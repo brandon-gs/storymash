@@ -6,16 +6,18 @@ import StoryPartCreateComment, { StoryPartCreateCommentProps } from "../StoryPar
 import StoryPartComment from "../StoryPartComment"
 
 interface StoryPartListCommentsProps extends StoryPartCreateCommentProps {
+  story: Story
   comments: StoryPartComment[]
   userId: string
 }
 
 export default function StoryPartListComments({
+  story,
+  storyId,
   comments,
   indexPart,
   userImage,
   userId,
-  storyPartId,
 }: StoryPartListCommentsProps) {
   const classes = useStyles()
 
@@ -34,21 +36,23 @@ export default function StoryPartListComments({
         <Box mt={2}>
           <List>
             <StoryPartCreateComment
+              storyId={storyId}
               className={classes.listItem}
               indexPart={indexPart}
               userId={userId}
               userImage={userImage}
-              storyPartId={storyPartId}
             />
-            {comments.map(comment => (
+            {comments.map((comment, commentIndex) => (
               <StoryPartComment
-                key={`list.commments-${comment._id}`}
+                key={`list.commments-${indexPart}-${commentIndex}`}
                 comment={comment}
                 className={classes.listItem}
                 indexPart={indexPart}
                 userId={userId}
                 userImage={userImage}
-                storyPartId={storyPartId}
+                storyId={storyId}
+                story={story}
+                commentIndex={commentIndex}
               />
             ))}
           </List>

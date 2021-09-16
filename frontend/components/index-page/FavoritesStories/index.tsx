@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react"
 // Helpers
 import { Grid, Typography } from "@material-ui/core"
 import { CardStory, Link } from "../../index"
@@ -11,27 +10,11 @@ export default function FavoritesStories(): JSX.Element {
 
   const classes = useStyles()
 
-  const [onlyUniqueFavorites, setOnlyUniqueFavorites] = useState<Story[]>([])
-
-  useEffect(() => {
-    const uniqueIds: string[] = []
-    const uniqueFavorites: Story[] = []
-    favorites.forEach(({ story }) => {
-      if (story && story._id) {
-        if (!uniqueIds.includes(story._id)) {
-          uniqueIds.push(story._id)
-          uniqueFavorites.push(story)
-        }
-      }
-    })
-    setOnlyUniqueFavorites(uniqueFavorites)
-  }, [favorites])
-
-  if (onlyUniqueFavorites.length > 0) {
+  if (favorites.length > 0) {
     return (
       <>
         <Grid container justifyContent="center" spacing={2}>
-          {onlyUniqueFavorites.map(story => (
+          {favorites.map(story => (
             <Grid item key={`favorite-story-${story._id}`} className={classes.cardContainer}>
               <CardStory story={story} />
             </Grid>

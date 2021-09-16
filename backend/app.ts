@@ -22,8 +22,8 @@ app.use(
 // ROUTES
 app.use("/api/auth", require("./src/routes/auth.routes"))
 app.use("/api/user", require("./src/routes/user.routes"))
-app.use("/api/story", require("./src/routes/story.routes"))
-app.use("/api/story/part", require("./src/routes/story.part.routes"))
-app.use("/api/comment", require("./src/routes/comment.routes"))
+app.use("/api/story", require("./src/routes/story/story.routes"))
+app.use("/api/story/comment", require("./src/routes/story/comment.routes"))
+app.use("/api/story/part", require("./src/routes/story/story.part.routes"))
 
 export default app

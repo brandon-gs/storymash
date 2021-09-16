@@ -13,13 +13,13 @@ import { ListMenuItem } from "components"
 import useListMenu from "hooks/useListMenu"
 
 interface StoryPartMenuCommentProps {
-  commentId: string
+  commentIndex: number
   onPressEdit: () => void
   onPressDelete: () => void
 }
 
 export default function StoryPartMenuComment({
-  commentId,
+  commentIndex,
   onPressEdit,
   onPressDelete,
 }: StoryPartMenuCommentProps) {
@@ -56,7 +56,7 @@ export default function StoryPartMenuComment({
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={false}
-                  id={`menu-comment-list-grow-${commentId}`}
+                  id={`menu-comment-list-grow-${commentIndex}`}
                   onKeyDown={handleListKeyDown}
                 >
                   <ListMenuItem
