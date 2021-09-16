@@ -9,7 +9,21 @@ import {
   DELETE_COMMENT,
 } from "../types/stories.types"
 import Router from "next/router"
+// Helpers
+const getStoriesUri = (currentLimit: number, currentPage: number) => {
+  const { pathname, query } = Router
+  const defaultQuery = `limit=${currentLimit}&page=${currentPage}&offset=${
+    currentPage * currentLimit
+  }`
+  if (pathname === "/profile/[username]") {
+    return `/api/story/user/${query.username}?${defaultQuery}`
+  } else if (pathname === "/rank") {
+    return `/api/story/rank?${defaultQuery}`
+  }
+  return `/api/story?${defaultQuery}`
+}
 
+// Actions
 const updateStories = (docs: Array<Story>): any => {
   return (dispatch: any) => {
     dispatch({ type: UPDATE_STORIES, payload: { docs } })
@@ -24,35 +38,16 @@ const updateDataStories = (dataStories: StoriesState): any => {
 
 const asyncUpdateDataStories = (prevDataStories: StoriesState, limit = 0, page = 0) => {
   return async (dispatch: any) => {
-    const currentPage = page > 0 ? page : prevDataStories.page
-    const currentLimit = limit > 0 ? limit : prevDataStories.limit
-    const { pathname, query } = Router
-    let data = prevDataStories
-    if (pathname === "/") {
-      // If pathname is home, call to all stories endpoint
-      data = (
-        await axios.get(
-          `/api/story/?limit=${currentLimit}&page=${currentPage}&offset=${
-            currentPage * currentLimit
-          }`
-        )
-      ).data
-    } else {
-      // If pathname is profile/[username], call to stories by username endpoint
-      try {
-        data = (
-          await axios.get(
-            `/api/story/user/${query.username}?limit=${currentLimit}&page=${currentPage}&offset=${
-              currentPage * currentLimit
-            }`
-          )
-        ).data
-      } catch (e) {
-        console.log(e)
-      }
+    try {
+      const currentPage = page > 0 ? page : prevDataStories.page
+      const currentLimit = limit > 0 ? limit : prevDataStories.limit
+      const uri = getStoriesUri(currentLimit, currentPage)
+      const { data } = await axios.get(uri)
+      data.docs = [...prevDataStories.docs, ...data.docs]
+      dispatch({ type: ASYNC_UPDATE_DATA_STORIES, payload: { data } })
+    } catch (e) {
+      console.log(JSON.stringify(e))
     }
-    data.docs = [...prevDataStories.docs, ...data.docs]
-    dispatch({ type: ASYNC_UPDATE_DATA_STORIES, payload: { data } })
   }
 }
 

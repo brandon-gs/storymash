@@ -1,6 +1,7 @@
 // Layout
-export { default as Loader } from "./Layout/Loader"
 export { default as Alert } from "./Layout/Alert"
+export { default as CircleLoader } from "./Layout/CircleLoader"
+export { default as Loader } from "./Layout/Loader"
 export { default as Layout } from "./Layout"
 export { default as Navbar } from "./Layout/Navbar"
 export { default as MainMenuSpace } from "./Layout/MainMenuSpace"

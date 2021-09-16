@@ -4,6 +4,8 @@ import { IComment } from "../../models/types/Story.types"
 // Models
 import Story from "../../models/Story.model"
 
+const COMMENTS_RANK_PONTS = 0.2
+
 /**
  * Route: /comment/:storyId/:storyPartIndex
  *
@@ -36,7 +38,7 @@ export const addComment = async (req: Request, res: Response): Promise<Response>
           $push: {
             [`parts.${storyPartIndex}.comments`]: comment,
           },
-          $inc: { totalRankPoints: 1 },
+          $inc: { totalRankPoints: COMMENTS_RANK_PONTS },
         },
         { new: true }
       )
@@ -144,7 +146,7 @@ export const deleteComment = async (req: Request, res: Response): Promise<Respon
               $position: commentIndex,
             },
           },
-          $inc: { totalRankPoints: -1 },
+          $inc: { totalRankPoints: -COMMENTS_RANK_PONTS },
         }
       )
 

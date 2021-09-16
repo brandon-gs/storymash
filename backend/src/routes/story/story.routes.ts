@@ -19,6 +19,7 @@ import { addStoryView } from "../../controllers/story/views.controller"
 import { getStoryBySearch } from "../../controllers/story/search.controller"
 import { getRandomStory } from "../../controllers/story/random.controller"
 import { getStoriesPlank } from "../../controllers/story/plank.controller"
+import { getStoriesByRank } from "../../controllers/story/rank.controller"
 
 const router = Router()
 
@@ -29,6 +30,8 @@ router.route("/random").get(getRandomStory)
 router.route("/favorites").get(requireAuth, getFavoritesStories)
 
 router.route("/plank").get(requireAuth, getStoriesPlank)
+
+router.route("/rank").get(getStoriesByRank)
 
 router.route("/:id").get(getStory).put(requireAuth, updateStory).delete(requireAuth, deleteStory)
 

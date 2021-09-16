@@ -59,7 +59,7 @@ export default function CustomTabs() {
             href="/rank"
             icon={<TrendingUp />}
             className={classes.tab}
-            {...a11yProps(MenuTabsRoutes.TrendingIndex)}
+            {...a11yProps(MenuTabsRoutes.RankIndex)}
           />
         </SecondaryTooltip>
         <SecondaryTooltip arrow title="Tendencias">
@@ -68,7 +68,7 @@ export default function CustomTabs() {
             href="/trending"
             icon={<WhatshotSharp />}
             className={classes.tab}
-            {...a11yProps(MenuTabsRoutes.RankIndex)}
+            {...a11yProps(MenuTabsRoutes.TrendingIndex)}
           />
         </SecondaryTooltip>
         <Tab style={{ display: "none" }} {...a11yProps(5)} />

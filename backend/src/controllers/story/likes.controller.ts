@@ -32,6 +32,8 @@ export const addLike = async (req: Request, res: Response) => {
         {
           $push: {
             [`parts.${storyPartIndex}.likes`]: userId,
+          },
+          $addToSet: {
             views: userId,
           },
           $inc: { totalLikes: 1, totalRankPoints: 1 },
