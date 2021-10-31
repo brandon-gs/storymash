@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import axios from "axios"
 
-export default function useStoriesServices(id?: string) {
+export default function useReadStory(id?: string) {
   const { auth } = useSelector(state => state.authentication)
 
   useEffect(() => {

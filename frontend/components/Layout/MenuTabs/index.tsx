@@ -1,7 +1,7 @@
 // Components
 import { Tab, Tabs } from "@material-ui/core"
 // Icons
-import { Book, Favorite, Home, TrendingUp, WhatshotSharp } from "@material-ui/icons"
+import { Book, Favorite, Home, TrendingUp } from "@material-ui/icons"
 // Hooks
 import useStyles from "./styles"
 import { Link, SecondaryTooltip } from "components"
@@ -62,7 +62,7 @@ export default function CustomTabs() {
             {...a11yProps(MenuTabsRoutes.RankIndex)}
           />
         </SecondaryTooltip>
-        <SecondaryTooltip arrow title="Tendencias">
+        {/* <SecondaryTooltip arrow title="Tendencias">
           <Tab
             component={Link}
             href="/trending"
@@ -70,7 +70,8 @@ export default function CustomTabs() {
             className={classes.tab}
             {...a11yProps(MenuTabsRoutes.TrendingIndex)}
           />
-        </SecondaryTooltip>
+        </SecondaryTooltip> */}
+        <Tab style={{ display: "none" }} {...a11yProps(MenuTabsRoutes.TrendingIndex)} />
         <Tab style={{ display: "none" }} {...a11yProps(5)} />
       </Tabs>
     </div>

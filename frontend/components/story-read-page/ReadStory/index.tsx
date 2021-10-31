@@ -16,8 +16,9 @@ export default function ReadStory(): JSX.Element | null {
   const [openDeleteStoryPart, setOpenDeleteStoryPart] = useState(false)
   const [openDeleteStory, setOpenDeleteStory] = useState(false)
 
+  const canAddView = user && docs.length > 0 && !docs[0].views.includes(user?._id)
   // Add 1 view to current story
-  useReadStory(docs.length > 0 ? docs[0]._id : "")
+  useReadStory(canAddView ? docs[0]._id : "")
 
   if (docs.length === 0) {
     return <NotFound />

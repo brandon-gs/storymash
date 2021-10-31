@@ -43,7 +43,7 @@ export default function ModalUploadImage({
         const formData = new FormData()
         formData.append("image", file)
         // Send file to api to upload
-        const uploadResponse = await axios.post(`/api/story/image/${story._id}`, formData, {
+        const uploadResponse = await axios.put(`/api/story/image/${story._id}`, formData, {
           headers: {
             authorization: token,
           },

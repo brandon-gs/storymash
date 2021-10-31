@@ -4,7 +4,7 @@ import SwipeableViews from "react-swipeable-views"
 import { AppBar, Tabs, Tab, Box } from "@material-ui/core"
 import { Link } from "components"
 // Icons
-import { Home, Book, Favorite, WhatshotSharp, TrendingUp } from "@material-ui/icons"
+import { Home, Book, Favorite, TrendingUp } from "@material-ui/icons"
 // Hooks
 import useStyles from "./styles"
 import { useTheme } from "@material-ui/core/styles"
@@ -74,6 +74,7 @@ export default function FullWidthTabs(): JSX.Element {
           aria-label="Tabs menu"
           variant="scrollable"
           scrollButtons="on"
+          className={classes.tabs}
         >
           <Tab
             component={Link}
@@ -100,16 +101,17 @@ export default function FullWidthTabs(): JSX.Element {
             component={Link}
             href="/rank"
             icon={<TrendingUp />}
-            {...a11yProps(MenuRoutes.TrendingIndex)}
+            {...a11yProps(MenuRoutes.RankIndex)}
             className={classes.tab}
           />
-          <Tab
+          {/* <Tab
             component={Link}
             href="/trending"
             icon={<WhatshotSharp />}
             {...a11yProps(MenuRoutes.RankIndex)}
             className={classes.tab}
-          />
+          /> */}
+          <Tab {...a11yProps(MenuRoutes.TrendingIndex)} style={{ display: "none" }} />
           <Tab {...a11yProps(5)} style={{ display: "none" }} />
         </Tabs>
       </AppBar>

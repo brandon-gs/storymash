@@ -1,6 +1,7 @@
 export { default as configAllStories } from "./configAllStories"
 export { default as configFavoritesStories } from "./configFavoritesStories"
 export { default as configProfile } from "./configProfile"
+export { default as configRankStories } from "./configRankStories"
 export { default as configStoriesBySearch } from "./configStoriesBySearch"
 export { default as configStoriesPlank } from "./configStoriesPlank"
 export { default as configStory } from "./configStory"

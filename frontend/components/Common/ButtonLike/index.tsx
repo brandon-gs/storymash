@@ -31,10 +31,23 @@ export default function LikeIcon({ storyPartIndex, part, story }: Props): JSX.El
     setOpenModalLogin(true)
   }
 
-  const addOrRemoveLike = (option: string) => async () => {
-    dispatch(actions.updateLoader(true))
+  const addOrRemoveLike = (option: "add" | "remove") => async () => {
     if (user) {
       try {
+        // Update button icon
+        const newStories = [...stories.docs]
+        const storyIndex = stories.docs.map(({ _id }) => _id).indexOf(story._id)
+        if (newStories.length > 0 && newStories[storyIndex]) {
+          if (option === "add") {
+            newStories[storyIndex].parts[storyPartIndex].likes.push(user._id)
+          } else {
+            newStories[storyIndex].parts[storyPartIndex].likes = newStories[storyIndex].parts[
+              storyPartIndex
+            ].likes.filter(likeUserId => likeUserId !== user._id)
+          }
+          dispatch(actions.updateStories(newStories))
+        }
+        // Do api call to add or remove like
         const { data } = await Axios.put(
           `/api/story/part/like/${option}/${story._id}/${storyPartIndex}`,
           {
@@ -47,17 +60,10 @@ export default function LikeIcon({ storyPartIndex, part, story }: Props): JSX.El
           }
         )
 
-        if (data.story) {
-          const storyIndex = stories.docs.map(({ _id }) => _id).indexOf(data.story._id)
-          const newStories = stories.docs.slice(0)
-          newStories.splice(storyIndex, 1, data.story)
-          dispatch(actions.updateStories(newStories))
-          dispatch(actions.asyncUpdateFavorites(token))
-          dispatch(actions.updateProfile(data.author))
-        } else {
-          throw new Error("La historia no existe")
-        }
+        dispatch(actions.asyncUpdateFavorites(token))
+        dispatch(actions.updateProfile(data.author))
       } catch (error) {
+        console.log(JSON.stringify(error))
         dispatch(
           actions.updateAlert({
             message: "Algo salió mal, intentalo más tarde",
@@ -67,7 +73,6 @@ export default function LikeIcon({ storyPartIndex, part, story }: Props): JSX.El
         )
       }
     }
-    dispatch(actions.updateLoader(false))
   }
 
   if (user) {

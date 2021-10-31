@@ -30,7 +30,7 @@ export default function storiesReducer(
 ): StoriesState {
   switch (action.type) {
     case HYDRATE:
-      return { ...state, ...action.payload.stories }
+      return { ...action.payload.stories }
     case UPDATE_STORIES:
       return { ...state, docs: action.payload.docs }
     case UPDATE_DATA_STORIES:

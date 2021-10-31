@@ -7,6 +7,13 @@ export default makeStyles(theme => ({
   tab: {
     color: theme.palette.grey.A100,
   },
+  tabs: {
+    "& .MuiTabs-scroller": {
+      "&  .MuiTabs-flexContainer": {
+        justifyContent: "center",
+      },
+    },
+  },
   stickToBottom: {
     display: "none",
     [theme.breakpoints.down("sm")]: {
