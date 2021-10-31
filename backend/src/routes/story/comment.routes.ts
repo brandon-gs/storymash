@@ -13,7 +13,7 @@ import {
 
 const router = Router()
 
-router.route("/:storyId/:storyPartIndex").get(getComments).post(requireAuth, addComment)
+router.route("/:storyId/:storyPartIndex").get(getComments).put(requireAuth, addComment)
 
 router
   .route("/:storyId/:storyPartIndex/:commentIndex")

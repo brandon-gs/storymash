@@ -20,20 +20,24 @@ import { populateAuthor } from "./stories.controller"
 export const getStoriesPlank = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
+      const { query } = req
       const { following } = req.user
       // Search stories if author is in the following array
-      const stories = await Story.find(
+      const storiesPageData = await Story.paginate(
         {
           author: { $in: following },
         },
         {
-          parts: { $slice: 1 },
+          ...query,
+          select: {
+            parts: { $slice: 1 },
+          },
+          sort: { lastPartCreatedAt: -1 },
+          populate: [populateAuthor],
         }
       )
-        .sort({ lastPartCreatedAt: -1 })
-        .populate(populateAuthor)
 
-      return res.status(200).json({ stories, message: "Get stories from users that i follow" })
+      return res.status(200).json(storiesPageData)
     } catch (e) {
       return res.status(400).json({ message: "Catch Error to get plank stories" })
     }

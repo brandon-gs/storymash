@@ -46,8 +46,13 @@ export const createStoryPart = async (req: Request, res: Response): Promise<Resp
         { new: true }
       )
       if (story) {
+        // Update parts
+        if (story.totalParts !== story.parts.length) {
+          story.totalParts = story.parts.length
+          await story.save()
+        }
         // Add points to user
-        const user = await User.findByIdAndUpdate(
+        const user = await User.findOneAndUpdate(
           { _id },
           {
             $inc: {
@@ -60,7 +65,7 @@ export const createStoryPart = async (req: Request, res: Response): Promise<Resp
       }
       return res.status(400).json({ message: "Story dont found" })
     } catch (error) {
-      return res.status(403).json({ message: "Story part dont was created" })
+      return res.status(500).json({ message: "Server error" })
     }
   }
   return res.status(401).json({ message: "Story part dont was created" })

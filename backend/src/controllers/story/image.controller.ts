@@ -36,8 +36,10 @@ export const uploadStoryImage = async (req: Request, res: Response): Promise<Res
         return res.status(200).json({ story, message })
       }
       // Return message error to upload
-      return res.status(404).json({ message: "Can't upload image" })
+      return res.status(400).json({ message: "Can't upload image" })
     } catch (e) {
+      console.log(e)
+      console.log("error: ", JSON.stringify(e))
       return res.status(404).json({ error: JSON.stringify(e), message: "Not story found" })
     }
   }

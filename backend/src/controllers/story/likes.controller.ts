@@ -39,7 +39,7 @@ export const addLike = async (req: Request, res: Response) => {
           $inc: { totalLikes: 1, totalRankPoints: 1 },
         },
         { new: true }
-      )
+      ).slice("parts", 1)
       if (story) {
         // Add 1 like to author likes and points
         const author = await User.findByIdAndUpdate(story.author, {
@@ -47,12 +47,11 @@ export const addLike = async (req: Request, res: Response) => {
         })
         // Add story to user's favorites stories
         await User.findByIdAndUpdate(userId, {
-          $set: { favorites: story._id },
+          $push: { favorites: story._id },
         })
         // Populate story
         await story.populateAuthor()
         // Only get the first parts BUT not update in database
-        story.parts = [story.parts[0]]
         return res.status(200).json({ author, story })
       }
     } catch (e) {
@@ -96,9 +95,13 @@ export const removeLike = async (req: Request, res: Response) => {
           $inc: { likes: -1, points: -Points.STORY_PART_LIKE },
         })
         // Remove storyId to user's favorites stories
-        await User.findByIdAndUpdate(userId, {
-          $pull: { favorites: story._id },
-        })
+        // await User.findByIdAndUpdate(userId, {
+        //   $pull: { favorites: story._id },
+        // })
+        const user = await User.findOne({ _id: userId })
+        const index = user.favorites.findIndex(favorite => favorite === story._id)
+        user.favorites.splice(index, 1)
+        await user.save()
         // Populate author
         await story.populateAuthor()
         story.parts = [story.parts[0]]

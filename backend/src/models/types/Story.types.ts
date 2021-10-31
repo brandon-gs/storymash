@@ -35,6 +35,7 @@ export interface IStory extends Document {
   totalLikes: number
   totalComments: number
   totalRankPoints: number
+  totalParts: number
   parts: Array<IStoryPart>
   populateAuthor: () => Promise<VoidFunction>
 }

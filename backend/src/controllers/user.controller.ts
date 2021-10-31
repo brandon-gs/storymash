@@ -3,6 +3,7 @@ import User from "../models/User.model"
 import { hasOnlyPublicFields } from "../helpers/user.controller.helper"
 import imageUpload from "../helpers/image.upload.helper"
 import { Points } from "../helpers/points.helpers"
+import UserModel from "../models/User.model"
 
 export function getUserFromToken(req: Request, res: Response): Response {
   if (req.user) {
@@ -89,7 +90,7 @@ export const addFollower = async (req: Request, res: Response): Promise<Response
         await User.findOneAndUpdate(
           { _id: req.user._id },
           {
-            $push: {
+            $addToSet: {
               following: userProfile._id,
             },
           },
@@ -179,4 +180,35 @@ export const getAllUsernames = async (req: Request, res: Response): Promise<Resp
   } catch (error) {
     return res.status(400).json({ message: "Error to get user from username" })
   }
+}
+
+/**
+ * Route: search/:query
+ *
+ * Complete Route: /api/user/search/:query
+ *
+ * Method: GET
+ *
+ * Action: Get a users filtered by query in username
+ *
+ * Auth required: No
+ *
+ */
+export const getUsersByQuery = async (req: Request, res: Response): Promise<Response> => {
+  const { query } = req.params
+  // Search profiles by username
+  const usersPageData = await UserModel.paginate(
+    {
+      username: {
+        $regex: new RegExp(query),
+        $options: "i",
+      },
+    },
+    {
+      ...req.query,
+      sort: { lastPartCreatedAt: -1 },
+    }
+  )
+
+  return res.json({ users: usersPageData, message: "Get users by query" })
 }

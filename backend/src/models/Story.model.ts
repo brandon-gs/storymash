@@ -14,6 +14,7 @@ const StorySchema = new Schema(
     totalLikes: { type: Number, default: 0 },
     totalComments: { type: Number, default: 0 },
     totalRankPoints: { type: Number, default: 0 },
+    totalParts: { type: Number, default: 0 },
     parts: [
       {
         type: Schema.Types.Mixed,
@@ -30,7 +31,7 @@ const StorySchema = new Schema(
 StorySchema.pre<IStory>("save", async function (next) {
   const random = getRandomNumber(1, 20)
   if (!this.image) {
-    this.image = `/img/default/default_story_${random}.jpg`
+    this.image = `https://res.cloudinary.com/dsyibmoda/image/upload/v1632104315/default/default_story_${random}.jpg`
   }
   next()
 })

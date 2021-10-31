@@ -31,7 +31,7 @@ export const getStoriesByUsername = async (req: Request, res: Response): Promise
         { author: author._id },
         {
           ...query,
-          select: { parts: { $slice: 1 } },
+          select: { parts: { $slice: 2 } },
           sort: { lastPartCreatedAt: -1 },
           populate: [populateAuthor],
         }
@@ -62,24 +62,31 @@ export const getStoriesByUsername = async (req: Request, res: Response): Promise
 export const getFavoritesStories = async (req: Request, res: Response): Promise<Response> => {
   if (req.user) {
     try {
-      const { favorites } = await User.findById(req.user._id)
-        .populate({
-          path: "favorites",
-          populate: [
-            populateAuthor,
-            {
-              path: "story",
-              select: { parts: { $slice: 1 } },
+      const { query } = req
+      const { favorites } = await User.findById(req.user._id).select("favorites")
+      const storiesPageData = await Story.paginate(
+        {
+          _id: {
+            $in: favorites,
+          },
+        },
+        {
+          ...query,
+          select: {
+            parts: {
+              $slice: 1,
             },
-          ],
-        })
-        .select("favorites")
-      if (favorites) {
-        return res.status(200).json({ favorites: favorites.reverse() })
+          },
+          sort: { lastPartCreatedAt: -1 },
+          populate: [populateAuthor],
+        }
+      )
+      if (storiesPageData) {
+        return res.status(200).json(storiesPageData)
       }
-      return res.status(200).json({ favorites: [], message: "user hasn't favorites" })
+      return res.status(400).json({ message: "user hasn't favorites" })
     } catch (e) {
-      return res.status(404).json({ favorites: [], message: "Error to get favorites" })
+      return res.status(404).json({ message: "Error to get favorites" })
     }
   }
   return res.status(400).json({ message: "Error not user" })

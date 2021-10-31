@@ -11,7 +11,7 @@ const COMMENTS_RANK_PONTS = 0.2
  *
  * Complete Route: /api/story/comment/:storyId/:storyPartIndex
  *
- * Method: POST
+ * Method: PUT
  *
  * Action: Add a comment to the :storyId in the :storyPartIndex
  *
@@ -36,9 +36,12 @@ export const addComment = async (req: Request, res: Response): Promise<Response>
         storyId,
         {
           $push: {
-            [`parts.${storyPartIndex}.comments`]: comment,
+            [`parts.${storyPartIndex}.comments`]: {
+              $each: [comment],
+              $position: 0,
+            },
           },
-          $inc: { totalRankPoints: COMMENTS_RANK_PONTS },
+          $inc: { totalComments: 1, totalRankPoints: COMMENTS_RANK_PONTS },
         },
         { new: true }
       )
@@ -94,18 +97,26 @@ export const updateComment = async (req: Request, res: Response): Promise<Respon
     try {
       const { storyId, storyPartIndex, commentIndex } = req.params
       const { content } = req.body // New comment's content
+      const commentPath = `parts.${storyPartIndex}.comments.${commentIndex}`
       // Search story
-      const story = await Story.findOne({ _id: storyId, author: req.user._id })
+      const story = await Story.findOneAndUpdate(
+        { _id: storyId, author: req.user._id },
+        {
+          $set: {
+            [`${commentPath}.content`]: content,
+            [`${commentPath}.updatedAt`]: new Date(),
+          },
+        },
+        { new: true }
+      ).populate({
+        path: "",
+      })
       // Validate comment's author is equal to req.user
       if (!story) {
         return res.status(401).json({
           message: "User isn't the  owner of the comment",
         })
       }
-      // Update comment
-      story.parts[storyPartIndex].comments[commentIndex].content = content
-      story.parts[storyPartIndex].comments[commentIndex].updatedAt = new Date()
-      await story.save()
 
       // Select updated comment
       const comment = story.parts[storyPartIndex].comments[commentIndex]
@@ -138,22 +149,25 @@ export const deleteComment = async (req: Request, res: Response): Promise<Respon
       const { storyId, storyPartIndex, commentIndex } = req.params
 
       // Delete comment
-      const story = await Story.findOneAndUpdate(
+      await Story.findOneAndUpdate(
+        { _id: storyId },
+        {
+          $unset: {
+            [`parts.${storyPartIndex}.comments.${commentIndex}`]: null,
+          },
+          $inc: { totalComments: -1, totalRankPoints: -COMMENTS_RANK_PONTS },
+        }
+      )
+      await Story.findOneAndUpdate(
         { _id: storyId },
         {
           $pull: {
-            [`parts.${storyPartIndex}.comments`]: {
-              $position: commentIndex,
-            },
+            [`parts.${storyPartIndex}.comments`]: null,
           },
-          $inc: { totalRankPoints: -COMMENTS_RANK_PONTS },
         }
       )
 
-      // Get deleted comment
-      const comment = story.parts[storyPartIndex].comments[commentIndex]
-
-      return res.status(200).json({ comment, message: "Comment deleted" })
+      return res.status(200).json({ message: "Comment deleted" })
     } catch (e) {
       return res
         .status(400)

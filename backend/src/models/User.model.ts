@@ -1,4 +1,5 @@
-import { Schema, model } from "mongoose"
+import mongoosePagination from "mongoose-paginate-v2"
+import { Schema, model, PaginateModel } from "mongoose"
 import bcrypt from "bcryptjs"
 import { getLevel } from "../helpers/levels.helpers"
 import { IUser, PublicDataUser } from "./types/User.types"
@@ -35,13 +36,14 @@ const UserSchema = new Schema(
 UserSchema.pre<IUser>("save", async function (next) {
   // Change image based in his gender
   if (!this.image) {
-    const defaultImageRoute = "/img/default"
+    const defaultImageRoute =
+      "https://res.cloudinary.com/dsyibmoda/image/upload/v1632097507/default"
     if (this.gender === "Hombre") {
-      this.image = `${defaultImageRoute}/default_male_profile.png`
+      this.image = `${defaultImageRoute}/default_male_profile_s0nrly.png`
     } else if (this.gender === "Mujer") {
-      this.image = `${defaultImageRoute}/default_female_profile.png`
+      this.image = `${defaultImageRoute}/default_female_profile_gd6byh.png`
     } else {
-      this.image = `${defaultImageRoute}/default_profile.png`
+      this.image = `${defaultImageRoute}/default_profile_fhl6fs.png`
     }
   }
   if (!this.isModified("password")) return next()
@@ -89,4 +91,8 @@ UserSchema.pre<IUser>("updateOne", function () {
   this.set({ level: getLevel(this.points) })
 })
 
-export default model<IUser>("User", UserSchema)
+UserSchema.plugin(mongoosePagination)
+
+interface IUserModel extends PaginateModel<IUser> {}
+
+export default model<IUser>("User", UserSchema) as IUserModel
